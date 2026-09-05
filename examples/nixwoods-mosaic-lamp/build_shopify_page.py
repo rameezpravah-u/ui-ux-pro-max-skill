@@ -63,9 +63,7 @@ def cut(s, a, b):
 b = body
 b = cut(b, '<nav class="nav"', '</nav>\n')
 b = cut(b, '<footer>', '</footer>\n')
-b = cut(b, '<div class="exit" id="exit"', '</div>\n<div class="toast"')
-b = b.replace('<div class="toast" id="toast"', '<div class="toast" id="toast"', 1)
-if 'id="toast"' not in b: b = b.replace('<div class="mbar">', '<div class="toast" id="toast" role="status" aria-live="polite"></div>\n<div class="mbar">')
+b = cut(b, '<div class="exit" id="exit"', '</form>\n</div>\n')
 # dropped items: pincode, gift, COD fee
 b = cut(b, '          <div>\n            <div class="pin">', '          </div>\n')
 b = cut(b, '          <label class="gift">', '</label>\n')
