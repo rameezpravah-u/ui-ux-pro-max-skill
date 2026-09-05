@@ -426,15 +426,41 @@
   .ugc-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
   .ugc-slot{aspect-ratio:4/5;border:1px dashed var(--line-2);border-radius:6px;background:var(--paper);display:grid;place-items:center;text-align:center;padding:10px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--taupe)}
   @media (max-width:900px){.rblock{grid-template-columns:1fr 1fr}.ugc-grid{grid-template-columns:repeat(3,1fr)}}
+.faq-panel{border-top:1px solid var(--line);margin-top:4px}
+  .faq-panel details{border-top:0;border-bottom:1px solid var(--line)}
+  .faq-panel details:last-child{border-bottom:0}
+  .faq-panel summary{font-size:15.5px;padding:14px 0}
+  .faq-panel details p{font-size:13.5px;padding-bottom:14px}
+
+  .proof .wrap{grid-template-columns:1fr 1fr}
+  .proof .wrap > div{padding:14px 18px 14px 0}
+  .proof b{font-size:19px}
+  .rblock{grid-template-columns:.8fr 1.2fr}
+  .moods{padding:64px 0}
+  .sec-head{margin-bottom:28px}
+  .final{padding:80px 0}
+  footer{padding:28px 0}
+  .foot-bottom{margin-top:0;padding-top:0;border-top:0;font-size:13px;align-items:center}
+  .foot-bottom a{text-decoration:none}
+  @media (max-width:760px){
+    .mood-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;margin-inline:-24px;padding-inline:24px;scrollbar-width:none}
+    .mood-grid::-webkit-scrollbar{display:none}
+    .mood{flex:0 0 78%;scroll-snap-align:start;aspect-ratio:4/5}
+    .rblock{grid-template-columns:1fr}
+    .proof .wrap > div{border-bottom:0}
+    .proof .wrap > div + div{padding-left:18px;border-left:1px solid var(--line)}
+    .hero .wrap{padding-bottom:28px}
+    .buy-sec{padding:40px 0 56px}
+    .sec-head h2{font-size:30px}
+  }
 </style>
 <nav class="nav" aria-label="Main">
   <div class="wrap">
     <a class="brand" href="#top"><img class="mark" src="{{IMG:logo}}" alt="NX" width="96" height="96">NixWoods</a>
     <div class="nav-links">
       <a href="#moods">Three moods</a>
-      <a href="#rooms">Where it goes</a>
-      <a href="#compare">Compare</a>
-      <a href="#answers">Straight answers</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#answers">Answers</a>
     </div>
     <div class="nav-tools">
       <a href="https://wa.me/919286001060" class="hide-m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 12a8 8 0 1 1 3.2 6.4L4 20l1.4-3.4A8 8 0 0 1 4 12Z"/></svg>WhatsApp</a>
@@ -465,7 +491,6 @@
       <p class="eyebrow">Rubik's cube table lamp · <b>Glass &amp; solid sheesham</b></p>
       <h1>Same wall. <em>Different feeling.</em></h1>
       <p class="hero-sub">An 8-inch textured glass cube on a solid sheesham base. Three faces are hand-painted <strong>red, green and amber</strong>: turn the block and the whole wall takes that colour. No remote, no app, nothing to charge. Handcrafted in Khatauli.</p>
-      <div class="hero-meta"><span><span class="stars">★★★★½</span> <b>4.3</b> from 32 reviews</span><span><b>950+ homes</b> light with NixWoods · <b>161</b> of this lamp since launch</span></div>
       <div class="hero-ctas">
         <a class="btn btn-amber" href="#buy">Choose your glass</a>
         <span class="hero-price num">₹2,999<small>or ₹1,000 a month, three months, no interest</small></span>
@@ -474,10 +499,8 @@
   </div>
   <div class="proof">
     <div class="wrap">
-      <div><b class="num">950+ homes</b><span>across India light with NixWoods since 2022. This lamp is in 161 of them, our most-ordered piece.</span></div>
-      <div><b class="num">4.3 / 5</b><span>from 32 verified reviews. 27 gave four or five stars.</span></div>
-      <div><b>Solid sheesham</b><span>No MDF, no veneer. The grain on yours is one of a kind.</span></div>
-      <div><b>Khatauli, UP</b><span>Made in our own workshop. Three years on the wood, one on the LED.</span></div>
+      <div><b class="num">950+ homes</b><span>light with NixWoods. This lamp is in 161 of them.</span></div>
+      <div><b class="num">4.3 / 5</b><span>from 32 verified reviews. Solid sheesham, made in Khatauli.</span></div>
     </div>
   </div>
 </header>
@@ -489,10 +512,9 @@
         <div>
           <p class="eyebrow" style="margin-bottom:14px">Choose your glass · <b>All three turn to all three colours</b></p>
           <div class="finishes" id="finishes"></div>
-          <div class="big" id="bigImg"><img id="bigPhoto" src="" alt=""><span class="cap" id="bigCap"></span></div>
           <div class="gallery" id="gallery"></div>
 
-          <div class="onoff">
+          <div class="onoff" style="margin-top:14px">
             <div class="onoff-stage">
               <img src="{{IMG:console}}" alt="The lamp switched off on a wooden console in daylight" class="on" data-state="off">
               <img src="{{IMG:flowers}}" alt="The lamp switched on at night as the only light in the room" data-state="on">
@@ -500,54 +522,13 @@
             <div class="onoff-bar"><span id="onoffTxt"><b>Off, in daylight.</b> A sculpture on the console.</span><div class="seg" role="group" aria-label="Lamp state"><button type="button" data-state="off" aria-pressed="true">Off, daylight</button><button type="button" data-state="on" aria-pressed="false">On, at night</button></div></div>
           </div>
 
-          <div class="scale">
-            <svg viewBox="0 0 900 260" role="img" aria-label="The lamp drawn to scale beside a phone and a coffee mug: the block is 8 inches wide and 8 tall on a 9 inch base; a phone is about 6 inches tall; a mug about 4 inches.">
-              <defs>
-                <linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6D08A"/><stop offset="1" stop-color="#E8A24A"/></linearGradient>
-                <linearGradient id="gw" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5A3626"/><stop offset="1" stop-color="#3B2C22"/></linearGradient>
-                <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="rgba(26,22,20,.22)" stroke-width="1.5"/></pattern>
-              </defs>
-              <!-- scale: 22 px per inch, baseline y=220 -->
-              <g transform="translate(60,0)">
-                <rect x="-11" y="204" width="198" height="16" rx="3" fill="url(#gw)"/>
-                <rect x="0" y="28" width="176" height="176" rx="6" fill="url(#gg)"/>
-                <rect x="0" y="28" width="176" height="176" rx="6" fill="url(#grid)"/>
-                <rect x="0" y="190" width="176" height="14" fill="rgba(255,255,255,.35)"/>
-                <text x="88" y="246" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="var(--taupe)" letter-spacing="1">8 IN GLASS · 9 IN BASE</text>
-              </g>
-              <g transform="translate(330,0)">
-                <rect x="0" y="88" width="62" height="132" rx="10" fill="var(--paper-2)" stroke="var(--line-2)"/>
-                <rect x="6" y="96" width="50" height="116" rx="6" fill="var(--ground)"/>
-                <text x="31" y="246" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="var(--taupe)" letter-spacing="1">PHONE · 6 IN</text>
-              </g>
-              <g transform="translate(470,0)">
-                <rect x="0" y="132" width="77" height="88" rx="8" fill="var(--paper-2)" stroke="var(--line-2)"/>
-                <path d="M77 150h14a14 14 0 0 1 0 28h-14" fill="none" stroke="var(--line-2)" stroke-width="6"/>
-                <text x="45" y="246" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="var(--taupe)" letter-spacing="1">MUG · 4 IN</text>
-              </g>
-              <g transform="translate(640,0)" font-family="Inter, sans-serif" font-size="13" fill="var(--ink-2)">
-                <text x="0" y="110" font-family="Fraunces, serif" font-size="26" fill="var(--ink)">Bigger than a phone,</text>
-                <text x="0" y="140" font-family="Fraunces, serif" font-size="26" fill="var(--ink)">smaller than a laptop.</text>
-                <text x="0" y="172">8 × 8 × 3 in glass block. 9 × 4.5 in base.</text>
-                <text x="0" y="194">About 2.6 kg. Sits flat on four rubber feet.</text>
-              </g>
-              <path d="M40 220H900" stroke="var(--line)" stroke-width="1"/>
-            </svg>
-            <p>Drawn to one scale. Replace with the shot of the lamp beside a hand and a mug when it's taken.</p>
-          </div>
 
-          <div class="quotes">
-            <div class="q slot"><div class="ph">Owner photo</div><span class="stars">★★★★★</span><p>Verified owner quote, two sentences, from the Judge.me export.</p><span class="who"><b>Name, City</b> · Verified buyer</span></div>
-            <div class="q slot"><div class="ph">Owner photo</div><span class="stars">★★★★★</span><p>Verified owner quote, two sentences, from the Judge.me export.</p><span class="who"><b>Name, City</b> · Verified buyer</span></div>
-            <div class="q slot"><div class="ph">Owner photo</div><span class="stars">★★★★☆</span><p>Verified owner quote, two sentences, from the Judge.me export.</p><span class="who"><b>Name, City</b> · Verified buyer</span></div>
-          </div>
           <div class="rev-line"><span><span class="stars">★★★★½</span> <b>4.3</b> from 32 verified reviews</span><span><b>23</b> five-star · <b>4</b> four-star · <b>5</b> three or below</span><a href="https://nixwoods.com/products/rubiks-cube-table-lamp-sheesham-wood#judgeme_product_reviews" target="_blank" rel="noopener">Read all 32</a></div>
         </div>
 
         <aside class="panel">
           <div><h2 id="pName">Candy Glass</h2><p class="sub" id="pSub">The faceted grid. The one people recognise.</p></div>
           <div class="price-row"><span class="price num" id="pPrice">₹2,999</span><span class="emi">or <b class="num" id="pEmi">₹1,000</b> × 3 months, no interest</span></div>
-          <div class="moods-line"><span class="dots"><i style="color:#D9412E;background:#D9412E"></i><i style="color:#3E9A57;background:#3E9A57"></i><i style="color:#E8A24A;background:#E8A24A"></i></span><span><b>Three painted faces.</b> Give the block a turn to change the glow.</span></div>
 
           <label class="pair"><input type="checkbox" id="pairChk"><span><b>Make it a pair</b><span>One for each bedside. Second lamp at ₹2,499.</span></span><span class="pp num" id="pairPrice">₹5,498</span></label>
 
@@ -572,13 +553,14 @@
             <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>3-year wood warranty, 1 year LED</div>
             <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>Made to order, so no cancellations once cut</div>
           </div>
-          <div class="specs">
-            <div><span class="k">Glass block</span><span class="v">8 × 8 × 3 in</span></div>
-            <div><span class="k">Base</span><span class="v">9 × 4.5 in, solid sheesham</span></div>
-            <div><span class="k">Light</span><span class="v">Warm LED, 2700–3000K</span></div>
-            <div><span class="k">Colour</span><span class="v">3 painted faces, turn to change</span></div>
-            <div><span class="k">Power</span><span class="v">Plug-in, 1.5 m cord</span></div>
-            <div><span class="k">Brightness</span><span class="v">Ambient, not for reading</span></div>
+
+          <div class="faq faq-panel" id="answers">
+            <details><summary>How bright is it?</summary><p>Soft. It colours a corner; it won't light a desk. If you want the room to feel like a good bar at 10 pm, this is it. Tap "On, at night" above to see it as the only light in a room.</p></details>
+            <details><summary>Candy, Ocean or Bubble?</summary><p>Same lamp, same three colours, different glass. Candy is the sharp grid and photographs strongest. Ocean is a soft ripple, most people's pick in person. Bubble is the most decorative, and this batch has 12.</p></details>
+            <details><summary>Size and what's in the box</summary><p>8 × 8 × 3 in glass block on a 9 × 4.5 in base, bigger than a phone and smaller than a laptop, about 2.6 kg. In the box: the block, the sheesham base with the LED inside and four rubber feet, a 1.5 m cord with plug and inline switch, a care card.</p></details>
+            <details><summary>How it's made</summary><p>One piece of sheesham, Indian rosewood, sanded and oiled by hand in our Khatauli workshop. A real glass block, three faces painted by hand, so up close you'll see brushstrokes. Warm LED built in, 2700 to 3000K, rated 25,000 hours. Three years on the wood, one on the electricals.</p></details>
+            <details><summary>Why not the ₹899 plastic cube?</summary><p>That one is moulded plastic with a printed grid and a remote that loses pairing. This is real glass and solid wood; the colour changes by turning, with no electronics to fail. In five years the wood has darkened and it's still on the table.</p></details>
+            <details><summary>Can I return it?</summary><p>No. Each base is cut and finished for your order, so no change-of-mind returns or cancellations. Instead: see it live on a video call before you buy, get a photo of yours before dispatch, pay on delivery if you prefer, and we replace it free if it arrives damaged or wrong.</p></details>
           </div>
         </aside>
       </div>
@@ -589,8 +571,6 @@
     <div class="wrap">
       <div class="rblock">
         <div class="rstat"><span class="rbig num" id="rvAvg">4.3</span><span class="stars">★★★★½</span><span class="rlab">from <b id="rvCount">32</b> verified reviews on Judge.me</span></div>
-        <div class="rstat"><span class="rbig num" id="rvHomes">161</span><span class="rlab">of this lamp in homes since launch, 79 of them in the last six months</span></div>
-        <div class="rstat"><span class="rbig num" id="rvTop">27</span><span class="rlab">of 32 gave it four or five stars</span></div>
         <div class="rhist">
           <div><span>5 ★</span><span class="bar"><i style="width:72%"></i></span><b class="num">23</b></div>
           <div><span>4 ★</span><span class="bar"><i style="width:13%"></i></span><b class="num">4</b></div>
@@ -599,12 +579,6 @@
           <div><span>1 ★</span><span class="bar"><i style="width:9%"></i></span><b class="num">3</b></div>
         </div>
       </div>
-      <div class="ugc">
-        <div class="ugc-head"><div><p class="eyebrow">Owners' corners</p><h2>Their lamp, <em>their room.</em></h2></div><p>Photos from verified owners, pulled from Judge.me and tagged posts. Tag @nixwoods and yours goes here.</p></div>
-        <div class="ugc-grid">
-          <div class="ugc-slot">Owner photo · Judge.me</div><div class="ugc-slot">Owner photo · Instagram tag</div><div class="ugc-slot">Owner photo · Judge.me</div>
-          <div class="ugc-slot">Owner photo · Instagram tag</div><div class="ugc-slot">Owner photo · Judge.me</div><div class="ugc-slot">Owner photo · WhatsApp</div>
-        </div>
       </div>
     </div>
   </section>
@@ -625,95 +599,16 @@
     </div>
   </section>
 
-  <section class="sec" id="rooms">
-    <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">Where it goes</p>
-        <h2>Every room has a corner <em>waiting for it.</em></h2>
-      </div>
-      <div class="rooms rooms-4">
-        <div class="room photo"><img src="{{IMG:bubble}}" alt="Bubble glass lamp on a marble bedside table under a framed canvas"><h3>Bedside</h3><p>Amber to read by, red for the last ten minutes.</p></div>
-        <div class="room photo"><img src="{{IMG:console}}" alt="Candy glass lamp on a wooden console in daylight beside an olive branch"><h3>Console</h3><p>The first thing guests see.</p></div>
-        <div class="room photo"><img src="{{IMG:flowers}}" alt="Glass block lamp glowing warm beside dried flowers and a clay vase"><h3>Shelf</h3><p>Between the books and the vase.</p></div>
-        <div class="room photo"><img src="{{IMG:ocean_front}}" alt="Ocean glass lamp, front view, rippled glass on a sheesham base"><h3>Desk</h3><p>Amber face behind the monitor. Warm, no glare.</p></div>
-      </div>
-    </div>
-  </section>
 
-  <section class="sec made" id="compare">
-    <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">Compare</p>
-        <h2>The ₹899 cube lamp <em>and this one.</em></h2>
-        <p>You'll see plastic cube lamps online for a third of the price. Here's what the difference buys.</p>
-      </div>
-      <div class="cmp"><div class="cmp-scroll"><table>
-        <thead><tr><th></th><th class="own">NixWoods glass &amp; sheesham<span class="pr">₹2,999</span></th><th>Plastic RGB cube lamp<span class="pr">₹899</span></th><th>Generic table lamp<span class="pr">₹1,500</span></th></tr></thead>
-        <tbody>
-          <tr><td class="lbl">Made of</td><td class="own">Real glass block, solid sheesham base</td><td>Moulded plastic, printed grid</td><td>Metal, acrylic shade</td></tr>
-          <tr><td class="lbl">Changing colour</td><td class="own">Turn the block. Three painted faces, no electronics to fail</td><td>Remote or app. Glitches, loses pairing, batteries</td><td>One fixed tone</td></tr>
-          <tr><td class="lbl">In five years</td><td class="own">Wood darkens, glass is glass. Still on the table</td><td>Yellowed, cracked, in a drawer</td><td>Shade stained, switch loose</td></tr>
-          <tr><td class="lbl">Switched off</td><td class="own">A sculpture</td><td>A gadget</td><td>A fitting</td></tr>
-        </tbody>
-      </table></div></div>
-    </div>
-  </section>
 
-  <section class="sec" id="box">
-    <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">What arrives</p>
-        <h2>In the box.</h2>
-      </div>
-      <div class="box">
-        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9.3h16M4 14.7h16M9.3 4v16M14.7 4v16"/></svg><h3>The glass block</h3><p>Three faces painted, one clear. Wrapped in foam, not paper.</p></div>
-        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M3 15h18v4H3zM6 15V9h12v6"/></svg><h3>The sheesham base</h3><p>Routed channel for the block, LED inside, four rubber feet.</p></div>
-        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 18c4 0 4-12 8-12s4 12 8 12M18 6v4M15 6v4"/></svg><h3>Cord and plug</h3><p>1.5 m cord, Indian plug, inline switch. Plug in and it's on.</p></div>
-        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><h3>Care card and warranty</h3><p>How to turn it, how to oil the base, and the WhatsApp number that answers.</p></div>
-      </div>
-    </div>
-  </section>
 
-  <section class="sec made" id="made">
-    <div class="wrap">
-      <div class="made-slim">
-        <img src="{{IMG:base_nx}}" alt="Macro of the sheesham base with the NX badge under the glowing grid glass">
-        <div>
-          <p class="eyebrow">Made in Khatauli</p>
-          <h2>Solid wood. <em>No two alike.</em></h2>
-          <ul>
-            <li><span><b>One piece of sheesham.</b> Indian rosewood, dense and dark, that doesn't warp in our summers. Sanded and oiled by hand.</span></li>
-            <li><span><b>A real glass block, painted by hand.</b> Up close you'll see brushstrokes. Lit, it's even.</span></li>
-            <li><span><b>Warm LED, built in for good.</b> 2700 to 3000K, rated 25,000 hours. Three years on the wood, one on the electricals.</span></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <section class="sec" id="answers">
-    <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow">Straight answers</p>
-        <h2>What people ask, and what we'd rather <em>you knew first.</em></h2>
-      </div>
-      <div class="answers">
-        <div class="ans"><span class="from">From reviews</span><h3>How bright is it, really?</h3><p>Soft. It colours a corner; it won't light a desk for work. If you want to read by it, pair it with an overhead. If you want the room to feel like a good bar at 10 pm, this is it.</p></div>
-        <div class="ans"><span class="from">From reviews</span><h3>Does the block sit firm?</h3><p>It rests in a routed channel so you can lift and turn it. It should sit flat and still. If yours rocks, send a photo and we sort it under warranty.</p></div>
-        <div class="ans"><span class="from">From reviews</span><h3>Is the paint perfect?</h3><p>No. The faces are brushed by hand, so up close you'll see strokes. Lit, it's even. Unlit, it looks hand-made because it is.</p></div>
-        <div class="ans"><span class="from">From WhatsApp</span><h3>Candy, Ocean or Bubble?</h3><p>Same lamp, same three colours, different glass. Candy is the sharp grid and photographs strongest. Ocean is a soft ripple, most people's pick in person. Bubble is the most decorative, and this batch has 12.</p></div>
-        <div class="ans"><span class="from">From WhatsApp</span><h3>Can I return it if I don't like it?</h3><p>No. Each base is cut and finished for your order, so we don't take change-of-mind returns or cancellations. That's why we'll show you the lamp on a video call first, send a photo of yours before dispatch, and replace it free if it arrives damaged or wrong. Ships in about 3 working days, delivered in 5 to 7.</p></div>
-        <div class="ans"><span class="from">From WhatsApp</span><h3>Is it an actual Rubik's Cube? Cordless?</h3><p>Neither. It's an original design that borrows the grid; you can't twist the rows. It plugs into the wall with a 1.5 m cord. Tell us if cordless matters and we'll count the asks.</p></div>
-      </div>
-    </div>
-  </section>
 
   <section class="final">
     <div class="final-bg"><img src="{{IMG:red}}" alt=""></div>
     <div class="wrap">
       <p class="eyebrow">From ₹2,999 · dispatches in 3 working days</p>
       <h2>Stop buying <em>boring lights.</em></h2>
-      <p>One glass block, three moods, a base that's yours alone.</p>
       <div class="hero-ctas"><a class="btn btn-amber" href="#buy">Choose your glass</a></div>
     </div>
   </section>
@@ -721,13 +616,7 @@
 
 <footer>
   <div class="wrap">
-    <div class="foot-grid">
-      <div><div class="foot-brand">NixWoods</div><p style="max-width:34ch">Handcrafted solid-wood lighting from one workshop in Khatauli, Uttar Pradesh. No MDF, no veneer.</p><p style="margin-top:14px">WhatsApp <a href="https://wa.me/919286001060">+91 92860 01060</a></p></div>
-      <div><h4>Shop</h4><ul><li><a href="#">Table lamps</a></li><li><a href="#">Wall lights</a></li><li><a href="#">Pendant lights</a></li><li><a href="#">Floor lamps</a></li></ul></div>
-      <div><h4>Help</h4><ul><li><a href="#">Track your order</a></li><li><a href="#">Warranty</a></li><li><a href="#answers">Straight answers</a></li><li><a href="#">Contact</a></li></ul></div>
-      <div><h4>NixWoods</h4><ul><li><a href="#made">The workshop</a></li><li><a href="https://wa.me/919286001060?text=Trade%20enquiry%3A%20cube%20lamps%20for%20a%20cafe">Cafés &amp; trade, 6 or more</a></li><li><a href="#">Instagram</a></li><li><a href="#">Privacy</a></li></ul></div>
-    </div>
-    <div class="foot-bottom"><span>© 2026 NixWoods · Khatauli, Uttar Pradesh</span><span>Solid wood. No two alike.</span></div>
+    <div class="foot-bottom"><span><b style="color:var(--ink);font-family:var(--serif);font-size:18px">NixWoods</b> · Khatauli, Uttar Pradesh · <a href="https://wa.me/919286001060">WhatsApp +91 92860 01060</a></span><span><a href="#">Track order</a> · <a href="#">Warranty</a> · <a href="https://wa.me/919286001060?text=Trade%20enquiry">Trade</a> · <a href="#">Privacy</a></span></div>
   </div>
 </footer>
 
@@ -775,9 +664,9 @@
     $("pName").textContent = cur.short; $("pSub").textContent = cur.sub; $("pPrice").textContent = inr(cur.price); $("pEmi").textContent = inr(Math.ceil(cur.price/3));
     $("pairPrice").textContent = inr(cur.price + PAIR2);
     $("mbName").textContent = cur.short; document.querySelector(".nav-buy").textContent = "Buy · " + inr(cur.price);
-    renderTotals(); renderGallery();
+    renderTotals();
   }
-  function renderGallery(){
+  function renderGallery_unused(){
     var g = $("gallery"); g.innerHTML = "";
     IMG[cur.id].forEach(function(im, i){ var b = document.createElement("button"); b.type="button"; b.setAttribute("aria-current", i===gi?"true":"false"); b.setAttribute("aria-label", im.cap); b.innerHTML = '<img src="'+im.src+'" alt="">'; b.addEventListener("click", function(){ gi = i; showBig(); }); g.appendChild(b); });
     showBig(true);
