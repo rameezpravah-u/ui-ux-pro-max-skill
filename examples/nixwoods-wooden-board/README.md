@@ -10,3 +10,11 @@ ui-ux-pro-max design-system search (`--variance 6 --motion 4 --density 4`).
 
 Prices, sizes, registry numbers and FAQ copy come from the live collection page and
 the Shopify product data. The reviews section is a layout placeholder only.
+
+## Desire edition
+
+`template2.html` → `nixwoods-registry.html` is a second concept built around
+aspiration rather than discounting: plain prices with a monthly figure, a numbered
+register with a "next number", a weekly cutting-day countdown, 72-hour reservations,
+save-for-later hearts, and a returning-visitor strip (state kept in localStorage).
+Build it with the same `build.py` after pointing it at `template2.html`.

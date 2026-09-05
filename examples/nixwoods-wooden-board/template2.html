@@ -1,0 +1,785 @@
+<title>NixWoods Registry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* dark-first: the object sits on black, like a product in a studio */
+  :root{
+    --ground:#0E0A08; --ground-2:#171110; --paper:#1E1613; --paper-2:#2A201B;
+    --ink:#F1EADF; --ink-2:#CFC3B3; --taupe:#9C8E7E; --line:#33281F; --line-2:#4A3B31;
+    --teak:#C48D4B; --teak-deep:#D9A45E; --teak-soft:#3A2A1A;
+    --light:#F1EDE4; --light-2:#E6E0D3; --light-ink:#1F1714; --light-ink-2:#4A3F37; --light-taupe:#7B7066; --light-line:#D8D1C3;
+    --good:#8FB07F;
+    --shadow:0 30px 70px -30px rgba(0,0,0,.8);
+    --radius:6px;
+    --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    --serif:"Fraunces","Iowan Old Style","Palatino Linotype",Georgia,serif;
+    --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --ground:#F1EDE4; --ground-2:#E9E4D9; --paper:#F8F6F0; --paper-2:#E3DDD0;
+      --ink:#1F1714; --ink-2:#4A3F37; --taupe:#7B7066; --line:#D8D1C3; --line-2:#C4BBAA;
+      --teak:#B7803F; --teak-deep:#8B6A2F; --teak-soft:#E9D6B8;
+      --light:#17110E; --light-2:#241B16; --light-ink:#EFE7DA; --light-ink-2:#D5C9B8; --light-taupe:#A89A8A; --light-line:#3B2F27;
+      --good:#4E6B45;
+      --shadow:0 30px 70px -30px rgba(31,23,20,.4);
+    }
+  }
+  :root[data-theme="light"]{
+    --ground:#F1EDE4; --ground-2:#E9E4D9; --paper:#F8F6F0; --paper-2:#E3DDD0;
+    --ink:#1F1714; --ink-2:#4A3F37; --taupe:#7B7066; --line:#D8D1C3; --line-2:#C4BBAA;
+    --teak:#B7803F; --teak-deep:#8B6A2F; --teak-soft:#E9D6B8;
+    --light:#17110E; --light-2:#241B16; --light-ink:#EFE7DA; --light-ink-2:#D5C9B8; --light-taupe:#A89A8A; --light-line:#3B2F27;
+    --good:#4E6B45;
+    --shadow:0 30px 70px -30px rgba(31,23,20,.4);
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%}
+  a{color:inherit}
+  button{font:inherit;cursor:pointer;color:inherit}
+  h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0;text-wrap:balance;letter-spacing:-.015em}
+  p{margin:0}
+  :focus-visible{outline:2px solid var(--teak);outline-offset:3px}
+  .wrap{width:min(1240px,calc(100% - 48px));margin-inline:auto}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--taupe)}
+  .eyebrow b{color:var(--teak);font-weight:500}
+  .mono{font-family:var(--mono)}
+  .num{font-variant-numeric:tabular-nums}
+  .sec{padding:110px 0}
+  .sec-head{max-width:760px;margin-bottom:56px;display:grid;gap:16px}
+  .sec-head h2{font-size:clamp(34px,4.4vw,56px);line-height:1.02;font-variation-settings:"opsz" 144;font-weight:300}
+  .sec-head h2 em{font-style:italic;color:var(--teak)}
+  .sec-head p{color:var(--ink-2);font-size:18px;max-width:56ch}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:15px 24px;border-radius:99px;border:1px solid transparent;font-weight:500;font-size:15px;text-decoration:none;transition:transform .18s ease,background .18s ease,color .18s ease,border-color .18s ease;white-space:nowrap}
+  .btn:hover{transform:translateY(-1px)}
+  .btn-ink{background:var(--ink);color:var(--ground)}
+  .btn-ink:hover{background:var(--teak);color:#fff}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+  .btn-ghost:hover{border-color:var(--ink)}
+  .btn-teak{background:var(--teak);color:#14100D}
+  .btn-teak:hover{background:var(--teak-deep)}
+  .btn-sm{padding:10px 16px;font-size:13.5px}
+
+  /* cut-cadence bar */
+  .cut{background:var(--teak);color:#14100D;font-size:13px;letter-spacing:.01em;padding:9px 16px;display:flex;justify-content:center;gap:16px;align-items:center;flex-wrap:wrap}
+  .cut .mono{font-weight:500;letter-spacing:.06em;background:rgba(20,16,13,.14);padding:2px 8px;border-radius:3px;font-size:12px}
+  .nav{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--ground) 84%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:24px}
+  .brand{font-family:var(--serif);font-size:23px;font-weight:500;letter-spacing:-.02em;text-decoration:none;display:flex;align-items:center;gap:10px}
+  .brand .mark{width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--ground);display:grid;place-items:center;font-family:var(--serif);font-size:12px;font-weight:600;letter-spacing:-.04em}
+  .nav-links{display:flex;gap:26px;font-size:13.5px;font-weight:500}
+  .nav-links a{text-decoration:none;color:var(--ink-2)}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-tools{display:flex;gap:10px;align-items:center;font-size:13.5px}
+  .nav-tools a,.nav-tools button{text-decoration:none;display:inline-flex;align-items:center;gap:6px;color:var(--ink-2);background:none;border:0;padding:6px 8px}
+  .nav-tools a:hover,.nav-tools button:hover{color:var(--ink)}
+  .nav-tools svg{width:17px;height:17px}
+  .pill{font-family:var(--mono);font-size:11px;padding:1px 7px;border-radius:99px;border:1px solid var(--line-2);color:var(--taupe)}
+  .nav-buy{background:var(--ink) !important;color:var(--ground) !important;border-radius:99px;padding:8px 16px !important;font-weight:500}
+  @media (max-width:900px){.nav-links{display:none}}
+  @media (max-width:600px){.hide-m{display:none !important}.brand{font-size:20px}}
+
+  /* returning visitor strip */
+  .back{display:none;background:var(--paper);border-bottom:1px solid var(--line);font-size:14px}
+  .back.show{display:block}
+  .back .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:12px 0;flex-wrap:wrap}
+  .back b{font-weight:500;color:var(--ink)}
+  .back .mono{color:var(--teak)}
+  .back p{color:var(--ink-2)}
+  .back-act{display:flex;gap:8px}
+
+  /* hero */
+  .hero{position:relative;overflow:hidden;background:var(--ground)}
+  .hero-bg{position:absolute;inset:0}
+  .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:62% 45%;opacity:.55;animation:heroIn 2s cubic-bezier(.2,.7,.2,1) both}
+  .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,color-mix(in srgb,var(--ground) 30%,transparent) 0%,color-mix(in srgb,var(--ground) 20%,transparent) 40%,var(--ground) 100%)}
+  .hero .wrap{position:relative;z-index:1;padding:120px 0 70px;display:grid;gap:26px;justify-items:start}
+  .hero h1{font-size:clamp(64px,11vw,160px);line-height:.92;font-weight:300;font-variation-settings:"opsz" 144;letter-spacing:-.03em}
+  .hero h1 em{font-style:italic;color:var(--teak)}
+  .hero-sub{font-size:clamp(17px,1.6vw,21px);color:var(--ink-2);max-width:44ch;line-height:1.5}
+  .hero-sub strong{color:var(--ink);font-weight:500}
+  .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .hero-ctas .from{font-size:14px;color:var(--taupe);margin-left:6px}
+  .hero-ctas .from b{color:var(--ink);font-weight:500}
+  .hero .wrap > *{animation:riseIn 1s cubic-bezier(.2,.7,.2,1) both}
+  .hero .wrap > *:nth-child(2){animation-delay:.1s}
+  .hero .wrap > *:nth-child(3){animation-delay:.2s}
+  .hero .wrap > *:nth-child(4){animation-delay:.3s}
+  @keyframes heroIn{from{transform:scale(1.06)}to{transform:scale(1)}}
+  @keyframes riseIn{from{transform:translateY(16px);opacity:.001}to{transform:none;opacity:1}}
+  .hero-reg{position:relative;z-index:1;border-top:1px solid var(--line);background:var(--ground)}
+  .hero-reg .wrap{display:grid;grid-template-columns:repeat(4,1fr);padding:0}
+  .hero-reg div{padding:22px 22px 22px 0;border-right:1px solid var(--line)}
+  .hero-reg div + div{padding-left:22px}
+  .hero-reg div:last-child{border-right:0}
+  .hero-reg .k{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--taupe);margin-bottom:6px}
+  .hero-reg .v{font-family:var(--serif);font-size:26px;font-variation-settings:"opsz" 72;line-height:1.1}
+  .hero-reg .v small{font-family:var(--sans);font-size:13px;color:var(--taupe);display:block;margin-top:4px}
+  @media (max-width:900px){.hero-reg .wrap{grid-template-columns:1fr 1fr}.hero-reg div{border-right:0;border-bottom:1px solid var(--line);padding-left:0 !important}}
+
+  /* ladder */
+  .ladder{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:14px;align-items:stretch}
+  .rung{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;position:relative;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+  .rung:hover{transform:translateY(-4px);border-color:var(--line-2);box-shadow:var(--shadow)}
+  .rung[data-active="true"]{border-color:var(--teak);box-shadow:0 0 0 1px var(--teak),var(--shadow)}
+  .rung-img{aspect-ratio:4/3;overflow:hidden;background:var(--paper-2);position:relative}
+  .rung.lead .rung-img{aspect-ratio:auto;flex:1;min-height:300px}
+  .rung-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+  .rung:hover .rung-img img{transform:scale(1.03)}
+  .save{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(14,10,8,.55);backdrop-filter:blur(6px);display:grid;place-items:center;color:#F1EADF;transition:background .2s ease,transform .2s ease}
+  .save:hover{transform:scale(1.06)}
+  .save svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7}
+  .save[aria-pressed="true"]{background:var(--teak);border-color:var(--teak);color:#14100D}
+  .save[aria-pressed="true"] svg{fill:currentColor}
+  .rung-body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px}
+  .rung-top{display:flex;justify-content:space-between;align-items:center}
+  .rung .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--teak)}
+  .rung h3{font-size:22px;line-height:1.15;font-variation-settings:"opsz" 40}
+  .rung.lead h3{font-size:30px;font-variation-settings:"opsz" 72}
+  .rung-use{color:var(--taupe);font-size:14px}
+  .rung-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:8px;padding-top:12px;border-top:1px solid var(--line)}
+  .rung-price{font-family:var(--serif);font-size:22px;font-weight:500}
+  .rung-price small{display:block;font-family:var(--sans);font-size:12.5px;color:var(--taupe);font-weight:400;margin-top:2px}
+  .rung-view{background:none;border:1px solid var(--line-2);border-radius:99px;padding:8px 14px;font-size:13px;font-weight:500}
+  .rung-view:hover{border-color:var(--ink)}
+  @media (max-width:1000px){.ladder{grid-template-columns:1fr 1fr}.rung.lead{grid-column:span 2}.rung.lead .rung-img{aspect-ratio:16/9;min-height:0}}
+  @media (max-width:520px){.ladder{grid-template-columns:1fr}.rung.lead{grid-column:span 1}}
+
+  /* stage */
+  .stage{padding:40px 0 110px}
+  .stage-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(360px,.85fr);gap:48px;align-items:start}
+  .gallery{display:grid;grid-template-columns:84px 1fr;gap:14px}
+  .thumbs{display:flex;flex-direction:column;gap:10px}
+  .thumb{border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--paper-2);padding:0;aspect-ratio:1;transition:border-color .15s ease}
+  .thumb img{width:100%;height:100%;object-fit:cover}
+  .thumb[aria-current="true"]{border-color:var(--teak);box-shadow:0 0 0 1px var(--teak)}
+  .main-img{position:relative;border-radius:var(--radius);overflow:hidden;background:var(--paper-2);aspect-ratio:4/3;margin:0}
+  .main-img img{width:100%;height:100%;object-fit:cover;transition:opacity .35s ease}
+  .main-img.fading img{opacity:0}
+  .main-img .cap{position:absolute;left:14px;bottom:14px;background:rgba(14,10,8,.7);color:#F1EADF;font-size:12.5px;padding:7px 11px;border-radius:4px;backdrop-filter:blur(6px);max-width:80%}
+  .grain-note{margin-top:18px;display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);font-size:14px;color:var(--ink-2)}
+  .grain-note svg{width:22px;height:22px;flex:none;color:var(--teak)}
+  .grain-note b{color:var(--ink);font-weight:500}
+
+  .buy{position:sticky;top:78px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:28px;display:flex;flex-direction:column;gap:18px;box-shadow:var(--shadow)}
+  .buy .eyebrow{display:flex;justify-content:space-between;align-items:center}
+  .buy h2{font-size:30px;line-height:1.1;font-variation-settings:"opsz" 72}
+  .buy-use{color:var(--taupe);font-size:15px;margin-top:6px}
+  .price-block{display:grid;gap:4px}
+  .price{font-family:var(--serif);font-size:38px;font-weight:500;letter-spacing:-.02em;line-height:1}
+  .emi{font-size:14px;color:var(--ink-2)}
+  .emi b{color:var(--ink);font-weight:500}
+  .perday{font-size:13px;color:var(--taupe)}
+  .status{display:flex;gap:10px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:4px;background:var(--ground);font-size:13.5px;color:var(--ink-2)}
+  .status .dot{width:8px;height:8px;border-radius:50%;background:var(--teak);flex:none;box-shadow:0 0 0 4px color-mix(in srgb,var(--teak) 25%,transparent)}
+  .status b{color:var(--ink);font-weight:500}
+  .specs{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+  .specs div{padding:10px 12px;border-bottom:1px solid var(--line);font-size:13px}
+  .specs div:nth-child(odd){border-right:1px solid var(--line)}
+  .specs div:nth-last-child(-n+2){border-bottom:0}
+  .specs .k{display:block;color:var(--taupe);font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
+  .specs .v{color:var(--ink);font-weight:500}
+  .pin{display:grid;grid-template-columns:1fr auto;gap:8px}
+  .pin input{font:inherit;font-family:var(--mono);font-size:14px;padding:11px 12px;border:1px solid var(--line-2);border-radius:4px;background:var(--ground);color:var(--ink);letter-spacing:.06em}
+  .pin input::placeholder{color:var(--taupe);letter-spacing:0;font-family:var(--sans)}
+  .pin button{padding:11px 16px;border:1px solid var(--ink);border-radius:4px;background:transparent;color:var(--ink);font-weight:500;font-size:14px}
+  .pin button:hover{background:var(--ink);color:var(--ground)}
+  .pin-out{font-size:13.5px;color:var(--ink-2);min-height:20px;margin-top:8px}
+  .pin-out b{font-weight:500;color:var(--ink)}
+  .qty-row{display:grid;grid-template-columns:auto 1fr;gap:10px}
+  .qty{display:inline-flex;border:1px solid var(--line-2);border-radius:99px;overflow:hidden}
+  .qty button{width:42px;background:transparent;border:0;font-size:18px}
+  .qty button:hover{background:var(--paper-2)}
+  .qty output{width:40px;display:grid;place-items:center;font-family:var(--mono);font-size:14px;border-inline:1px solid var(--line-2)}
+  .add{width:100%;font-size:16px;padding:16px 22px;justify-content:space-between}
+  .add .mono{font-size:14px;opacity:.85}
+  .buy-alt{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .buy-alt .btn{padding:12px 14px;font-size:13.5px}
+  .pay{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;font-size:12px;color:var(--taupe)}
+  .pay span{border:1px solid var(--line);padding:3px 8px;border-radius:3px;font-family:var(--mono);font-size:11px;letter-spacing:.06em}
+  .buy details{border-top:1px solid var(--line);padding-top:12px}
+  .buy summary{cursor:pointer;font-weight:500;font-size:14px;list-style:none;display:flex;justify-content:space-between;align-items:center}
+  .buy summary::-webkit-details-marker{display:none}
+  .buy summary::after{content:"+";font-family:var(--mono);color:var(--taupe)}
+  .buy details[open] summary::after{content:"–"}
+  .buy details p,.buy details li{font-size:14px;color:var(--ink-2);line-height:1.6}
+  .buy details p{margin-top:10px}
+  .buy details ul{margin:10px 0 0;padding-left:18px}
+  .buy details li{margin:4px 0}
+  .buy details b{color:var(--ink);font-weight:500}
+  @media (max-width:980px){
+    .stage-grid{grid-template-columns:1fr}.buy{position:static;box-shadow:none}
+    .gallery{grid-template-columns:1fr}.thumbs{flex-direction:row;order:2;overflow-x:auto}.thumb{width:72px;flex:none}
+  }
+
+  /* big numbers */
+  .numbers{background:var(--ground-2);border-block:1px solid var(--line)}
+  .num-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .num-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+  .num-card img{aspect-ratio:1;object-fit:cover;width:100%}
+  .num-body{padding:22px 22px 24px;display:grid;gap:6px}
+  .num-big{font-family:var(--serif);font-size:clamp(44px,4.6vw,64px);line-height:1;font-weight:300;letter-spacing:-.03em;font-variation-settings:"opsz" 144}
+  .num-big small{font-size:.42em;color:var(--teak);letter-spacing:0;margin-left:2px}
+  .num-body h3{font-size:19px;font-variation-settings:"opsz" 40}
+  .num-body p{color:var(--taupe);font-size:14px;line-height:1.55}
+  @media (max-width:980px){.num-grid{grid-template-columns:1fr 1fr}}
+  @media (max-width:520px){.num-grid{grid-template-columns:1fr}}
+
+  /* the register (ledger) */
+  .ledger-wrap{display:grid;grid-template-columns:1fr 1.2fr;gap:48px;align-items:start}
+  .ledger-wrap > *,.stage-grid > *,.hero .wrap > *{min-width:0}
+  .ledger{border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);overflow:hidden}
+  .ledger-head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--taupe)}
+  .ledger-head .live{display:flex;align-items:center;gap:8px;color:var(--teak)}
+  .ledger-head .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--teak);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  .ledger table{width:100%;border-collapse:collapse;font-size:14px}
+  .ledger td{padding:12px 18px;border-bottom:1px solid var(--line)}
+  .ledger tr:last-child td{border-bottom:0}
+  .ledger td.no{font-family:var(--mono);color:var(--teak);width:90px}
+  .ledger td.st{text-align:right;color:var(--taupe);font-size:12.5px}
+  .ledger td.st.is-cut{color:var(--good)}
+  .ledger .note{padding:12px 18px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--taupe);border-top:1px dashed var(--line-2)}
+  .next{display:grid;gap:14px}
+  .next .big{font-family:var(--serif);font-size:clamp(56px,7vw,96px);line-height:1;font-weight:300;letter-spacing:-.03em;font-variation-settings:"opsz" 144}
+  .next .big span{color:var(--teak)}
+  .next p{color:var(--ink-2);font-size:17px;max-width:46ch}
+  .reserve{display:grid;grid-template-columns:1fr auto;gap:8px;max-width:460px;margin-top:8px}
+  .reserve input{font:inherit;padding:13px 14px;border:1px solid var(--line-2);border-radius:99px;background:var(--ground);color:var(--ink);font-size:14px}
+  .reserve input::placeholder{color:var(--taupe)}
+  .reserve-out{font-size:13.5px;color:var(--ink-2);min-height:20px}
+  .reserve-out b{color:var(--ink);font-weight:500}
+  .reserve-out .mono{color:var(--teak)}
+  @media (max-width:900px){.ledger-wrap{grid-template-columns:1fr}}
+
+  /* compare */
+  .compare{background:var(--light);color:var(--light-ink)}
+  .compare .eyebrow{color:var(--light-taupe)}
+  .compare .sec-head p{color:var(--light-ink-2)}
+  .compare .sec-head h2 em{color:var(--teak)}
+  .cmp-scroll{overflow-x:auto;border:1px solid var(--light-line);border-radius:var(--radius);background:color-mix(in srgb,var(--light) 60%,var(--light-2))}
+  .cmp{width:100%;border-collapse:collapse;min-width:760px;font-size:14px}
+  .cmp th,.cmp td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--light-line);vertical-align:top}
+  .cmp thead th{border-bottom:2px solid var(--light-line)}
+  .cmp thead th.lead{border-bottom-color:var(--teak)}
+  .cmp thead img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:4px;margin-bottom:12px}
+  .cmp thead .n{font-family:var(--serif);font-size:18px;font-variation-settings:"opsz" 40;line-height:1.15}
+  .cmp thead .no{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--teak);margin-top:4px}
+  .cmp tbody td.lbl{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--light-taupe);width:140px;padding-top:17px}
+  .cmp tbody td .big{font-family:var(--serif);font-size:22px;font-variation-settings:"opsz" 72;line-height:1.1}
+  .cmp tbody td small{display:block;color:var(--light-taupe);font-size:12.5px;margin-top:2px}
+  .cmp tbody tr:last-child td{border-bottom:0}
+  .cmp .pick{display:inline-block;margin-top:2px;padding:9px 16px;border-radius:99px;border:1px solid var(--light-ink);background:transparent;color:var(--light-ink);font-size:13px;font-weight:500}
+  .cmp .pick:hover{background:var(--light-ink);color:var(--light)}
+  .cmp .pick.lead{background:var(--light-ink);color:var(--light)}
+  .cmp .pick.lead:hover{background:var(--teak);border-color:var(--teak);color:#14100D}
+
+  /* story */
+  .chapters{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .chapter{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--paper);display:flex;flex-direction:column}
+  .chapter img{aspect-ratio:4/3;object-fit:cover;width:100%}
+  .chapter-body{padding:24px;display:grid;gap:10px}
+  .chapter h3{font-size:26px;line-height:1.1;font-variation-settings:"opsz" 72}
+  .chapter h3 em{color:var(--teak);font-style:italic;font-weight:300}
+  .chapter p{color:var(--taupe);font-size:15px;line-height:1.6}
+  @media (max-width:900px){.chapters{grid-template-columns:1fr}}
+
+  /* mosaic */
+  .mosaic{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:220px;gap:12px}
+  .tile{position:relative;overflow:hidden;border-radius:var(--radius);background:var(--paper-2);margin:0}
+  .tile img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+  .tile:hover img{transform:scale(1.03)}
+  .tile figcaption{position:absolute;left:0;right:0;bottom:0;padding:40px 16px 14px;background:linear-gradient(180deg,transparent,rgba(14,10,8,.75));color:#F1EADF;font-size:13px;display:flex;justify-content:space-between;gap:10px}
+  .tile figcaption .mono{font-size:11px;opacity:.75;letter-spacing:.08em}
+  .t1{grid-column:span 4;grid-row:span 2}.t2,.t3,.t4,.t5,.t6{grid-column:span 2}
+  @media (max-width:900px){.mosaic{grid-template-columns:1fr 1fr;grid-auto-rows:200px}.t1{grid-column:span 2}.t2,.t3,.t4,.t5,.t6{grid-column:span 1}}
+
+  /* faq */
+  .faq{max-width:820px}
+  .faq details{border-top:1px solid var(--line)}
+  .faq details:last-child{border-bottom:1px solid var(--line)}
+  .faq summary{cursor:pointer;list-style:none;padding:22px 0;font-family:var(--serif);font-size:21px;font-variation-settings:"opsz" 40;display:flex;justify-content:space-between;gap:20px;align-items:center}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";font-family:var(--mono);color:var(--taupe);font-size:18px;flex:none}
+  .faq details[open] summary::after{content:"–"}
+  .faq details p{padding:0 0 22px;color:var(--ink-2);font-size:15.5px;line-height:1.65;max-width:62ch}
+
+  /* final */
+  .final{position:relative;overflow:hidden;text-align:center;padding:140px 0}
+  .final-bg{position:absolute;inset:0}
+  .final-bg img{width:100%;height:100%;object-fit:cover;opacity:.35;object-position:center 40%}
+  .final-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 0%,var(--ground) 80%)}
+  .final .wrap{position:relative;z-index:1}
+  .final h2{font-size:clamp(40px,6vw,88px);line-height:.98;font-weight:300;font-variation-settings:"opsz" 144;max-width:14ch;margin:18px auto 22px;letter-spacing:-.03em}
+  .final h2 em{color:var(--teak);font-style:italic}
+  .final p{color:var(--ink-2);max-width:46ch;margin:0 auto 34px;font-size:18px}
+  .final .hero-ctas{justify-content:center}
+
+  footer{background:var(--ground-2);color:var(--taupe);border-top:1px solid var(--line);padding:56px 0 40px;font-size:14px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px}
+  .foot-grid h4{margin:0 0 14px;color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
+  .foot-grid ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+  .foot-grid a{text-decoration:none}
+  .foot-grid a:hover{color:var(--ink)}
+  .foot-brand{font-family:var(--serif);font-size:26px;color:var(--ink);margin-bottom:12px}
+  .foot-bottom{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12.5px;align-items:center}
+  .preview-link{background:none;border:1px dashed var(--line-2);border-radius:4px;padding:6px 10px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--taupe)}
+  .preview-link:hover{color:var(--ink);border-color:var(--ink)}
+  @media (max-width:900px){.foot-grid{grid-template-columns:1fr 1fr}}
+
+  .mbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--paper);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));gap:12px;align-items:center;box-shadow:0 -10px 30px -10px rgba(0,0,0,.5)}
+  .mbar .mb-info{flex:1;min-width:0}
+  .mbar .mb-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mbar .mb-price{font-family:var(--serif);font-size:18px;font-weight:500}
+  .mbar .mb-price small{font-family:var(--sans);font-size:12px;color:var(--taupe);font-weight:400;margin-left:6px}
+  .mbar .btn{padding:12px 18px}
+  @media (max-width:980px){.mbar{display:flex}body{padding-bottom:76px}}
+
+  .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:var(--ground);padding:14px 18px;border-radius:99px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease;z-index:60;display:flex;gap:12px;align-items:center;box-shadow:var(--shadow);max-width:calc(100% - 32px)}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+  .toast .mono{color:var(--teak);font-size:12px}
+  @media (max-width:980px){.toast{bottom:92px}}
+
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}html{scroll-behavior:auto}}
+</style>
+
+<div class="cut" id="cutBar"><span>Next cutting day <b id="cutDay">Monday</b>. Orders placed before Sunday midnight go under the blade.</span><span class="mono num" id="cutCount">–</span></div>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="mark">NX</span>NixWoods</a>
+    <div class="nav-links">
+      <a href="#ladder">The four</a>
+      <a href="#numbers">Details</a>
+      <a href="#register">The register</a>
+      <a href="#compare">Compare</a>
+      <a href="#story">Workshop</a>
+    </div>
+    <div class="nav-tools">
+      <button type="button" id="savedBtn" aria-label="Saved boards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg><span class="hide-m">Saved</span><span class="pill" id="savedCount">0</span></button>
+      <a href="#" class="hide-m" aria-label="Bag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M6 7h12l-1 12H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="pill" id="cartCount">0</span></a>
+      <a href="#stage" class="nav-buy">Buy</a>
+    </div>
+  </div>
+</nav>
+
+<div class="back" id="back">
+  <div class="wrap">
+    <p id="backMsg">Welcome back.</p>
+    <div class="back-act"><button class="btn btn-teak btn-sm" type="button" id="backReserve">Reserve it for 72 hours</button><a class="btn btn-ghost btn-sm" href="#stage">See it again</a></div>
+  </div>
+</div>
+
+<header class="hero" id="top">
+  <div class="hero-bg"><img src="{{IMG:round1}}" alt="Macro of teak grain with a knot and the NX brand mark burned into the wood"></div>
+  <div class="wrap">
+    <p class="eyebrow">Solid teak &amp; sheesham · <b>Numbered</b> · Khatauli, Uttar Pradesh</p>
+    <h1>One <em>of one.</em></h1>
+    <p class="hero-sub">Four hardwood boards. Each cut from a <strong>single slab</strong>, entered in our register, and made <strong>only when someone asks for it</strong>. Yours does not exist yet.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-ink" href="#ladder">See the four</a>
+      <a class="btn btn-ghost" href="#register">Reserve a number</a>
+      <span class="from">From <b>₹1,499</b>, or <b>₹500/mo</b> over three months</span>
+    </div>
+  </div>
+  <div class="hero-reg">
+    <div class="wrap">
+      <div><div class="k">Registered so far</div><div class="v num">1,204<small>boards, each one numbered</small></div></div>
+      <div><div class="k">Next number</div><div class="v num">No. 1205<small>uncut until it's claimed</small></div></div>
+      <div><div class="k">Made in</div><div class="v">Khatauli, UP<small>one workshop, one team</small></div></div>
+      <div><div class="k">Lead time</div><div class="v">3–5 days<small>cut, oiled, shipped, tracked</small></div></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="sec" id="ladder">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">The four</p>
+        <h2>One you'll use every day. <em>One you'll think about.</em></h2>
+        <p>Start with the everyday board if you want to. Most people come back for the sheesham.</p>
+      </div>
+      <div class="ladder" id="ladderList"></div>
+    </div>
+  </section>
+
+  <section class="stage" id="stage" aria-live="polite">
+    <div class="wrap">
+      <div class="stage-grid">
+        <div>
+          <div class="gallery">
+            <div class="thumbs" id="thumbs"></div>
+            <figure class="main-img" id="mainImg"><img id="mainPhoto" src="" alt=""><figcaption class="cap" id="mainCap"></figcaption></figure>
+          </div>
+          <div class="grain-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 12c3-6 6-6 9 0s6 6 9 0M3 6c3-4 6-4 9 0s6 4 9 0M3 18c3-4 6-4 9 0s6 4 9 0"/></svg>
+            <p><b>These photos show the shape and finish.</b> The grain on your board has not been cut yet. When it has, we'll send you a photo of the underside with your number before it ships.</p>
+          </div>
+        </div>
+
+        <aside class="buy" id="buy">
+          <p class="eyebrow"><span>Registry <b id="bNo">No. 0159</b></span><span id="bWood">Sheesham</span></p>
+          <div><h2 id="bName">Sheesham Serving Board</h2><p class="buy-use" id="bUse"></p></div>
+          <div class="price-block">
+            <span class="price num" id="bPrice">₹2,599</span>
+            <span class="emi">or <b class="num" id="bEmi">₹867/mo</b> for 3 months, no interest</span>
+            <span class="perday num" id="bDay">About ₹0.71 a day over ten years of use.</span>
+          </div>
+          <div class="status"><span class="dot"></span><span><b>Not yet cut.</b> Order before Sunday midnight and it goes under the blade <b id="bCut">Monday</b>.</span></div>
+          <div class="specs" id="bSpecs"></div>
+          <div>
+            <div class="pin"><input type="text" inputmode="numeric" maxlength="6" placeholder="Pincode for a delivery date" id="pinIn" aria-label="Pincode"><button type="button" id="pinBtn">Check</button></div>
+            <p class="pin-out" id="pinOut">Ships tracked from Khatauli. Free over ₹2,000.</p>
+          </div>
+          <div class="qty-row">
+            <div class="qty" aria-label="Quantity"><button type="button" id="qMinus" aria-label="Decrease">–</button><output id="qOut">1</output><button type="button" id="qPlus" aria-label="Increase">+</button></div>
+            <button class="btn btn-ink add" type="button" id="addBtn"><span>Add to bag</span><span class="mono num" id="addTotal">₹2,599</span></button>
+          </div>
+          <div class="buy-alt">
+            <button class="btn btn-ghost" type="button" id="reserveBtn">Reserve for 72 h</button>
+            <button class="btn btn-ghost" type="button" id="saveBtn">Save for later</button>
+          </div>
+          <div class="pay"><span>UPI</span><span>CARDS</span><span>EMI</span><span>COD</span></div>
+          <details open>
+            <summary>What the number means</summary>
+            <ul>
+              <li><b>One slab, no seams.</b> Strips glued together can delaminate. One piece cannot.</li>
+              <li><b>Entered in the register.</b> Your number is burned into the underside beside the NX mark and logged in Khatauli.</li>
+              <li><b>Cut for you.</b> It is not on a shelf. Your order starts the cut.</li>
+              <li><b>Photographed before it ships.</b> You see your grain first.</li>
+            </ul>
+          </details>
+          <details><summary>Shipping &amp; the damage promise</summary><p>Free shipping over ₹2,000, tracked, 3–5 working days across India. Arrives damaged or wrong? A photo within 7 days and we replace it. Because each board is one of one we don't do change-of-mind returns, which is why this page shows you everything first.</p></details>
+          <details><summary>Care in one line</summary><p>Hand wash, wipe, stand on its edge to dry, oil once a month. Never soak, never the dishwasher.</p></details>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec numbers" id="numbers">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Details</p>
+        <h2>The things you'll notice <em>in the hand.</em></h2>
+      </div>
+      <div class="num-grid">
+        <div class="num-card"><img src="{{IMG:shee4}}" alt="Macro of sheesham grain with blue cheese and a knife"><div class="num-body"><div class="num-big">22<small>mm</small></div><h3>Thick enough to never cup.</h3><p>18 to 22 mm of dense hardwood. Water beads and wipes; the board stays flat.</p></div></div>
+        <div class="num-card"><img src="{{IMG:round4}}" alt="Angled view of the round teak board lying flat"><div class="num-body"><div class="num-big">1.4<small>kg</small></div><h3>Heavy enough to stay put.</h3><p>The sheesham weighs 1.4 kg. It doesn't slide when you carve, and it feels like something when you carry it out.</p></div></div>
+        <div class="num-card"><img src="{{IMG:round3}}" alt="Round teak board with integrated handle showing striped grain and a knot"><div class="num-body"><div class="num-big">1<small>slab</small></div><h3>Zero seams.</h3><p>Every board is one piece of one tree. That's why no two can match and why we bother numbering them.</p></div></div>
+        <div class="num-card"><img src="{{IMG:round5}}" alt="Round teak board front view with the NX brand mark near the rim"><div class="num-body"><div class="num-big">No.<small>yours</small></div><h3>Burned in, not printed.</h3><p>The NX mark and your registry number, on the underside, in the wood itself. It outlasts any label.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="register">
+    <div class="wrap">
+      <div class="ledger-wrap">
+        <div class="next">
+          <p class="eyebrow">The register</p>
+          <div class="big num">No. <span>1205</span></div>
+          <p>The next number in the book. It stays uncut until someone claims it. Not ready to buy today? Put your name on it and we'll hold it for 72 hours, and tell you before it's gone.</p>
+          <form class="reserve" id="reserveForm">
+            <input type="email" placeholder="Your email" id="reserveEmail" aria-label="Email" required>
+            <button class="btn btn-teak" type="submit">Reserve No. 1205</button>
+          </form>
+          <p class="reserve-out" id="reserveOut">No card needed. A reservation is a reservation, not a mailing list.</p>
+        </div>
+        <div class="ledger" aria-label="Recent entries in the register">
+          <div class="ledger-head"><span>Recent entries</span><span class="live">Updated from orders</span></div>
+          <table>
+            <tbody id="ledgerRows"></tbody>
+          </table>
+          <div class="note">Layout preview · rows populate from real orders before launch</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec compare" id="compare">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Compare</p>
+        <h2>Same slab, same hands. <em>Different table.</em></h2>
+        <p>All four are the same solid hardwood at the same finish. Pick by the table you'll put it on.</p>
+      </div>
+      <div class="cmp-scroll">
+        <table class="cmp" id="cmpTable"></table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="place">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">In its place</p>
+        <h2>It doesn't go back <em>in a drawer.</em></h2>
+      </div>
+      <div class="mosaic">
+        <figure class="tile t1"><img src="{{IMG:shee1}}" alt="Sheesham board from above with blue cheese, grapes, apples and an orange"><figcaption><span>Saturday. The one people ask about.</span><span class="mono">NO. 0159</span></figcaption></figure>
+        <figure class="tile t2"><img src="{{IMG:long2}}" alt="Long teak board in morning light with a croissant"><figcaption><span>Sunday, 8 am</span><span class="mono">NO. 0876</span></figcaption></figure>
+        <figure class="tile t3"><img src="{{IMG:round2}}" alt="Round teak board from above with a knife, jars and a spoon"><figcaption><span>Pizza night</span><span class="mono">NO. 0412</span></figcaption></figure>
+        <figure class="tile t4"><img src="{{IMG:small5}}" alt="Small teak board with sliced zucchini and a chef's knife"><figcaption><span>Tuesday</span><span class="mono">NO. 1204</span></figcaption></figure>
+        <figure class="tile t5"><img src="{{IMG:long4}}" alt="Long teak board on marble with cheddar and crackers"><figcaption><span>On marble</span><span class="mono">NO. 0876</span></figcaption></figure>
+        <figure class="tile t6"><img src="{{IMG:shee3}}" alt="Sheesham board standing upright on its edge"><figcaption><span>Drying on its edge</span><span class="mono">NO. 0159</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec numbers" id="story">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Workshop</p>
+        <h2>We could make them faster. <em>We'd rather make them once.</em></h2>
+        <p>The same team in Khatauli that builds NixWoods lighting and furniture cuts every board, from the same slabs, at the same pace.</p>
+      </div>
+      <div class="chapters">
+        <article class="chapter"><img src="{{IMG:shee2}}" alt="Angled close view of the sheesham board's handle with fruit"><div class="chapter-body"><p class="eyebrow">Slab</p><h3>Chosen, <em>not sorted</em>.</h3><p>Boards come from the slabs with the grain worth showing. The rest goes to furniture, where it's hidden.</p></div></article>
+        <article class="chapter"><img src="{{IMG:long3}}" alt="Close-up of the long teak board's handle end with its hanging hole"><div class="chapter-body"><p class="eyebrow">Cut</p><h3>Cut on <em>cutting day</em>.</h3><p>Orders queue for the week and go under the blade together on Monday. Sanding and oiling follow through the week.</p></div></article>
+        <article class="chapter"><img src="{{IMG:small3}}" alt="Top-down view of the small teak paddle board with a black knife and a lime"><div class="chapter-body"><p class="eyebrow">Register</p><h3>Numbered, <em>photographed</em>, sent.</h3><p>Your number is burned in, the underside photographed and sent to you, and the board packed for the courier.</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="faq">
+    <div class="wrap">
+      <div class="sec-head"><p class="eyebrow">Questions</p><h2>Before you decide.</h2></div>
+      <div class="faq">
+        <details open><summary>Why is it more than a board from the market?</summary><p>A market board is glued strips of whatever was left over, and it will split in a year or two. This is one slab of teak or sheesham, 18 to 22 mm thick, that will outlive the kitchen. Over ten years the sheesham costs under a rupee a day.</p></details>
+        <details><summary>What does "reserve" actually do?</summary><p>It holds the next registry number for you for 72 hours with no payment. If you buy in that window, that number is yours. If not, it goes back in the book and we let you know before it does.</p></details>
+        <details><summary>Will my board look exactly like the photos?</summary><p>No, and that's the point. Shape, size, wood and finish will match. The grain will be your board's own. You'll get a photo of your actual board before it ships.</p></details>
+        <details><summary>Can I chop on the serving boards?</summary><p>Yes. They're all the same solid hardwood. The names describe the shape's best use, not a limit.</p></details>
+        <details><summary>How do I pay monthly?</summary><p>Choose EMI at checkout. Three months, no interest, on cards and UPI-linked EMI. The board is cut as soon as the first payment clears.</p></details>
+        <details><summary>What if it arrives damaged?</summary><p>Send a photo within 7 days and we replace it. No change-of-mind returns, because nobody else can have your number.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="final-bg"><img src="{{IMG:shee3}}" alt=""></div>
+    <div class="wrap">
+      <p class="eyebrow">No. 1205</p>
+      <h2>Come back when you're ready. <em>It'll still be uncut.</em></h2>
+      <p>Reserve the number and think about it. Or don't, and let it be the board you keep picturing on your table.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-ink" href="#stage">Buy the sheesham</a>
+        <a class="btn btn-ghost" href="#register">Reserve No. 1205</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><div class="foot-brand">NixWoods</div><p style="max-width:34ch">Handcrafted lighting, furniture and kitchen pieces in teak and sheesham. Khatauli, Uttar Pradesh.</p><p style="margin-top:14px">WhatsApp <a href="https://wa.me/919286001060">+91 92860 01060</a></p></div>
+      <div><h4>Shop</h4><ul><li><a href="#">Pendant lights</a></li><li><a href="#">Floor &amp; table lamps</a></li><li><a href="#ladder">Wooden boards</a></li><li><a href="#">Kitchen &amp; dining</a></li></ul></div>
+      <div><h4>Help</h4><ul><li><a href="#">Track your order</a></li><li><a href="#">Replacements</a></li><li><a href="#faq">Questions</a></li><li><a href="#">Contact</a></li></ul></div>
+      <div><h4>NixWoods</h4><ul><li><a href="#story">Workshop</a></li><li><a href="#">Projects</a></li><li><a href="#">Instagram</a></li><li><a href="#">Privacy</a></li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 NixWoods · Khatauli, Uttar Pradesh</span>
+      <button class="preview-link" type="button" id="previewReturn">Preview: returning visitor</button>
+    </div>
+  </div>
+</footer>
+
+<div class="mbar" id="mbar">
+  <div class="mb-info"><div class="mb-name" id="mbName">Sheesham Serving Board</div><div class="mb-price num" id="mbPrice">₹2,599<small id="mbEmi">or ₹867/mo</small></div></div>
+  <button class="btn btn-ink" type="button" id="mbAdd">Add to bag</button>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  var IMG = {
+    shee:[
+      {src:"{{IMG:shee1}}", alt:"Sheesham board from above with blue cheese, grapes, apples and an orange", cap:"18 inches. Room for the whole spread."},
+      {src:"{{IMG:shee3}}", alt:"Sheesham board standing upright on its edge", cap:"Standing on its edge to dry"},
+      {src:"{{IMG:shee2}}", alt:"Angled view of the sheesham board's handle hole with fruit", cap:"Rounded handle, rounded edges"},
+      {src:"{{IMG:shee4}}", alt:"Blue cheese wedge and knife on the sheesham board's dark grain", cap:"Grain that reads like marble"}
+    ],
+    round:[
+      {src:"{{IMG:round3}}", alt:"Round teak board with handle cut-out, showing striped grain and a knot", cap:"Handle cut into the slab"},
+      {src:"{{IMG:round1}}", alt:"Close-up of the round teak board's grain and the NX brand mark", cap:"The NX mark, beside your number"},
+      {src:"{{IMG:round2}}", alt:"Round teak board from above with a black knife, jars and a spoon", cap:"Top-down, on the counter"},
+      {src:"{{IMG:round5}}", alt:"Round teak board front view, handle pointing up", cap:"Hang it between uses"}
+    ],
+    long:[
+      {src:"{{IMG:long2}}", alt:"Long teak board on a sunlit counter with a croissant", cap:"Morning light, 14 by 8 inches"},
+      {src:"{{IMG:long1}}", alt:"Long teak paddle board with two knives, a lime and a lemon", cap:"Prep surface first, platter second"},
+      {src:"{{IMG:long3}}", alt:"Close-up of the long board's handle end with hanging hole", cap:"The hanging hole"},
+      {src:"{{IMG:long4}}", alt:"Long teak board on marble with cheddar and crackers", cap:"On marble"}
+    ],
+    small:[
+      {src:"{{IMG:small3}}", alt:"Top-down view of the small teak paddle board with a knife and a lime", cap:"11 by 7. The everyday one."},
+      {src:"{{IMG:small1}}", alt:"Small teak chopping board with a chef's knife and a lime", cap:"Within reach of the stove"},
+      {src:"{{IMG:small4}}", alt:"Small teak board with two knives, a lime and a lemon", cap:"Carry it one-handed"},
+      {src:"{{IMG:small5}}", alt:"Small teak board with sliced zucchini", cap:"Tuesday dinner"}
+    ]
+  };
+  var BOARDS = [
+    {id:"shee", no:"0159", wood:"Sheesham", woodLong:"Solid sheesham (Indian rosewood)", name:"Sheesham Serving Board", short:"the sheesham", tag:"The one people ask about", use:"The centrepiece. Cheese, fruit, bread, and the reason guests ask where it's from.", dims:"18 × 7 in", thick:"22 mm", weight:"1.4 kg", price:2599, lead:true},
+    {id:"round", no:"0412", wood:"Teak", woodLong:"Solid teak", name:"Round Teak Board", short:"the round teak", tag:"Pizza night", use:"Pizza, flatbreads, a round of cheese.", dims:"⌀ 12 in", thick:"20 mm", weight:"1.1 kg", price:1999},
+    {id:"long", no:"0876", wood:"Teak", woodLong:"Solid teak", name:"Long Teak Board", short:"the long teak", tag:"Most ordered", use:"A long slim slab for cheese, bread and daily prep.", dims:"14 × 8 in", thick:"20 mm", weight:"1.0 kg", price:1999},
+    {id:"small", no:"1204", wood:"Teak", woodLong:"Solid teak", name:"Small Teak Board", short:"the small teak", tag:"Everyday", use:"Daily chopping and quick serves, always within reach.", dims:"11 × 7 in", thick:"18 mm", weight:"0.8 kg", price:1499}
+  ];
+  var inr = function(n){ return "₹" + Math.round(n).toLocaleString("en-IN"); };
+  var emi = function(p){ return inr(Math.ceil(p/3)); };
+  var perDay = function(p){ return (p/3650).toFixed(2); };
+  var $ = function(id){ return document.getElementById(id); };
+  var store = { get:function(k,d){ try{ var v = localStorage.getItem("nx."+k); return v===null ? d : JSON.parse(v); }catch(e){ return d; } }, set:function(k,v){ try{ localStorage.setItem("nx."+k, JSON.stringify(v)); }catch(e){} } };
+  var cur = BOARDS[0], qty = 1, cart = 0, curImg = 0;
+  var saved = store.get("saved", []);
+  var views = store.get("views", {});
+
+  // cutting-day cadence: Monday 00:00 IST is the cut; orders close Sunday 23:59 IST
+  function nextCut(){ var now = new Date(); var ist = new Date(now.getTime() + (330 + now.getTimezoneOffset())*60000); var d = new Date(ist); d.setHours(0,0,0,0); var add = (8 - d.getDay()) % 7 || 7; d.setDate(d.getDate()+add); return {ist:ist, cut:d}; }
+  function tick(){
+    var n = nextCut(), ms = n.cut - n.ist, h = Math.floor(ms/3600000), m = Math.floor(ms%3600000/60000), s = Math.floor(ms%60000/1000);
+    var dayLabel = n.cut.toLocaleDateString("en-IN",{weekday:"long", day:"numeric", month:"short"});
+    $("cutDay").textContent = dayLabel; $("bCut").textContent = dayLabel.split(",")[0];
+    $("cutCount").textContent = (h>=24 ? Math.floor(h/24)+"d " : "") + (h%24) + "h " + String(m).padStart(2,"0") + "m " + String(s).padStart(2,"0") + "s";
+  }
+  tick(); setInterval(tick, 1000);
+
+  // ladder
+  var ladder = $("ladderList");
+  BOARDS.forEach(function(b){
+    var el = document.createElement("article"); el.className = "rung" + (b.lead ? " lead" : ""); el.dataset.id = b.id; el.setAttribute("data-active", b.id===cur.id ? "true":"false");
+    el.innerHTML =
+      '<div class="rung-img"><img src="'+IMG[b.id][0].src+'" alt="'+IMG[b.id][0].alt+'"><button class="save" type="button" aria-label="Save '+b.name+'" aria-pressed="'+(saved.indexOf(b.id)>-1)+'" data-save="'+b.id+'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg></button></div>'+
+      '<div class="rung-body"><div class="rung-top"><span class="tag">'+b.tag+'</span><span class="mono" style="font-size:11px;color:var(--taupe);letter-spacing:.1em">NO. '+b.no+'</span></div>'+
+      '<h3>'+b.name+'</h3><p class="rung-use">'+b.use+'</p>'+
+      '<div class="rung-foot"><span class="rung-price num">'+inr(b.price)+'<small>or '+emi(b.price)+'/mo · '+b.dims+'</small></span><button class="rung-view" type="button" data-view="'+b.id+'">View</button></div></div>';
+    ladder.appendChild(el);
+  });
+  ladder.addEventListener("click", function(e){
+    var s = e.target.closest("[data-save]"), v = e.target.closest("[data-view]"), r = e.target.closest(".rung");
+    if(s){ toggleSave(s.dataset.save); return; }
+    if(v){ select(v.dataset.view, true); return; }
+    if(r){ select(r.dataset.id, true); }
+  });
+
+  function toggleSave(id){
+    var i = saved.indexOf(id); if(i>-1){ saved.splice(i,1); } else { saved.push(id); }
+    store.set("saved", saved); renderSaved();
+    var b = BOARDS.filter(function(x){return x.id===id;})[0];
+    toast(i>-1 ? "Removed from saved" : "Saved. We'll keep " + b.short + " here for you.", "NO. " + b.no);
+  }
+  function renderSaved(){
+    $("savedCount").textContent = saved.length;
+    document.querySelectorAll("[data-save]").forEach(function(el){ el.setAttribute("aria-pressed", saved.indexOf(el.dataset.save)>-1 ? "true":"false"); });
+    $("saveBtn").textContent = saved.indexOf(cur.id)>-1 ? "Saved" : "Save for later";
+  }
+  $("savedBtn").addEventListener("click", function(){ if(!saved.length){ toast("Nothing saved yet. Tap the heart on a board."); return; } var names = saved.map(function(id){ return BOARDS.filter(function(b){return b.id===id;})[0].name; }); toast("Saved: " + names.join(", ")); });
+  $("saveBtn").addEventListener("click", function(){ toggleSave(cur.id); });
+
+  function select(id, scroll){
+    cur = BOARDS.filter(function(b){return b.id===id;})[0]; qty = 1; curImg = 0;
+    views[id] = (views[id]||0) + 1; store.set("views", views); store.set("last", id);
+    document.querySelectorAll(".rung").forEach(function(el){ el.setAttribute("data-active", el.dataset.id===id ? "true":"false"); });
+    $("bNo").textContent = "No. " + cur.no; $("bWood").textContent = cur.wood; $("bName").textContent = cur.name; $("bUse").textContent = cur.use;
+    $("bPrice").textContent = inr(cur.price); $("bEmi").textContent = emi(cur.price) + "/mo"; $("bDay").textContent = "About ₹" + perDay(cur.price) + " a day over ten years of use.";
+    $("bSpecs").innerHTML =
+      '<div><span class="k">Wood</span><span class="v">'+cur.woodLong+'</span></div><div><span class="k">Cut</span><span class="v">Single slab</span></div>'+
+      '<div><span class="k">Size</span><span class="v mono">'+cur.dims+'</span></div><div><span class="k">Thickness</span><span class="v mono">'+cur.thick+'</span></div>'+
+      '<div><span class="k">Weight</span><span class="v mono">'+cur.weight+'</span></div><div><span class="k">Finish</span><span class="v">Food-safe oil</span></div>';
+    $("mbName").textContent = cur.name; $("mbPrice").firstChild.textContent = inr(cur.price); $("mbEmi").textContent = "or " + emi(cur.price) + "/mo";
+    renderQty(); renderGallery(); renderSaved();
+    if(scroll){ $("stage").scrollIntoView({behavior:"smooth", block:"start"}); }
+  }
+  function renderGallery(){
+    var th = $("thumbs"); th.innerHTML = "";
+    IMG[cur.id].forEach(function(im, i){
+      var b = document.createElement("button"); b.type="button"; b.className="thumb"; b.setAttribute("aria-current", i===curImg?"true":"false"); b.setAttribute("aria-label", "Photo " + (i+1) + ": " + im.cap);
+      b.innerHTML = '<img src="'+im.src+'" alt="">'; b.addEventListener("click", function(){ curImg = i; showImg(); }); th.appendChild(b);
+    });
+    showImg(true);
+  }
+  function showImg(instant){
+    var im = IMG[cur.id][curImg], fig = $("mainImg"), photo = $("mainPhoto");
+    document.querySelectorAll(".thumb").forEach(function(el, i){ el.setAttribute("aria-current", i===curImg?"true":"false"); });
+    if(instant){ photo.src = im.src; photo.alt = im.alt; $("mainCap").textContent = im.cap; return; }
+    fig.classList.add("fading"); setTimeout(function(){ photo.src = im.src; photo.alt = im.alt; $("mainCap").textContent = im.cap; fig.classList.remove("fading"); }, 180);
+  }
+  function renderQty(){ $("qOut").value = qty; $("qOut").textContent = qty; $("addTotal").textContent = inr(cur.price*qty); }
+  $("qMinus").addEventListener("click", function(){ if(qty>1){ qty--; renderQty(); } });
+  $("qPlus").addEventListener("click", function(){ if(qty<10){ qty++; renderQty(); } });
+
+  function toast(msg, sub){ var t = $("toast"); t.innerHTML = "<span>"+msg+"</span>" + (sub ? '<span class="mono">'+sub+'</span>' : ""); t.classList.add("show"); clearTimeout(t._t); t._t = setTimeout(function(){ t.classList.remove("show"); }, 3000); }
+  function add(){ cart += qty; $("cartCount").textContent = cart; toast("In your bag: " + cur.name, "NO. " + cur.no + " × " + qty); }
+  $("addBtn").addEventListener("click", add); $("mbAdd").addEventListener("click", add);
+
+  // reservations
+  function reserve(id, email){
+    var b = BOARDS.filter(function(x){return x.id===id;})[0]; var until = new Date(Date.now() + 72*3600000);
+    store.set("reserved", {id:id, until:until.toISOString(), email:email||""});
+    var when = until.toLocaleDateString("en-IN",{weekday:"short", day:"numeric", month:"short"}) + ", " + until.toLocaleTimeString("en-IN",{hour:"numeric", minute:"2-digit"});
+    toast("Held for you until " + when, "NO. 1205 · " + b.name);
+    $("reserveOut").innerHTML = "<b>No. 1205 is held for you</b> until <span class='mono'>" + when + "</span>. Nothing to pay yet.";
+    $("reserveBtn").textContent = "Reserved · 72 h";
+  }
+  $("reserveBtn").addEventListener("click", function(){ reserve(cur.id); $("register").scrollIntoView({behavior:"smooth"}); });
+  $("reserveForm").addEventListener("submit", function(e){ e.preventDefault(); reserve(cur.id, $("reserveEmail").value); });
+  $("backReserve").addEventListener("click", function(){ reserve(store.get("last","shee")); });
+
+  // pincode: illustrative estimate anchored to the cutting day
+  $("pinBtn").addEventListener("click", checkPin); $("pinIn").addEventListener("keydown", function(e){ if(e.key==="Enter"){ checkPin(); } });
+  function checkPin(){
+    var v = $("pinIn").value.trim(), out = $("pinOut");
+    if(!/^[1-9][0-9]{5}$/.test(v)){ out.innerHTML = "Enter a 6-digit pincode to see a delivery window."; return; }
+    var far = /^(1[89]|7|8)/.test(v), cut = nextCut().cut;
+    var d1 = addWorkingDays(cut, far ? 4 : 3), d2 = addWorkingDays(cut, far ? 6 : 5);
+    var fmt = function(d){ return d.toLocaleDateString("en-IN",{weekday:"short", day:"numeric", month:"short"}); };
+    out.innerHTML = 'Cut ' + fmt(cut) + ', at <b>' + v + '</b> between <b>' + fmt(d1) + '</b> and <b>' + fmt(d2) + '</b>' + (cur.price>=2000 ? ' · free shipping' : '');
+  }
+  function addWorkingDays(d, n){ var r = new Date(d); while(n>0){ r.setDate(r.getDate()+1); if(r.getDay()!==0){ n--; } } return r; }
+
+  // ledger (layout preview; rows come from real orders at launch)
+  var cities = ["Pune","Bengaluru","Gurugram","Kochi","Jaipur","Mumbai","Hyderabad","Chandigarh"], statuses = ["Cut · in oil","Shipped","Delivered","Reserved","Delivered","Shipped","Cut · in oil","Delivered"];
+  var rows = ""; for(var i=0;i<8;i++){ var n = 1204 - i; rows += '<tr><td class="no">No. ' + n + '</td><td>' + (i%3===0?"Sheesham":"Teak") + ' · ' + cities[i] + '</td><td class="st' + (statuses[i].indexOf("Cut")===0?" is-cut":"") + '">' + statuses[i] + '</td></tr>'; }
+  $("ledgerRows").innerHTML = rows;
+
+  // compare
+  var cmp = $("cmpTable"), head = '<thead><tr><th></th>';
+  BOARDS.forEach(function(b){ head += '<th class="' + (b.lead?"lead":"") + '"><img src="'+IMG[b.id][0].src+'" alt=""><div class="n">'+b.name+'</div><div class="no">NO. '+b.no+'</div></th>'; });
+  head += '</tr></thead>';
+  function row(label, fn){ var r = '<tr><td class="lbl">'+label+'</td>'; BOARDS.forEach(function(b){ r += '<td>'+fn(b)+'</td>'; }); return r + '</tr>'; }
+  cmp.innerHTML = head + '<tbody>' +
+    row("Price", function(b){ return '<div class="big num">'+inr(b.price)+'</div><small>or '+emi(b.price)+'/mo × 3</small>'; }) +
+    row("Wood", function(b){ return b.wood + '<small>' + (b.wood==="Sheesham" ? "Dark, heavy, marbled" : "Honey, warm, striped") + '</small>'; }) +
+    row("Size", function(b){ return '<div class="big mono">'+b.dims+'</div><small>'+b.thick+' thick · '+b.weight+'</small>'; }) +
+    row("Best on", function(b){ return b.use; }) +
+    row("Care", function(){ return "Hand wash, dry on edge, oil monthly"; }) +
+    row("", function(b){ return '<button class="pick'+(b.lead?" lead":"")+'" type="button" data-pick="'+b.id+'">'+(b.lead?"Choose the sheesham":"Choose")+'</button>'; }) +
+    '</tbody>';
+  cmp.addEventListener("click", function(e){ var p = e.target.closest("[data-pick]"); if(p){ select(p.dataset.pick, true); } });
+
+  // returning visitor
+  var visits = store.get("visits", 0) + 1; store.set("visits", visits);
+  function showBack(force){
+    var last = store.get("last", null), res = store.get("reserved", null);
+    if(!force && (visits < 2 || !last)){ return; }
+    var b = BOARDS.filter(function(x){return x.id===(last||"shee");})[0], n = views[b.id] || 1;
+    var msg;
+    if(res && new Date(res.until) > new Date()){
+      var until = new Date(res.until).toLocaleDateString("en-IN",{weekday:"short", day:"numeric", month:"short"});
+      msg = '<b>Welcome back.</b> No. 1205 is still held for you until <span class="mono">' + until + '</span>. It hasn\'t been cut.';
+      $("backReserve").textContent = "Buy it now";
+      $("backReserve").onclick = function(){ select(b.id, true); };
+    } else {
+      msg = '<b>Welcome back.</b> You\'ve looked at ' + b.short + ' ' + (force ? "three times" : (n===1 ? "once" : n===2 ? "twice" : n + " times")) + '. It\'s still uncut, and <span class="mono">No. 1205</span> is still free.';
+    }
+    $("backMsg").innerHTML = msg; $("back").classList.add("show");
+  }
+  $("previewReturn").addEventListener("click", function(){ store.set("last", "shee"); views.shee = 3; store.set("views", views); showBack(true); window.scrollTo({top:0, behavior:"smooth"}); });
+
+  select(store.get("last","shee"), false);
+  showBack(false);
+  var res = store.get("reserved", null); if(res && new Date(res.until) > new Date()){ $("reserveBtn").textContent = "Reserved · 72 h"; }
+})();
+</script>
