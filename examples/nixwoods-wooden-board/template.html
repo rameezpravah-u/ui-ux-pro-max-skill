@@ -82,7 +82,7 @@
   .nav{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--ground) 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
   .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:24px}
   .brand{font-family:var(--serif);font-size:24px;font-weight:500;letter-spacing:-.02em;text-decoration:none;display:flex;align-items:center;gap:10px}
-  .brand .mark{width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--ground);display:grid;place-items:center;font-family:var(--serif);font-size:13px;font-weight:600;letter-spacing:-.04em}
+  .brand .mark{width:34px;height:34px;border-radius:6px;background:#000;object-fit:contain;display:block}
   .nav-links{display:flex;gap:28px;font-size:14px;font-weight:500}
   .nav-links a{text-decoration:none;padding:6px 0;border-bottom:2px solid transparent;color:var(--ink-2)}
   .nav-links a.active{border-bottom-color:var(--teak);color:var(--ink)}
@@ -376,7 +376,7 @@
 
 <nav class="nav" aria-label="Main">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="NixWoods home"><span class="mark">NX</span>NixWoods</a>
+    <a class="brand" href="#top" aria-label="NixWoods home"><img class="mark" src="{{IMG:logo}}" alt="NX" width="96" height="96">NixWoods</a>
     <div class="nav-links">
       <a href="#">Lighting</a>
       <a href="#">Nix Home</a>
@@ -403,7 +403,7 @@
         <a class="btn btn-outline-light" href="#story">How they're made</a>
       </div>
     </div>
-    <div class="hero-stamp"><span class="ring">NX</span><span>Registry · Nos. 0159 – 1204</span></div>
+    <div class="hero-stamp"><img src="{{IMG:logo}}" alt="" width="44" height="44" style="width:44px;height:44px;border-radius:50%;background:#000;border:1px solid var(--dark-line)"><span>Registry · Nos. 0159 – 1204</span></div>
   </div>
   <div class="assure">
     <div class="wrap">

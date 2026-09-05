@@ -69,7 +69,7 @@
   .nav{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--ground) 84%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
   .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:24px}
   .brand{font-family:var(--serif);font-size:23px;font-weight:500;letter-spacing:-.02em;text-decoration:none;display:flex;align-items:center;gap:10px}
-  .brand .mark{width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--ground);display:grid;place-items:center;font-family:var(--serif);font-size:12px;font-weight:600;letter-spacing:-.04em}
+  .brand .mark{width:34px;height:34px;border-radius:6px;background:#000;object-fit:contain;display:block}
   .nav-links{display:flex;gap:26px;font-size:13.5px;font-weight:500}
   .nav-links a{text-decoration:none;color:var(--ink-2)}
   .nav-links a:hover{color:var(--ink)}
@@ -350,7 +350,7 @@
 
 <nav class="nav" aria-label="Main">
   <div class="wrap">
-    <a class="brand" href="#top"><span class="mark">NX</span>NixWoods</a>
+    <a class="brand" href="#top"><img class="mark" src="{{IMG:logo}}" alt="NX" width="96" height="96">NixWoods</a>
     <div class="nav-links">
       <a href="#ladder">The four</a>
       <a href="#numbers">Details</a>
