@@ -1,0 +1,841 @@
+<title>Mosaic Glass Block Lamp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@400;500;600&display=swap">
+<style>
+  /* NixWoods brand tokens: espresso / walnut / amber glow / warm bone / sand / ink. Dark-first: the lamp is the light source. */
+  :root{
+    --ground:#1A1614; --ground-2:#211B18; --paper:#2A2320; --paper-2:#3B2C22;
+    --ink:#F3EDE3; --ink-2:#D8C7B0; --taupe:#A08F7B; --line:#3B2C22; --line-2:#55433A;
+    --amber:#E8A24A; --amber-deep:#C9852F; --amber-soft:rgba(232,162,74,.16);
+    --bone:#F3EDE3; --bone-2:#E6DCCB; --bone-ink:#1A1614; --bone-ink-2:#4A3F37; --bone-taupe:#7B6E60; --bone-line:#D8C7B0;
+    --red:#D9412E; --green:#3E9A57;
+    --shadow:0 30px 80px -30px rgba(0,0,0,.8);
+    --r:8px;
+    --sans:"Inter",system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    --serif:"Fraunces","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --ground:#F3EDE3; --ground-2:#EBE3D5; --paper:#FBF7F0; --paper-2:#E6DCCB;
+      --ink:#1A1614; --ink-2:#4A3F37; --taupe:#7B6E60; --line:#D8C7B0; --line-2:#C2B29C;
+      --amber:#C9852F; --amber-deep:#A86A1F; --amber-soft:rgba(201,133,47,.14);
+      --bone:#1A1614; --bone-2:#241C18; --bone-ink:#F3EDE3; --bone-ink-2:#D8C7B0; --bone-taupe:#A08F7B; --bone-line:#3B2C22;
+      --shadow:0 30px 80px -30px rgba(26,22,20,.45);
+    }
+  }
+  :root[data-theme="light"]{
+    --ground:#F3EDE3; --ground-2:#EBE3D5; --paper:#FBF7F0; --paper-2:#E6DCCB;
+    --ink:#1A1614; --ink-2:#4A3F37; --taupe:#7B6E60; --line:#D8C7B0; --line-2:#C2B29C;
+    --amber:#C9852F; --amber-deep:#A86A1F; --amber-soft:rgba(201,133,47,.14);
+    --bone:#1A1614; --bone-2:#241C18; --bone-ink:#F3EDE3; --bone-ink-2:#D8C7B0; --bone-taupe:#A08F7B; --bone-line:#3B2C22;
+    --shadow:0 30px 80px -30px rgba(26,22,20,.45);
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;overflow-x:clip;background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%}
+  a{color:inherit}
+  button{font:inherit;cursor:pointer;color:inherit}
+  h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0;text-wrap:balance;letter-spacing:-.015em}
+  p{margin:0}
+  :focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+  .wrap{width:min(1200px,calc(100% - 48px));margin-inline:auto}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--taupe);font-weight:500}
+  .eyebrow b{color:var(--amber);font-weight:600}
+  .num{font-variant-numeric:tabular-nums}
+  .sec{padding:104px 0}
+  .sec-head{max-width:720px;margin-bottom:52px;display:grid;gap:16px}
+  .sec-head h2{font-size:clamp(34px,4.4vw,56px);line-height:1.02;font-variation-settings:"opsz" 144;font-weight:300}
+  .sec-head h2 em{font-style:italic;color:var(--amber)}
+  .sec-head p{color:var(--ink-2);font-size:18px;max-width:56ch}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:15px 24px;border-radius:99px;border:1px solid transparent;font-weight:500;font-size:15px;text-decoration:none;transition:transform .18s ease,background .18s ease,color .18s ease,border-color .18s ease;white-space:nowrap}
+  .btn:hover{transform:translateY(-1px)}
+  .btn-amber{background:var(--amber);color:#1A1614}
+  .btn-amber:hover{background:var(--amber-deep);color:#fff}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+  .btn-ghost:hover{border-color:var(--ink)}
+  .btn-ink{background:var(--ink);color:var(--ground)}
+  .btn-ink:hover{background:var(--amber);color:#1A1614}
+  .btn-sm{padding:10px 16px;font-size:13.5px}
+
+  /* nav */
+  .nav{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--ground) 82%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:24px}
+  .brand{font-family:var(--serif);font-size:22px;font-weight:500;letter-spacing:-.02em;text-decoration:none;display:flex;align-items:center;gap:10px}
+  .brand .mark{width:32px;height:32px;border-radius:6px;background:#000;object-fit:contain;display:block}
+  .nav-links{display:flex;gap:26px;font-size:13.5px;font-weight:500}
+  .nav-links a{text-decoration:none;color:var(--ink-2)}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-tools{display:flex;gap:8px;align-items:center;font-size:13.5px}
+  .nav-tools a,.nav-tools button{text-decoration:none;display:inline-flex;align-items:center;gap:6px;color:var(--ink-2);background:none;border:0;padding:6px 8px}
+  .nav-tools svg{width:17px;height:17px}
+  .pill{font-size:11px;padding:1px 7px;border-radius:99px;border:1px solid var(--line-2);color:var(--taupe)}
+  .nav-buy{background:var(--amber) !important;color:#1A1614 !important;border-radius:99px;padding:8px 16px !important;font-weight:600}
+  @media (max-width:900px){.nav-links{display:none}}
+  @media (max-width:600px){.hide-m{display:none !important}.stage .vslot{top:auto;bottom:70px;right:12px}.nav-buy{white-space:nowrap;padding:8px 12px !important}}
+
+  /* hero: the turn */
+  .hero{position:relative;overflow:hidden}
+  .hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding:56px 0 64px}
+  .stage{position:relative;aspect-ratio:1;border-radius:14px;overflow:hidden;background:#000;box-shadow:var(--shadow);cursor:grab;user-select:none;touch-action:pan-y}
+  .stage:active{cursor:grabbing}
+  .stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .7s ease}
+  .stage img.on{opacity:1}
+  .stage-ui{position:absolute;left:0;right:0;bottom:0;padding:18px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.55));color:#F3EDE3}
+  .mood-chips{display:flex;gap:8px}
+  .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:99px;border:1px solid rgba(243,237,227,.3);background:rgba(26,22,20,.5);backdrop-filter:blur(8px);font-size:13px;font-weight:500;color:#F3EDE3;transition:background .2s ease,border-color .2s ease}
+  .chip .dot{width:10px;height:10px;border-radius:50%;box-shadow:0 0 10px currentColor}
+  .chip[aria-pressed="true"]{background:rgba(243,237,227,.92);color:#1A1614;border-color:transparent}
+  .turn-hint{display:flex;align-items:center;gap:10px;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;opacity:.9}
+  .turn-hint svg{width:26px;height:26px;animation:spin 6s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .stage-tag{position:absolute;top:16px;left:16px;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#F3EDE3;background:rgba(26,22,20,.55);backdrop-filter:blur(8px);padding:6px 10px;border-radius:4px;border:1px solid rgba(243,237,227,.2)}
+  .hero-copy{display:grid;gap:22px}
+  .hero h1{font-size:clamp(42px,5.2vw,74px);line-height:.98;font-weight:300;font-variation-settings:"opsz" 144;letter-spacing:-.03em}
+  .hero h1 em{font-style:italic;color:var(--amber)}
+  .hero-sub{font-size:18px;color:var(--ink-2);max-width:46ch;line-height:1.55}
+  .hero-sub strong{color:var(--ink);font-weight:500}
+  .hero-meta{display:flex;gap:18px;flex-wrap:wrap;align-items:center;font-size:14px;color:var(--taupe)}
+  .hero-meta .stars{color:var(--amber);letter-spacing:1px}
+  .hero-meta b{color:var(--ink);font-weight:500}
+  .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .hero-price{font-family:var(--serif);font-size:30px;font-weight:500;letter-spacing:-.02em}
+  .hero-price small{font-family:var(--sans);font-size:13px;color:var(--taupe);font-weight:400;display:block;letter-spacing:0}
+  .hero .wrap > *{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+  .hero .wrap > *:nth-child(2){animation-delay:.12s}
+  @keyframes rise{from{transform:translateY(14px);opacity:.001}to{transform:none;opacity:1}}
+  @media (max-width:960px){.hero .wrap{grid-template-columns:1fr;gap:28px;padding:24px 0 48px}.hero-copy{order:2}}
+
+  .proof{border-block:1px solid var(--line);background:var(--ground-2)}
+  .proof .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+  .proof div{padding:20px 22px 20px 0;border-right:1px solid var(--line);font-size:14px;line-height:1.4}
+  .proof div + div{padding-left:22px}
+  .proof div:last-child{border-right:0}
+  .proof b{display:block;font-family:var(--serif);font-size:22px;font-weight:500;font-variation-settings:"opsz" 40;margin-bottom:2px}
+  .proof span{color:var(--taupe);font-size:13px}
+  @media (max-width:900px){.proof .wrap{grid-template-columns:1fr 1fr}.proof div{border-right:0;border-bottom:1px solid var(--line);padding-left:0 !important}}
+
+  /* buy */
+  .buy-sec{padding:72px 0 96px}
+  .buy-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr);gap:40px;align-items:start}
+  .finishes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .finish{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;text-align:left;padding:0;display:flex;flex-direction:column;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;position:relative}
+  .finish:hover{transform:translateY(-3px);border-color:var(--line-2)}
+  .finish[aria-pressed="true"]{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber),var(--shadow)}
+  .finish img{aspect-ratio:1;object-fit:cover;width:100%}
+  .finish-body{padding:14px 14px 16px;display:grid;gap:4px}
+  .finish h3{font-size:19px;font-variation-settings:"opsz" 40}
+  .finish p{font-size:13px;color:var(--taupe)}
+  .finish .fp{font-family:var(--serif);font-size:18px;font-weight:500;margin-top:6px}
+  .finish .left{position:absolute;top:10px;left:10px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:rgba(26,22,20,.7);color:#F3EDE3;padding:5px 9px;border-radius:4px;backdrop-filter:blur(6px)}
+  .gallery{margin-top:22px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .gallery button{padding:0;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--paper-2);aspect-ratio:1}
+  .gallery button img{width:100%;height:100%;object-fit:cover}
+  .gallery button[aria-current="true"]{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber)}
+  .big{margin-top:12px;border-radius:var(--r);overflow:hidden;background:var(--paper-2);aspect-ratio:4/3;position:relative}
+  .big img{width:100%;height:100%;object-fit:cover;transition:opacity .35s ease}
+  .big.fading img{opacity:0}
+  .big .cap{position:absolute;left:14px;bottom:14px;background:rgba(26,22,20,.72);color:#F3EDE3;font-size:12.5px;padding:7px 11px;border-radius:4px;backdrop-filter:blur(6px);max-width:80%}
+
+  .panel{position:sticky;top:76px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:26px;display:grid;gap:16px;box-shadow:var(--shadow)}
+  .panel h2{font-size:28px;line-height:1.1;font-variation-settings:"opsz" 72}
+  .panel .sub{color:var(--taupe);font-size:14.5px;margin-top:4px}
+  .price-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .price{font-family:var(--serif);font-size:38px;font-weight:500;letter-spacing:-.02em;line-height:1}
+  .emi{font-size:13.5px;color:var(--ink-2)}
+  .emi b{color:var(--ink);font-weight:500}
+  .moods-line{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--ink-2);padding:12px 14px;border:1px solid var(--line);border-radius:6px;background:var(--ground)}
+  .moods-line .dots{display:flex;gap:5px}
+  .moods-line .dots i{width:12px;height:12px;border-radius:50%;display:block;box-shadow:0 0 8px currentColor}
+  .moods-line b{color:var(--ink);font-weight:500}
+  .dispatch{display:grid;gap:4px;padding:12px 14px;border-radius:6px;background:var(--amber-soft);border:1px solid color-mix(in srgb,var(--amber) 35%,transparent);font-size:13.5px;color:var(--ink-2)}
+  .dispatch b{color:var(--ink);font-weight:500}
+  .qty-row{display:grid;grid-template-columns:auto 1fr;gap:10px}
+  .qty{display:inline-flex;border:1px solid var(--line-2);border-radius:99px;overflow:hidden}
+  .qty button{width:42px;background:transparent;border:0;font-size:18px}
+  .qty output{width:40px;display:grid;place-items:center;font-size:14px;border-inline:1px solid var(--line-2)}
+  .add{width:100%;font-size:16px;padding:16px 22px;justify-content:space-between;font-weight:600}
+  .add span:last-child{font-weight:500;opacity:.85}
+  .alt{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .alt .btn{padding:12px 14px;font-size:13.5px;white-space:normal;text-align:center}
+  .buy-grid > *,.hero .wrap > *,.rev-grid > *,.share-grid > *,.made-grid > *,.trade > *,.finish,.room{min-width:0}
+  .trust{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;font-size:13px;color:var(--ink-2)}
+  .trust div{display:flex;gap:8px;align-items:flex-start}
+  .trust svg{width:16px;height:16px;flex:none;color:var(--amber);margin-top:2px}
+  .specs{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+  .specs div{padding:10px 12px;border-bottom:1px solid var(--line);font-size:13px}
+  .specs div:nth-child(odd){border-right:1px solid var(--line)}
+  .specs div:nth-last-child(-n+2){border-bottom:0}
+  .specs .k{display:block;color:var(--taupe);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
+  .specs .v{color:var(--ink);font-weight:500}
+  .panel details{border-top:1px solid var(--line);padding-top:12px}
+  .panel summary{cursor:pointer;font-weight:500;font-size:14px;list-style:none;display:flex;justify-content:space-between;align-items:center}
+  .panel summary::-webkit-details-marker{display:none}
+  .panel summary::after{content:"+";color:var(--taupe)}
+  .panel details[open] summary::after{content:"–"}
+  .panel details p{font-size:14px;color:var(--ink-2);margin-top:10px;line-height:1.6}
+  @media (max-width:960px){.alt{grid-template-columns:1fr}.buy-grid{grid-template-columns:1fr}.panel{position:static;box-shadow:none}.finishes{grid-template-columns:repeat(3,1fr);gap:8px}.finish-body{padding:10px}.finish h3{font-size:15px}.finish p{display:none}}
+
+  /* moods */
+  .moods{background:var(--bone);color:var(--bone-ink)}
+  .moods .eyebrow{color:var(--bone-taupe)}
+  .moods .sec-head p{color:var(--bone-ink-2)}
+  .mood-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .mood{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:4/5;background:#000}
+  .mood img{width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+  .mood:hover img{transform:scale(1.03)}
+  .mood-txt{position:absolute;left:0;right:0;bottom:0;padding:60px 22px 22px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.7));color:#F3EDE3;display:grid;gap:6px}
+  .mood-txt .eyebrow{color:#F3EDE3;opacity:.8;display:flex;align-items:center;gap:8px}
+  .mood-txt .eyebrow i{width:10px;height:10px;border-radius:50%;display:inline-block;box-shadow:0 0 10px currentColor}
+  .mood-txt h3{font-size:30px;line-height:1.05;font-variation-settings:"opsz" 72}
+  .mood-txt p{font-size:14px;opacity:.85;max-width:30ch}
+  .mood-note{margin-top:18px;font-size:13px;color:var(--bone-taupe)}
+  @media (max-width:760px){.mood-grid{grid-template-columns:1fr}.mood{aspect-ratio:4/3}}
+
+  /* where it goes */
+  .rooms{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:240px;gap:12px}
+  .room{position:relative;border-radius:var(--r);overflow:hidden;background:var(--paper);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:flex-end;padding:18px;gap:4px}
+  .room img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+  .room:hover img{transform:scale(1.04)}
+  .room.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(26,22,20,.85))}
+  .room > *{position:relative;z-index:1}
+  .room.photo{color:#F3EDE3}
+  .room h3{font-size:22px;font-variation-settings:"opsz" 40;line-height:1.1}
+  .room p{font-size:13px;opacity:.8;max-width:28ch}
+  .room .glow{position:absolute;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,var(--amber) 0%,transparent 70%);opacity:.35;right:-40px;top:-40px;filter:blur(10px);z-index:0}
+  .room.wide{grid-column:span 2}
+  .room.tall{grid-row:span 2}
+  @media (max-width:960px){.rooms{grid-template-columns:1fr 1fr;grid-auto-rows:200px}.room.tall{grid-row:span 1}.room.wide{grid-column:span 2}}
+
+  /* made */
+  .made{background:var(--ground-2);border-block:1px solid var(--line)}
+  .made-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .made-grid img{border-radius:var(--r);aspect-ratio:1;object-fit:cover;width:100%;box-shadow:var(--shadow)}
+  .made-list{display:grid;gap:22px;margin-top:28px}
+  .made-list div{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
+  .made-list .n{font-family:var(--serif);font-size:30px;line-height:1;color:var(--amber);font-weight:300;font-variation-settings:"opsz" 144;min-width:64px}
+  .made-list .n small{display:block;font-family:var(--sans);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--taupe);margin-top:4px}
+  .made-list h3{font-size:19px;font-variation-settings:"opsz" 40;margin-bottom:4px}
+  .made-list p{font-size:14.5px;color:var(--ink-2);line-height:1.6}
+  @media (max-width:900px){.made-grid{grid-template-columns:1fr}}
+
+  /* straight answers */
+  .answers{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .ans{padding:24px;border:1px solid var(--line);border-radius:var(--r);background:var(--paper);display:grid;gap:10px}
+  .ans h3{font-size:21px;font-variation-settings:"opsz" 40;line-height:1.15}
+  .ans p{font-size:14.5px;color:var(--ink-2);line-height:1.6}
+  .ans .from{font-size:12px;color:var(--taupe);letter-spacing:.06em;text-transform:uppercase}
+  @media (max-width:760px){.answers{grid-template-columns:1fr}}
+
+  /* reviews */
+  .rev-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start}
+  .rating{display:flex;align-items:baseline;gap:14px}
+  .rating .big-n{font-family:var(--serif);font-size:84px;line-height:1;font-weight:300;font-variation-settings:"opsz" 144;letter-spacing:-.03em}
+  .rating .stars{color:var(--amber);font-size:22px;letter-spacing:2px}
+  .rating small{display:block;color:var(--taupe);font-size:13px;margin-top:6px}
+  .hist{display:grid;gap:8px;margin-top:22px}
+  .hist div{display:grid;grid-template-columns:40px 1fr 40px;gap:12px;align-items:center;font-size:13px;color:var(--taupe)}
+  .hist .bar{height:8px;border-radius:99px;background:var(--paper-2);overflow:hidden}
+  .hist .bar i{display:block;height:100%;background:var(--amber);border-radius:99px}
+  .hist b{color:var(--ink);font-weight:500;text-align:right}
+  .rev-note{padding:22px;border:1px dashed var(--line-2);border-radius:var(--r);font-size:14.5px;color:var(--ink-2);line-height:1.6;display:grid;gap:12px}
+  .rev-note b{color:var(--ink);font-weight:500}
+  @media (max-width:900px){.rev-grid{grid-template-columns:1fr}}
+
+  /* share card */
+  .share{background:var(--bone);color:var(--bone-ink)}
+  .share .eyebrow{color:var(--bone-taupe)}
+  .share .sec-head p{color:var(--bone-ink-2)}
+  .share-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .card{aspect-ratio:9/16;max-width:360px;margin-inline:auto;border-radius:22px;overflow:hidden;position:relative;background:#000;box-shadow:0 40px 80px -30px rgba(26,22,20,.6)}
+  .card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s ease}
+  .card img.on{opacity:1}
+  .card .ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),transparent 30%,transparent 60%,rgba(0,0,0,.7));color:#F3EDE3;display:flex;flex-direction:column;justify-content:space-between;padding:22px}
+  .card .top{display:flex;justify-content:space-between;align-items:center;font-size:12px;letter-spacing:.1em;text-transform:uppercase;opacity:.9}
+  .card .line{font-family:var(--serif);font-size:34px;line-height:1.05;font-weight:300;font-variation-settings:"opsz" 144;letter-spacing:-.02em;text-wrap:balance}
+  .card .line em{color:var(--amber);font-style:italic}
+  .card .foot{display:flex;justify-content:space-between;align-items:flex-end;font-size:12px;opacity:.9;margin-top:14px}
+  .card .foot b{display:block;font-size:13px;font-weight:600}
+  .share-ctl{display:grid;gap:18px}
+  .share-ctl h3{font-size:15px;letter-spacing:.1em;text-transform:uppercase;font-family:var(--sans);font-weight:600;color:var(--bone-taupe)}
+  .opts{display:flex;gap:8px;flex-wrap:wrap}
+  .opt{padding:10px 16px;border-radius:99px;border:1px solid var(--bone-line);background:transparent;color:var(--bone-ink);font-size:14px}
+  .opt[aria-pressed="true"]{background:var(--bone-ink);color:var(--bone);border-color:transparent}
+  .opt .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:-1px}
+  .share-ctl .btn-ink{background:var(--bone-ink);color:var(--bone)}
+  .share-ctl .btn-ink:hover{background:var(--amber);color:#1A1614}
+  .share-ctl .btn-ghost{color:var(--bone-ink);border-color:var(--bone-line)}
+  .share-note{font-size:13px;color:var(--bone-taupe);max-width:44ch}
+  @media (max-width:900px){.share-grid{grid-template-columns:1fr}}
+
+  /* trade */
+  .trade{display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center;padding:40px;border:1px solid var(--line);border-radius:var(--r);background:var(--paper)}
+  .trade h2{font-size:clamp(28px,3.4vw,42px);line-height:1.05;font-variation-settings:"opsz" 144;font-weight:300;margin:12px 0 14px}
+  .trade p{color:var(--ink-2);font-size:16px;max-width:52ch}
+  .trade ul{margin:18px 0 0;padding:0;list-style:none;display:grid;gap:8px;font-size:14.5px;color:var(--ink-2)}
+  .trade li{display:flex;gap:10px}
+  .trade li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--amber);flex:none;margin-top:9px}
+  .trade-side{display:grid;gap:12px;padding:24px;border-radius:var(--r);background:var(--ground);border:1px solid var(--line)}
+  .trade-side .big-n{font-family:var(--serif);font-size:44px;font-weight:300;line-height:1;font-variation-settings:"opsz" 144}
+  .trade-side small{color:var(--taupe);font-size:13px}
+  @media (max-width:900px){.trade{grid-template-columns:1fr;padding:24px}}
+
+  /* faq */
+  .faq{max-width:820px}
+  .faq details{border-top:1px solid var(--line)}
+  .faq details:last-child{border-bottom:1px solid var(--line)}
+  .faq summary{cursor:pointer;list-style:none;padding:20px 0;font-family:var(--serif);font-size:21px;font-variation-settings:"opsz" 40;display:flex;justify-content:space-between;gap:20px;align-items:center}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";color:var(--taupe);font-size:18px;flex:none}
+  .faq details[open] summary::after{content:"–"}
+  .faq details p{padding:0 0 20px;color:var(--ink-2);font-size:15.5px;line-height:1.65;max-width:62ch}
+
+  .final{position:relative;overflow:hidden;text-align:center;padding:130px 0}
+  .final-bg{position:absolute;inset:0}
+  .final-bg img{width:100%;height:100%;object-fit:cover;opacity:.4}
+  .final-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 0%,var(--ground) 78%)}
+  .final .wrap{position:relative;z-index:1}
+  .final h2{font-size:clamp(40px,6vw,86px);line-height:.98;font-weight:300;font-variation-settings:"opsz" 144;max-width:14ch;margin:16px auto 22px;letter-spacing:-.03em}
+  .final h2 em{color:var(--amber);font-style:italic}
+  .final p{color:var(--ink-2);max-width:44ch;margin:0 auto 34px;font-size:18px}
+  .final .hero-ctas{justify-content:center}
+
+  footer{background:var(--ground-2);color:var(--taupe);border-top:1px solid var(--line);padding:56px 0 40px;font-size:14px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px}
+  .foot-grid h4{margin:0 0 14px;color:var(--ink);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+  .foot-grid ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+  .foot-grid a{text-decoration:none}
+  .foot-grid a:hover{color:var(--ink)}
+  .foot-brand{font-family:var(--serif);font-size:26px;color:var(--ink);margin-bottom:12px}
+  .foot-bottom{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12.5px}
+  @media (max-width:900px){.foot-grid{grid-template-columns:1fr 1fr}}
+
+  .mbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--paper);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));gap:12px;align-items:center;box-shadow:0 -10px 30px -10px rgba(0,0,0,.5)}
+  .mbar .mb-info{flex:1;min-width:0}
+  .mbar .mb-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mbar .mb-price{font-family:var(--serif);font-size:18px;font-weight:500}
+  .mbar .btn{padding:12px 18px}
+  @media (max-width:960px){.mbar{display:flex}body{padding-bottom:76px}}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:var(--ground);padding:14px 18px;border-radius:99px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease;z-index:60;box-shadow:var(--shadow);max-width:calc(100% - 32px)}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+  @media (max-width:960px){.toast{bottom:92px}}
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}html{scroll-behavior:auto}}
+
+  /* v2 additions */
+  .stage .vslot{position:absolute;top:16px;right:16px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#F3EDE3;background:rgba(232,162,74,.9);padding:6px 10px;border-radius:4px;color:#1A1614;font-weight:600}
+  .scale{margin-top:22px;border:1px solid var(--line);border-radius:var(--r);background:var(--paper);padding:20px 20px 12px}
+  .scale svg{width:100%;height:auto;display:block}
+  .scale p{font-size:12.5px;color:var(--taupe);margin-top:8px}
+  .onoff{margin-top:22px;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--paper)}
+  .onoff-stage{position:relative;aspect-ratio:16/10;background:#000}
+  .onoff-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease}
+  .onoff-stage img.on{opacity:1}
+  .onoff-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;font-size:13.5px;color:var(--ink-2)}
+  .seg{display:inline-flex;border:1px solid var(--line-2);border-radius:99px;overflow:hidden}
+  .seg button{padding:8px 14px;background:transparent;border:0;font-size:13px;font-weight:500;color:var(--ink-2)}
+  .seg button[aria-pressed="true"]{background:var(--ink);color:var(--ground)}
+  .pair{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:6px;background:var(--ground);font-size:13.5px}
+  .pair input{accent-color:var(--amber);width:18px;height:18px}
+  .pair b{color:var(--ink);font-weight:500;display:block}
+  .pair span{color:var(--taupe)}
+  .pair .pp{font-family:var(--serif);font-size:18px;font-weight:500;white-space:nowrap}
+  .pin{display:grid;grid-template-columns:1fr auto;gap:8px}
+  .pin input{font:inherit;font-size:14px;padding:11px 12px;border:1px solid var(--line-2);border-radius:6px;background:var(--ground);color:var(--ink)}
+  .pin input::placeholder{color:var(--taupe)}
+  .pin button{padding:11px 16px;border:1px solid var(--ink);border-radius:6px;background:transparent;color:var(--ink);font-weight:500;font-size:14px}
+  .pin button:hover{background:var(--ink);color:var(--ground)}
+  .pin-out{font-size:13px;color:var(--ink-2);margin-top:8px;line-height:1.5}
+  .pin-out b{color:var(--ink);font-weight:500}
+  .gift{display:flex;gap:12px;align-items:flex-start;font-size:13.5px;color:var(--ink-2);padding:12px 14px;border:1px dashed var(--line-2);border-radius:6px;cursor:pointer}
+  .gift input{margin-top:3px;accent-color:var(--amber)}
+  .gift b{color:var(--ink);font-weight:500;display:block}
+  .gift-fields{display:none;gap:8px;margin-top:10px}
+  .gift-fields.show{display:grid}
+  .gift-fields input,.gift-fields textarea{font:inherit;font-size:13.5px;padding:10px 12px;border:1px solid var(--line-2);border-radius:6px;background:var(--ground);color:var(--ink);width:100%}
+  .cod{font-size:12.5px;color:var(--taupe);text-align:center}
+  .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
+  .q{padding:18px;border:1px solid var(--line);border-radius:var(--r);background:var(--paper);display:grid;gap:8px;position:relative}
+  .q .stars{color:var(--amber);font-size:13px;letter-spacing:1px}
+  .q p{font-size:14px;line-height:1.5;color:var(--ink-2)}
+  .q .who{font-size:12.5px;color:var(--taupe)}
+  .q .who b{color:var(--ink);font-weight:500}
+  .q .ph{aspect-ratio:4/3;border-radius:6px;background:var(--paper-2);display:grid;place-items:center;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--taupe);border:1px dashed var(--line-2)}
+  .q.slot::after{content:"Slot · from Judge.me export";position:absolute;top:10px;right:10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--taupe);border:1px dashed var(--line-2);padding:3px 7px;border-radius:3px;background:var(--paper)}
+  .rev-line{display:flex;gap:16px;align-items:center;flex-wrap:wrap;font-size:14px;color:var(--ink-2);margin-top:22px}
+  .rev-line .stars{color:var(--amber);letter-spacing:1px}
+  .rev-line b{color:var(--ink);font-weight:500}
+  .rev-line a{color:var(--taupe)}
+  @media (max-width:760px){.quotes{grid-template-columns:1fr}}
+  .cmp{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--paper)}
+  .cmp-scroll{overflow-x:auto}
+  .cmp table{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
+  .cmp th,.cmp td{text-align:left;padding:13px 18px;border-bottom:1px solid var(--line);vertical-align:top}
+  .cmp thead th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--taupe);font-weight:600;background:var(--ground-2)}
+  .cmp th.own{color:var(--ink);border-bottom:2px solid var(--amber)}
+  .cmp td.own{background:var(--amber-soft);color:var(--ink);font-weight:500}
+  .cmp td.lbl{color:var(--ink-2);font-weight:500;width:150px}
+  .cmp tr:last-child td{border-bottom:0}
+  .cmp .pr{display:block;font-family:var(--serif);font-size:20px;font-weight:500;color:var(--ink);margin-top:4px}
+  .box{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .box div{padding:22px;border:1px solid var(--line);border-radius:var(--r);background:var(--paper);display:grid;gap:8px}
+  .box svg{width:36px;height:36px;color:var(--amber)}
+  .box h3{font-size:19px;font-variation-settings:"opsz" 40}
+  .box p{font-size:13.5px;color:var(--taupe);line-height:1.5}
+  @media (max-width:900px){.box{grid-template-columns:1fr 1fr}}
+  .made-slim{display:grid;grid-template-columns:.8fr 1.2fr;gap:36px;align-items:center}
+  .made-slim img{border-radius:var(--r);aspect-ratio:1;object-fit:cover;width:100%;box-shadow:var(--shadow)}
+  .made-slim h2{font-size:clamp(30px,3.6vw,46px);line-height:1.02;font-weight:300;font-variation-settings:"opsz" 144;margin:12px 0 18px}
+  .made-slim h2 em{color:var(--amber);font-style:italic}
+  .made-slim ul{margin:0;padding:0;list-style:none;display:grid;gap:12px;font-size:15px;color:var(--ink-2);max-width:56ch}
+  .made-slim li{display:grid;grid-template-columns:auto 1fr;gap:12px}
+  .made-slim li b{color:var(--ink);font-weight:500}
+  .made-slim li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--amber);margin-top:8px}
+  @media (max-width:900px){.made-slim{grid-template-columns:1fr}}
+  .mbar{flex-wrap:wrap}
+  .mb-fin{display:flex;gap:6px;width:100%;order:-1}
+  .mb-fin button{flex:1;padding:7px 4px;border-radius:99px;border:1px solid var(--line-2);background:transparent;font-size:12px;font-weight:500;color:var(--ink-2)}
+  .mb-fin button[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:transparent}
+  @media (max-width:960px){body{padding-bottom:118px}.toast{bottom:132px}}
+  .exit{position:fixed;left:16px;right:16px;bottom:16px;z-index:55;max-width:520px;margin-inline:auto;background:var(--paper);border:1px solid var(--line-2);border-radius:14px;padding:18px 18px 16px;box-shadow:var(--shadow);display:none;gap:12px}
+  .exit.show{display:grid}
+  .exit h3{font-size:22px;font-variation-settings:"opsz" 40;line-height:1.1}
+  .exit p{font-size:13.5px;color:var(--ink-2)}
+  .exit form{display:grid;grid-template-columns:1fr auto;gap:8px}
+  .exit input{font:inherit;font-size:14px;padding:11px 12px;border:1px solid var(--line-2);border-radius:99px;background:var(--ground);color:var(--ink)}
+  .exit .x{position:absolute;top:10px;right:12px;background:none;border:0;color:var(--taupe);font-size:18px;padding:4px 8px}
+  @media (max-width:960px){.exit{bottom:126px}}
+
+  .rblock{display:grid;grid-template-columns:1fr 1fr 1fr 1.3fr;gap:14px;align-items:stretch}
+  .rstat{padding:26px 24px;border:1px solid var(--line);border-radius:var(--r);background:var(--paper);display:grid;gap:6px;align-content:start}
+  .rbig{font-family:var(--serif);font-size:clamp(48px,5vw,72px);line-height:1;font-weight:300;letter-spacing:-.03em;font-variation-settings:"opsz" 144}
+  .rstat .stars{color:var(--amber);font-size:16px;letter-spacing:2px}
+  .rlab{font-size:14px;color:var(--taupe);line-height:1.45}
+  .rlab b{color:var(--ink);font-weight:500}
+  .rhist{padding:22px 24px;border:1px solid var(--line);border-radius:var(--r);background:var(--paper);display:grid;gap:8px;align-content:center}
+  .rhist div{display:grid;grid-template-columns:34px 1fr 30px;gap:10px;align-items:center;font-size:12.5px;color:var(--taupe)}
+  .rhist .bar{height:8px;border-radius:99px;background:var(--paper-2);overflow:hidden}
+  .rhist .bar i{display:block;height:100%;background:var(--amber);border-radius:99px}
+  .rhist b{color:var(--ink);font-weight:500;text-align:right}
+  .ugc{margin-top:40px}
+  .ugc-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:22px}
+  .ugc-head h2{font-size:clamp(28px,3.4vw,42px);line-height:1.02;font-weight:300;font-variation-settings:"opsz" 144;margin-top:10px}
+  .ugc-head h2 em{color:var(--amber);font-style:italic}
+  .ugc-head p{font-size:14px;color:var(--taupe);max-width:40ch}
+  .ugc-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+  .ugc-slot{aspect-ratio:4/5;border:1px dashed var(--line-2);border-radius:6px;background:var(--paper);display:grid;place-items:center;text-align:center;padding:10px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--taupe)}
+  @media (max-width:900px){.rblock{grid-template-columns:1fr 1fr}.ugc-grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top"><img class="mark" src="{{IMG:logo}}" alt="NX" width="96" height="96">NixWoods</a>
+    <div class="nav-links">
+      <a href="#moods">Three moods</a>
+      <a href="#rooms">Where it goes</a>
+      <a href="#compare">Compare</a>
+      <a href="#answers">Straight answers</a>
+    </div>
+    <div class="nav-tools">
+      <a href="https://wa.me/919286001060" class="hide-m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 12a8 8 0 1 1 3.2 6.4L4 20l1.4-3.4A8 8 0 0 1 4 12Z"/></svg>WhatsApp</a>
+      <a href="#" aria-label="Bag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M6 7h12l-1 12H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="pill" id="cartCount">0</span></a>
+      <a href="#buy" class="nav-buy">Buy · ₹2,999</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="stage" id="stage" aria-label="Turn the block to change the mood. Drag sideways or use the buttons." tabindex="0">
+      <img src="{{IMG:gold}}" alt="Glass block lamp on a sheesham base glowing warm amber beside pampas grass" class="on" data-mood="amber">
+      <img src="{{IMG:red}}" alt="The same lamp turned to its red face, the whole scene washed crimson" data-mood="red">
+      <img src="{{IMG:green}}" alt="The same lamp turned to its green face, the scene washed green" data-mood="green">
+      <span class="stage-tag" id="stageTag">Amber face · Classic warm</span>
+      <span class="vslot">Slot · 6 s hand-turn video</span>
+      <div class="stage-ui">
+        <div class="mood-chips" role="group" aria-label="Choose a face">
+          <button class="chip" type="button" data-mood="amber" aria-pressed="true"><span class="dot" style="color:#E8A24A;background:#E8A24A"></span>Amber</button>
+          <button class="chip" type="button" data-mood="red" aria-pressed="false"><span class="dot" style="color:#D9412E;background:#D9412E"></span>Red</button>
+          <button class="chip" type="button" data-mood="green" aria-pressed="false"><span class="dot" style="color:#3E9A57;background:#3E9A57"></span>Green</button>
+        </div>
+        <div class="turn-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M5 10h14M5 14h14M10 5v14M14 5v14"/></svg><span class="hide-m">Drag to turn</span></div>
+      </div>
+    </div>
+    <div class="hero-copy">
+      <p class="eyebrow">Rubik's cube table lamp · <b>Glass &amp; solid sheesham</b></p>
+      <h1>Turn it. <em>The room changes.</em></h1>
+      <p class="hero-sub">Three of the block's faces are hand-painted <strong>red, green and amber</strong>. Lift, quarter-turn, set it down, and the corner takes that colour. No remote, no app, nothing to charge. Solid sheesham base, made in Khatauli.</p>
+      <div class="hero-meta"><span><span class="stars">★★★★½</span> <b>4.3</b> from 32 reviews</span><span><b>79 homes</b> in the last six months</span></div>
+      <div class="hero-ctas">
+        <a class="btn btn-amber" href="#buy">Choose your glass</a>
+        <span class="hero-price num">₹2,999<small>or ₹1,000 a month, three months, no interest</small></span>
+      </div>
+    </div>
+  </div>
+  <div class="proof">
+    <div class="wrap">
+      <div><b class="num">79 homes</b><span>ordered this lamp in the last six months. Our most-ordered piece.</span></div>
+      <div><b class="num">4.3 / 5</b><span>from 32 verified reviews. 27 gave four or five stars.</span></div>
+      <div><b>Solid sheesham</b><span>No MDF, no veneer. The grain on yours is one of a kind.</span></div>
+      <div><b>Khatauli, UP</b><span>Made in our own workshop. Three years on the wood, one on the LED.</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="buy-sec" id="buy">
+    <div class="wrap">
+      <div class="buy-grid">
+        <div>
+          <p class="eyebrow" style="margin-bottom:14px">Choose your glass · <b>All three turn to all three colours</b></p>
+          <div class="finishes" id="finishes"></div>
+          <div class="big" id="bigImg"><img id="bigPhoto" src="" alt=""><span class="cap" id="bigCap"></span></div>
+          <div class="gallery" id="gallery"></div>
+
+          <div class="onoff">
+            <div class="onoff-stage">
+              <img src="{{IMG:console}}" alt="The lamp switched off on a wooden console in daylight" class="on" data-state="off">
+              <img src="{{IMG:flowers}}" alt="The lamp switched on at night as the only light in the room" data-state="on">
+            </div>
+            <div class="onoff-bar"><span id="onoffTxt"><b>Off, in daylight.</b> A sculpture on the console.</span><div class="seg" role="group" aria-label="Lamp state"><button type="button" data-state="off" aria-pressed="true">Off, daylight</button><button type="button" data-state="on" aria-pressed="false">On, at night</button></div></div>
+          </div>
+
+          <div class="scale">
+            <svg viewBox="0 0 900 260" role="img" aria-label="The lamp drawn to scale beside a phone and a coffee mug: the block is 8 inches wide and 8 tall on a 9 inch base; a phone is about 6 inches tall; a mug about 4 inches.">
+              <defs>
+                <linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6D08A"/><stop offset="1" stop-color="#E8A24A"/></linearGradient>
+                <linearGradient id="gw" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5A3626"/><stop offset="1" stop-color="#3B2C22"/></linearGradient>
+                <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="rgba(26,22,20,.22)" stroke-width="1.5"/></pattern>
+              </defs>
+              <!-- scale: 22 px per inch, baseline y=220 -->
+              <g transform="translate(60,0)">
+                <rect x="-11" y="204" width="198" height="16" rx="3" fill="url(#gw)"/>
+                <rect x="0" y="28" width="176" height="176" rx="6" fill="url(#gg)"/>
+                <rect x="0" y="28" width="176" height="176" rx="6" fill="url(#grid)"/>
+                <rect x="0" y="190" width="176" height="14" fill="rgba(255,255,255,.35)"/>
+                <text x="88" y="246" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="var(--taupe)" letter-spacing="1">8 IN GLASS · 9 IN BASE</text>
+              </g>
+              <g transform="translate(330,0)">
+                <rect x="0" y="88" width="62" height="132" rx="10" fill="var(--paper-2)" stroke="var(--line-2)"/>
+                <rect x="6" y="96" width="50" height="116" rx="6" fill="var(--ground)"/>
+                <text x="31" y="246" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="var(--taupe)" letter-spacing="1">PHONE · 6 IN</text>
+              </g>
+              <g transform="translate(470,0)">
+                <rect x="0" y="132" width="77" height="88" rx="8" fill="var(--paper-2)" stroke="var(--line-2)"/>
+                <path d="M77 150h14a14 14 0 0 1 0 28h-14" fill="none" stroke="var(--line-2)" stroke-width="6"/>
+                <text x="45" y="246" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="var(--taupe)" letter-spacing="1">MUG · 4 IN</text>
+              </g>
+              <g transform="translate(640,0)" font-family="Inter, sans-serif" font-size="13" fill="var(--ink-2)">
+                <text x="0" y="110" font-family="Fraunces, serif" font-size="26" fill="var(--ink)">Bigger than a phone,</text>
+                <text x="0" y="140" font-family="Fraunces, serif" font-size="26" fill="var(--ink)">smaller than a laptop.</text>
+                <text x="0" y="172">8 × 8 × 3 in glass block. 9 × 4.5 in base.</text>
+                <text x="0" y="194">About 2.6 kg. Sits flat on four rubber feet.</text>
+              </g>
+              <path d="M40 220H900" stroke="var(--line)" stroke-width="1"/>
+            </svg>
+            <p>Drawn to one scale. Replace with the shot of the lamp beside a hand and a mug when it's taken.</p>
+          </div>
+
+          <div class="quotes">
+            <div class="q slot"><div class="ph">Owner photo</div><span class="stars">★★★★★</span><p>Verified owner quote, two sentences, from the Judge.me export.</p><span class="who"><b>Name, City</b> · Verified buyer</span></div>
+            <div class="q slot"><div class="ph">Owner photo</div><span class="stars">★★★★★</span><p>Verified owner quote, two sentences, from the Judge.me export.</p><span class="who"><b>Name, City</b> · Verified buyer</span></div>
+            <div class="q slot"><div class="ph">Owner photo</div><span class="stars">★★★★☆</span><p>Verified owner quote, two sentences, from the Judge.me export.</p><span class="who"><b>Name, City</b> · Verified buyer</span></div>
+          </div>
+          <div class="rev-line"><span><span class="stars">★★★★½</span> <b>4.3</b> from 32 verified reviews</span><span><b>23</b> five-star · <b>4</b> four-star · <b>5</b> three or below</span><a href="https://nixwoods.com/products/rubiks-cube-table-lamp-sheesham-wood#judgeme_product_reviews" target="_blank" rel="noopener">Read all 32</a></div>
+        </div>
+
+        <aside class="panel">
+          <div><h2 id="pName">Candy Glass</h2><p class="sub" id="pSub">The faceted grid. The one people recognise.</p></div>
+          <div class="price-row"><span class="price num" id="pPrice">₹2,999</span><span class="emi">or <b class="num" id="pEmi">₹1,000</b> × 3 months, no interest</span></div>
+          <div class="moods-line"><span class="dots"><i style="color:#D9412E;background:#D9412E"></i><i style="color:#3E9A57;background:#3E9A57"></i><i style="color:#E8A24A;background:#E8A24A"></i></span><span><b>Three painted faces.</b> Give the block a turn to change the glow.</span></div>
+
+          <label class="pair"><input type="checkbox" id="pairChk"><span><b>Make it a pair</b><span>One for each bedside. Second lamp at ₹2,499.</span></span><span class="pp num" id="pairPrice">₹5,498</span></label>
+
+          <div>
+            <div class="pin"><input type="text" inputmode="numeric" maxlength="6" placeholder="Pincode for your delivery date" id="pinIn" aria-label="Pincode"><button type="button" id="pinBtn">Check</button></div>
+            <p class="pin-out" id="pinOut">Dispatches by <b id="dispatchDate">Wed 9 Sept</b> from Khatauli. Tracking link on WhatsApp when it leaves.</p>
+          </div>
+
+          <div class="qty-row">
+            <div class="qty" aria-label="Quantity"><button type="button" id="qMinus" aria-label="Decrease">–</button><output id="qOut">1</output><button type="button" id="qPlus" aria-label="Increase">+</button></div>
+            <button class="btn btn-amber add" type="button" id="addBtn"><span>Add to bag</span><span class="num" id="addTotal">₹2,999</span></button>
+          </div>
+          <div class="alt"><button class="btn btn-ghost" type="button" id="buyNow">Buy now</button><a class="btn btn-ghost" href="https://wa.me/919286001060" target="_blank" rel="noopener">Ask on WhatsApp</a></div>
+          <p class="cod">UPI · cards · EMI · cash on delivery (₹99 handling on COD, prepaid ships free)</p>
+
+          <label class="gift"><input type="checkbox" id="giftChk"><span><b>It's a gift</b>Handwritten note, invoice left out of the box, shipped straight to them.<div class="gift-fields" id="giftFields"><input type="text" placeholder="To (their name)" aria-label="Recipient name"><textarea rows="2" placeholder="Your note, we'll write it by hand" aria-label="Gift note"></textarea></div></span></label>
+
+          <div class="trust">
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>3-year wood warranty, 1 year LED</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>Replaced free if it arrives damaged</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>Real humans on WhatsApp</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>Made in Khatauli, UP</div>
+          </div>
+          <div class="specs">
+            <div><span class="k">Glass block</span><span class="v">8 × 8 × 3 in</span></div>
+            <div><span class="k">Base</span><span class="v">9 × 4.5 in, solid sheesham</span></div>
+            <div><span class="k">Light</span><span class="v">Warm LED, 2700–3000K</span></div>
+            <div><span class="k">Colour</span><span class="v">3 painted faces, turn to change</span></div>
+            <div><span class="k">Power</span><span class="v">Plug-in, 1.5 m cord</span></div>
+            <div><span class="k">Brightness</span><span class="v">Ambient, not for reading</span></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec made" id="reviews">
+    <div class="wrap">
+      <div class="rblock">
+        <div class="rstat"><span class="rbig num" id="rvAvg">4.3</span><span class="stars">★★★★½</span><span class="rlab">from <b id="rvCount">32</b> verified reviews on Judge.me</span></div>
+        <div class="rstat"><span class="rbig num" id="rvHomes">79</span><span class="rlab">homes bought this lamp in the last six months</span></div>
+        <div class="rstat"><span class="rbig num" id="rvTop">27</span><span class="rlab">of 32 gave it four or five stars</span></div>
+        <div class="rhist">
+          <div><span>5 ★</span><span class="bar"><i style="width:72%"></i></span><b class="num">23</b></div>
+          <div><span>4 ★</span><span class="bar"><i style="width:13%"></i></span><b class="num">4</b></div>
+          <div><span>3 ★</span><span class="bar"><i style="width:3%"></i></span><b class="num">1</b></div>
+          <div><span>2 ★</span><span class="bar"><i style="width:3%"></i></span><b class="num">1</b></div>
+          <div><span>1 ★</span><span class="bar"><i style="width:9%"></i></span><b class="num">3</b></div>
+        </div>
+      </div>
+      <div class="ugc">
+        <div class="ugc-head"><div><p class="eyebrow">Owners' corners</p><h2>Their lamp, <em>their room.</em></h2></div><p>Photos from verified owners, pulled from Judge.me and tagged posts. Tag @nixwoods and yours goes here.</p></div>
+        <div class="ugc-grid">
+          <div class="ugc-slot">Owner photo · Judge.me</div><div class="ugc-slot">Owner photo · Instagram tag</div><div class="ugc-slot">Owner photo · Judge.me</div>
+          <div class="ugc-slot">Owner photo · Instagram tag</div><div class="ugc-slot">Owner photo · Judge.me</div><div class="ugc-slot">Owner photo · WhatsApp</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec moods" id="moods">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Three moods</p>
+        <h2>One lamp. <em>Three evenings.</em></h2>
+        <p>The block sits loose on its base. Lift, turn a quarter, set it down. That's the whole interface.</p>
+      </div>
+      <div class="mood-grid">
+        <figure class="mood" style="margin:0"><img src="{{IMG:amber}}" alt="Ocean glass lamp glowing amber beside bunny-tail grass"><figcaption class="mood-txt"><span class="eyebrow"><i style="color:#E8A24A;background:#E8A24A"></i>Amber face</span><h3>Working light.</h3><p>Warm enough for a late email, a book, a slow breakfast.</p></figcaption></figure>
+        <figure class="mood" style="margin:0"><img src="{{IMG:red}}" alt="Candy glass lamp glowing crimson beside a black fluted vase"><figcaption class="mood-txt"><span class="eyebrow"><i style="color:#D9412E;background:#D9412E"></i>Red face</span><h3>Movie night.</h3><p>Lights off, this on. The room goes cinema.</p></figcaption></figure>
+        <figure class="mood" style="margin:0"><img src="{{IMG:green}}" alt="Candy glass lamp turned to its green face"><figcaption class="mood-txt"><span class="eyebrow"><i style="color:#3E9A57;background:#3E9A57"></i>Green face</span><h3>A slow evening.</h3><p>Rain outside, music on, nowhere to be.</p></figcaption></figure>
+      </div>
+      <p class="mood-note">All three glass finishes have all three faces. The green frame is a colour simulation of the red photo until the green face is shot.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="rooms">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Where it goes</p>
+        <h2>Every room has a corner <em>waiting for it.</em></h2>
+      </div>
+      <div class="rooms" style="grid-template-columns:repeat(4,1fr);grid-auto-rows:300px">
+        <div class="room photo"><img src="{{IMG:bubble}}" alt="Bubble glass lamp on a marble bedside table under a framed canvas"><h3>Bedside</h3><p>Amber to read by, red for the last ten minutes.</p></div>
+        <div class="room photo"><img src="{{IMG:console}}" alt="Candy glass lamp on a wooden console in daylight beside an olive branch"><h3>Console</h3><p>The first thing guests see.</p></div>
+        <div class="room photo"><img src="{{IMG:flowers}}" alt="Glass block lamp glowing warm beside dried flowers and a clay vase"><h3>Shelf</h3><p>Between the books and the vase.</p></div>
+        <div class="room photo"><img src="{{IMG:ocean_front}}" alt="Ocean glass lamp, front view, rippled glass on a sheesham base"><h3>Desk</h3><p>Amber face behind the monitor. Warm, no glare.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec made" id="compare">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Compare</p>
+        <h2>The ₹899 cube lamp <em>and this one.</em></h2>
+        <p>You'll see plastic cube lamps online for a third of the price. Here's what the difference buys.</p>
+      </div>
+      <div class="cmp"><div class="cmp-scroll"><table>
+        <thead><tr><th></th><th class="own">NixWoods glass &amp; sheesham<span class="pr">₹2,999</span></th><th>Plastic RGB cube lamp<span class="pr">₹899</span></th><th>Generic table lamp<span class="pr">₹1,500</span></th></tr></thead>
+        <tbody>
+          <tr><td class="lbl">Made of</td><td class="own">Real glass block, solid sheesham base</td><td>Moulded plastic, printed grid</td><td>Metal, acrylic shade</td></tr>
+          <tr><td class="lbl">Changing colour</td><td class="own">Turn the block. Three painted faces, no electronics to fail</td><td>Remote or app. Glitches, loses pairing, batteries</td><td>One fixed tone</td></tr>
+          <tr><td class="lbl">In five years</td><td class="own">Wood darkens, glass is glass. Still on the table</td><td>Yellowed, cracked, in a drawer</td><td>Shade stained, switch loose</td></tr>
+          <tr><td class="lbl">Switched off</td><td class="own">A sculpture</td><td>A gadget</td><td>A fitting</td></tr>
+        </tbody>
+      </table></div></div>
+    </div>
+  </section>
+
+  <section class="sec" id="box">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">What arrives</p>
+        <h2>In the box.</h2>
+      </div>
+      <div class="box">
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9.3h16M4 14.7h16M9.3 4v16M14.7 4v16"/></svg><h3>The glass block</h3><p>Three faces painted, one clear. Wrapped in foam, not paper.</p></div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M3 15h18v4H3zM6 15V9h12v6"/></svg><h3>The sheesham base</h3><p>Routed channel for the block, LED inside, four rubber feet.</p></div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 18c4 0 4-12 8-12s4 12 8 12M18 6v4M15 6v4"/></svg><h3>Cord and plug</h3><p>1.5 m cord, Indian plug, inline switch. Plug in and it's on.</p></div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><h3>Care card and warranty</h3><p>How to turn it, how to oil the base, and the WhatsApp number that answers.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec made" id="made">
+    <div class="wrap">
+      <div class="made-slim">
+        <img src="{{IMG:base_nx}}" alt="Macro of the sheesham base with the NX badge under the glowing grid glass">
+        <div>
+          <p class="eyebrow">Made in Khatauli</p>
+          <h2>Solid wood. <em>No two alike.</em></h2>
+          <ul>
+            <li><span><b>One piece of sheesham.</b> Indian rosewood, dense and dark, that doesn't warp in our summers. Sanded and oiled by hand.</span></li>
+            <li><span><b>A real glass block, painted by hand.</b> Up close you'll see brushstrokes. Lit, it's even.</span></li>
+            <li><span><b>Warm LED, built in for good.</b> 2700 to 3000K, rated 25,000 hours. Three years on the wood, one on the electricals.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="answers">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Straight answers</p>
+        <h2>What people ask, and what we'd rather <em>you knew first.</em></h2>
+      </div>
+      <div class="answers">
+        <div class="ans"><span class="from">From reviews</span><h3>How bright is it, really?</h3><p>Soft. It colours a corner; it won't light a desk for work. If you want to read by it, pair it with an overhead. If you want the room to feel like a good bar at 10 pm, this is it.</p></div>
+        <div class="ans"><span class="from">From reviews</span><h3>Does the block sit firm?</h3><p>It rests in a routed channel so you can lift and turn it. It should sit flat and still. If yours rocks, send a photo and we sort it under warranty.</p></div>
+        <div class="ans"><span class="from">From reviews</span><h3>Is the paint perfect?</h3><p>No. The faces are brushed by hand, so up close you'll see strokes. Lit, it's even. Unlit, it looks hand-made because it is.</p></div>
+        <div class="ans"><span class="from">From WhatsApp</span><h3>Candy, Ocean or Bubble?</h3><p>Same lamp, same three colours, different glass. Candy is the sharp grid and photographs strongest. Ocean is a soft ripple, most people's pick in person. Bubble is the most decorative, and this batch has 12.</p></div>
+        <div class="ans"><span class="from">From WhatsApp</span><h3>When does it actually ship?</h3><p>The date in the buy panel is live: about 3 working days to dispatch, 5 to 7 to deliver. Tracking link on WhatsApp when it leaves, and a human if it's late.</p></div>
+        <div class="ans"><span class="from">From WhatsApp</span><h3>Is it an actual Rubik's Cube? Cordless?</h3><p>Neither. It's an original design that borrows the grid; you can't twist the rows. It plugs into the wall with a 1.5 m cord. Tell us if cordless matters and we'll count the asks.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="final-bg"><img src="{{IMG:red}}" alt=""></div>
+    <div class="wrap">
+      <p class="eyebrow">From ₹2,999 · dispatches in 3 working days</p>
+      <h2>Stop buying <em>boring lights.</em></h2>
+      <p>One glass block, three moods, a base that's yours alone.</p>
+      <div class="hero-ctas"><a class="btn btn-amber" href="#buy">Choose your glass</a></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><div class="foot-brand">NixWoods</div><p style="max-width:34ch">Handcrafted solid-wood lighting from one workshop in Khatauli, Uttar Pradesh. No MDF, no veneer.</p><p style="margin-top:14px">WhatsApp <a href="https://wa.me/919286001060">+91 92860 01060</a></p></div>
+      <div><h4>Shop</h4><ul><li><a href="#">Table lamps</a></li><li><a href="#">Wall lights</a></li><li><a href="#">Pendant lights</a></li><li><a href="#">Floor lamps</a></li></ul></div>
+      <div><h4>Help</h4><ul><li><a href="#">Track your order</a></li><li><a href="#">Warranty</a></li><li><a href="#answers">Straight answers</a></li><li><a href="#">Contact</a></li></ul></div>
+      <div><h4>NixWoods</h4><ul><li><a href="#made">The workshop</a></li><li><a href="https://wa.me/919286001060?text=Trade%20enquiry%3A%20cube%20lamps%20for%20a%20cafe">Cafés &amp; trade, 6 or more</a></li><li><a href="#">Instagram</a></li><li><a href="#">Privacy</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 NixWoods · Khatauli, Uttar Pradesh</span><span>Solid wood. No two alike.</span></div>
+  </div>
+</footer>
+
+<div class="mbar">
+  <div class="mb-fin" id="mbFin"></div>
+  <div class="mb-info"><div class="mb-name" id="mbName">Candy Glass</div><div class="mb-price num" id="mbPrice">₹2,999</div></div>
+  <button class="btn btn-amber" type="button" id="mbAdd">Add to bag</button>
+</div>
+
+<div class="exit" id="exit" role="dialog" aria-label="Get the turning video on WhatsApp">
+  <button class="x" type="button" id="exitX" aria-label="Close">×</button>
+  <h3>Not today? Take the video with you.</h3>
+  <p>We'll send the six-second turning video and your dispatch date on WhatsApp. No codes, no spam, one message.</p>
+  <form id="exitForm"><input type="tel" inputmode="tel" placeholder="WhatsApp number" aria-label="WhatsApp number" required><button class="btn btn-amber" type="submit">Send it</button></form>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var inr = function(n){ return "₹" + Math.round(n).toLocaleString("en-IN"); };
+  var store = { get:function(k,d){ try{ var v = localStorage.getItem("nxl."+k); return v===null ? d : JSON.parse(v); }catch(e){ return d; } }, set:function(k,v){ try{ localStorage.setItem("nxl."+k, JSON.stringify(v)); }catch(e){} } };
+  var IMG = {
+    candy:[{src:"{{IMG:flowers}}", cap:"Candy glass, warm face", alt:"Candy glass lamp glowing warm beside dried flowers"},{src:"{{IMG:red}}", cap:"Turned to red", alt:"Candy glass lamp glowing crimson"},{src:"{{IMG:console}}", cap:"Off, in daylight", alt:"Candy glass lamp on a wooden console in daylight"},{src:"{{IMG:base_nx}}", cap:"The base, up close", alt:"Macro of the sheesham base with the NX badge"}],
+    ocean:[{src:"{{IMG:ocean_front}}", cap:"Ocean glass, front, warm face", alt:"Ocean glass lamp front view"},{src:"{{IMG:amber}}", cap:"Ocean glass turned to amber", alt:"Ocean glass lamp glowing amber"},{src:"{{IMG:gold}}", cap:"Warm face, on the table", alt:"Glass block lamp glowing warm beside pampas grass"},{src:"{{IMG:base_nx}}", cap:"The base, up close", alt:"Macro of the sheesham base"}],
+    bubble:[{src:"{{IMG:bubble}}", cap:"Bubble glass on a marble bedside", alt:"Bubble glass lamp on a marble bedside table"},{src:"{{IMG:four}}", cap:"All four looks, one lamp", alt:"Four lamps in amber, warm, green and crimson"},{src:"{{IMG:ocean_front}}", cap:"Ripple, for comparison", alt:"Ocean glass lamp front view"},{src:"{{IMG:base_nx}}", cap:"The base, up close", alt:"Macro of the sheesham base"}]
+  };
+  var FIN = [
+    {id:"candy", short:"Candy Glass", sub:"The faceted grid. The one people recognise.", desc:"Sharp grid, photographs strongest", price:2999, img:"{{IMG:console}}"},
+    {id:"ocean", short:"Ocean Glass", sub:"A smooth ripple. Most people's pick in person.", desc:"Soft ripple, moodiest glow", price:3299, img:"{{IMG:ocean_front}}"},
+    {id:"bubble", short:"Bubble Glass", sub:"Waves and bubbles. The most decorative of the three.", desc:"Waves and bubbles", price:3199, img:"{{IMG:bubble}}", left:12}
+  ];
+  var PAIR2 = 2499, cur = FIN[0], qty = 1, cart = 0, gi = 0;
+
+  var fin = $("finishes"), mbf = $("mbFin");
+  FIN.forEach(function(f){
+    var b = document.createElement("button"); b.type="button"; b.className="finish"; b.dataset.id=f.id;
+    b.innerHTML = '<img src="'+f.img+'" alt="'+f.short+'">' + (f.left ? '<span class="left">'+f.left+' left this batch</span>' : '') + '<div class="finish-body"><h3>'+f.short+'</h3><p>'+f.desc+'</p><span class="fp num">'+inr(f.price)+'</span></div>';
+    b.addEventListener("click", function(){ select(f.id); }); fin.appendChild(b);
+    var m = document.createElement("button"); m.type="button"; m.dataset.id=f.id; m.textContent = f.short.replace(" Glass","") + " · " + inr(f.price); m.addEventListener("click", function(){ select(f.id); }); mbf.appendChild(m);
+  });
+  function select(id){
+    cur = FIN.filter(function(f){return f.id===id;})[0]; gi = 0;
+    document.querySelectorAll(".finish, .mb-fin button").forEach(function(el){ el.setAttribute("aria-pressed", el.dataset.id===id ? "true":"false"); });
+    $("pName").textContent = cur.short; $("pSub").textContent = cur.sub; $("pPrice").textContent = inr(cur.price); $("pEmi").textContent = inr(Math.ceil(cur.price/3));
+    $("pairPrice").textContent = inr(cur.price + PAIR2);
+    $("mbName").textContent = cur.short; document.querySelector(".nav-buy").textContent = "Buy · " + inr(cur.price);
+    renderTotals(); renderGallery();
+  }
+  function renderGallery(){
+    var g = $("gallery"); g.innerHTML = "";
+    IMG[cur.id].forEach(function(im, i){ var b = document.createElement("button"); b.type="button"; b.setAttribute("aria-current", i===gi?"true":"false"); b.setAttribute("aria-label", im.cap); b.innerHTML = '<img src="'+im.src+'" alt="">'; b.addEventListener("click", function(){ gi = i; showBig(); }); g.appendChild(b); });
+    showBig(true);
+  }
+  function showBig(instant){
+    var im = IMG[cur.id][gi], box = $("bigImg"), ph = $("bigPhoto");
+    document.querySelectorAll("#gallery button").forEach(function(el, i){ el.setAttribute("aria-current", i===gi?"true":"false"); });
+    if(instant){ ph.src = im.src; ph.alt = im.alt; $("bigCap").textContent = im.cap; return; }
+    box.classList.add("fading"); setTimeout(function(){ ph.src = im.src; ph.alt = im.alt; $("bigCap").textContent = im.cap; box.classList.remove("fading"); }, 180);
+  }
+  function total(){ var pair = $("pairChk").checked; return pair ? (cur.price + PAIR2) * qty : cur.price * qty; }
+  function renderTotals(){ $("qOut").value = qty; $("qOut").textContent = qty; $("addTotal").textContent = inr(total()); $("mbPrice").textContent = inr(total()); }
+  $("qMinus").addEventListener("click", function(){ if(qty>1){ qty--; renderTotals(); } });
+  $("qPlus").addEventListener("click", function(){ if(qty<12){ qty++; renderTotals(); } });
+  $("pairChk").addEventListener("change", renderTotals);
+  $("giftChk").addEventListener("change", function(){ $("giftFields").classList.toggle("show", this.checked); });
+  function toast(m){ var t = $("toast"); t.textContent = m; t.classList.add("show"); clearTimeout(t._t); t._t = setTimeout(function(){ t.classList.remove("show"); }, 2800); }
+  function add(){ var n = qty * ($("pairChk").checked ? 2 : 1); cart += n; $("cartCount").textContent = cart; toast("In your bag: " + cur.short + " × " + n + ($("giftChk").checked ? ", gift note added" : "")); }
+  $("addBtn").addEventListener("click", add); $("mbAdd").addEventListener("click", add);
+  $("buyNow").addEventListener("click", function(){ toast("Taking you to checkout: " + inr(total())); });
+
+  // dispatch + pincode
+  function addWorkingDays(d, n){ var r = new Date(d); while(n>0){ r.setDate(r.getDate()+1); if(r.getDay()!==0){ n--; } } return r; }
+  var fmt = function(d){ return d.toLocaleDateString("en-IN", {weekday:"short", day:"numeric", month:"short"}); };
+  var disp = addWorkingDays(new Date(), 3); $("dispatchDate").textContent = fmt(disp);
+  function checkPin(){
+    var v = $("pinIn").value.trim(), out = $("pinOut");
+    if(!/^[1-9][0-9]{5}$/.test(v)){ out.innerHTML = "Enter a 6-digit pincode to see your delivery window."; return; }
+    var far = /^(1[89]|7|8)/.test(v), d1 = addWorkingDays(disp, far ? 4 : 3), d2 = addWorkingDays(disp, far ? 6 : 5);
+    out.innerHTML = "Dispatches <b>" + fmt(disp) + "</b>, at <b>" + v + "</b> between <b>" + fmt(d1) + "</b> and <b>" + fmt(d2) + "</b>. Cash on delivery available here.";
+  }
+  $("pinBtn").addEventListener("click", checkPin); $("pinIn").addEventListener("keydown", function(e){ if(e.key==="Enter"){ checkPin(); } });
+
+  // hero turn
+  var MOODS = ["amber","red","green"], TAG = {amber:"Amber face · Classic warm", red:"Red face · Movie night", green:"Green face · A slow evening"};
+  var mi = 0, stage = $("stage");
+  function setMood(m){ mi = MOODS.indexOf(m); stage.querySelectorAll("img").forEach(function(im){ im.classList.toggle("on", im.dataset.mood===m); }); stage.querySelectorAll(".chip").forEach(function(c){ c.setAttribute("aria-pressed", c.dataset.mood===m ? "true":"false"); }); $("stageTag").textContent = TAG[m]; }
+  stage.querySelectorAll(".chip").forEach(function(c){ c.addEventListener("click", function(e){ e.stopPropagation(); setMood(c.dataset.mood); }); });
+  var sx = null;
+  stage.addEventListener("pointerdown", function(e){ if(e.target.closest(".chip")) return; sx = e.clientX; });
+  stage.addEventListener("pointerup", function(e){ if(sx===null) return; var dx = e.clientX - sx; sx = null; setMood(MOODS[(mi + (Math.abs(dx)<24 ? 1 : (dx<0?1:2)))%3]); });
+  stage.addEventListener("keydown", function(e){ if(e.key==="ArrowRight"||e.key===" "||e.key==="Enter"){ e.preventDefault(); setMood(MOODS[(mi+1)%3]); } if(e.key==="ArrowLeft"){ e.preventDefault(); setMood(MOODS[(mi+2)%3]); } });
+  var auto = setInterval(function(){ setMood(MOODS[(mi+1)%3]); }, 4000);
+  var stopAuto = function(){ clearInterval(auto); };
+  stage.addEventListener("pointerdown", stopAuto, {once:true}); window.addEventListener("scroll", stopAuto, {once:true, passive:true});
+  // start on the face the ad promised, if the link says so
+  try{ var q = new URLSearchParams(location.search).get("face"); if(q && MOODS.indexOf(q)>-1){ setMood(q); } }catch(e){}
+
+  // on / off
+  var ON = {off:"<b>Off, in daylight.</b> A sculpture on the console.", on:"<b>On, at night.</b> The only light in the room. This is how bright it is."};
+  document.querySelectorAll(".seg button").forEach(function(b){ b.addEventListener("click", function(){ var s = b.dataset.state; document.querySelectorAll(".seg button").forEach(function(x){ x.setAttribute("aria-pressed", x===b ? "true":"false"); }); document.querySelectorAll(".onoff-stage img").forEach(function(im){ im.classList.toggle("on", im.dataset.state===s); }); $("onoffTxt").innerHTML = ON[s]; }); });
+
+  // exit capture: no discount, just the video and a date
+  var exitShown = store.get("exit", false);
+  function showExit(){ if(exitShown || cart>0) return; exitShown = true; $("exit").classList.add("show"); }
+  document.addEventListener("mouseleave", function(e){ if(e.clientY <= 0) showExit(); });
+  setTimeout(showExit, 40000);
+  $("exitX").addEventListener("click", function(){ $("exit").classList.remove("show"); store.set("exit", true); });
+  $("exitForm").addEventListener("submit", function(e){ e.preventDefault(); $("exit").classList.remove("show"); store.set("exit", true); toast("Sent. Check WhatsApp in a minute."); });
+
+  select("candy");
+})();
+</script>
