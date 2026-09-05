@@ -73,7 +73,7 @@
   .pill{font-size:11px;padding:1px 7px;border-radius:99px;border:1px solid var(--line-2);color:var(--taupe)}
   .nav-buy{background:var(--amber) !important;color:#1A1614 !important;border-radius:99px;padding:8px 16px !important;font-weight:600}
   @media (max-width:900px){.nav-links{display:none}}
-  @media (max-width:600px){.hide-m{display:none !important}.stage .vslot{top:auto;bottom:70px;right:12px}.nav-buy{white-space:nowrap;padding:8px 12px !important}}
+  @media (max-width:600px){.hide-m{display:none !important}.stage .vslot{display:none}.nav-buy{white-space:nowrap;padding:8px 12px !important}}
 
   /* hero: the turn */
   .hero{position:relative;overflow:hidden}
@@ -206,7 +206,8 @@
   .room .glow{position:absolute;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,var(--amber) 0%,transparent 70%);opacity:.35;right:-40px;top:-40px;filter:blur(10px);z-index:0}
   .room.wide{grid-column:span 2}
   .room.tall{grid-row:span 2}
-  @media (max-width:960px){.rooms{grid-template-columns:1fr 1fr;grid-auto-rows:200px}.room.tall{grid-row:span 1}.room.wide{grid-column:span 2}}
+  .rooms-4{grid-template-columns:repeat(4,1fr);grid-auto-rows:300px}
+  @media (max-width:960px){.rooms,.rooms-4{grid-template-columns:1fr 1fr;grid-auto-rows:220px}.room.tall{grid-row:span 1}.room.wide{grid-column:span 2}}
 
   /* made */
   .made{background:var(--ground-2);border-block:1px solid var(--line)}
@@ -323,7 +324,7 @@
   @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}html{scroll-behavior:auto}}
 
   /* v2 additions */
-  .stage .vslot{position:absolute;top:16px;right:16px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#F3EDE3;background:rgba(232,162,74,.9);padding:6px 10px;border-radius:4px;color:#1A1614;font-weight:600}
+  .stage .vslot{position:absolute;top:16px;right:16px;bottom:auto;left:auto;width:auto;height:auto;font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:rgba(232,162,74,.9);padding:6px 10px;border-radius:4px;color:#1A1614;font-weight:600;line-height:1.2}
   .scale{margin-top:22px;border:1px solid var(--line);border-radius:var(--r);background:var(--paper);padding:20px 20px 12px}
   .scale svg{width:100%;height:auto;display:block}
   .scale p{font-size:12.5px;color:var(--taupe);margin-top:8px}
@@ -464,7 +465,7 @@
       <p class="eyebrow">Rubik's cube table lamp · <b>Glass &amp; solid sheesham</b></p>
       <h1>Turn it. <em>The room changes.</em></h1>
       <p class="hero-sub">Three of the block's faces are hand-painted <strong>red, green and amber</strong>. Lift, quarter-turn, set it down, and the corner takes that colour. No remote, no app, nothing to charge. Solid sheesham base, made in Khatauli.</p>
-      <div class="hero-meta"><span><span class="stars">★★★★½</span> <b>4.3</b> from 32 reviews</span><span><b>79 homes</b> in the last six months</span></div>
+      <div class="hero-meta"><span><span class="stars">★★★★½</span> <b>4.3</b> from 32 reviews</span><span><b>950+ homes</b> light with NixWoods · <b>161</b> of this lamp since launch</span></div>
       <div class="hero-ctas">
         <a class="btn btn-amber" href="#buy">Choose your glass</a>
         <span class="hero-price num">₹2,999<small>or ₹1,000 a month, three months, no interest</small></span>
@@ -473,7 +474,7 @@
   </div>
   <div class="proof">
     <div class="wrap">
-      <div><b class="num">79 homes</b><span>ordered this lamp in the last six months. Our most-ordered piece.</span></div>
+      <div><b class="num">950+ homes</b><span>across India light with NixWoods since 2022. This lamp is in 161 of them, our most-ordered piece.</span></div>
       <div><b class="num">4.3 / 5</b><span>from 32 verified reviews. 27 gave four or five stars.</span></div>
       <div><b>Solid sheesham</b><span>No MDF, no veneer. The grain on yours is one of a kind.</span></div>
       <div><b>Khatauli, UP</b><span>Made in our own workshop. Three years on the wood, one on the LED.</span></div>
@@ -588,7 +589,7 @@
     <div class="wrap">
       <div class="rblock">
         <div class="rstat"><span class="rbig num" id="rvAvg">4.3</span><span class="stars">★★★★½</span><span class="rlab">from <b id="rvCount">32</b> verified reviews on Judge.me</span></div>
-        <div class="rstat"><span class="rbig num" id="rvHomes">79</span><span class="rlab">homes bought this lamp in the last six months</span></div>
+        <div class="rstat"><span class="rbig num" id="rvHomes">161</span><span class="rlab">of this lamp in homes since launch, 79 of them in the last six months</span></div>
         <div class="rstat"><span class="rbig num" id="rvTop">27</span><span class="rlab">of 32 gave it four or five stars</span></div>
         <div class="rhist">
           <div><span>5 ★</span><span class="bar"><i style="width:72%"></i></span><b class="num">23</b></div>
@@ -630,7 +631,7 @@
         <p class="eyebrow">Where it goes</p>
         <h2>Every room has a corner <em>waiting for it.</em></h2>
       </div>
-      <div class="rooms" style="grid-template-columns:repeat(4,1fr);grid-auto-rows:300px">
+      <div class="rooms rooms-4">
         <div class="room photo"><img src="{{IMG:bubble}}" alt="Bubble glass lamp on a marble bedside table under a framed canvas"><h3>Bedside</h3><p>Amber to read by, red for the last ten minutes.</p></div>
         <div class="room photo"><img src="{{IMG:console}}" alt="Candy glass lamp on a wooden console in daylight beside an olive branch"><h3>Console</h3><p>The first thing guests see.</p></div>
         <div class="room photo"><img src="{{IMG:flowers}}" alt="Glass block lamp glowing warm beside dried flowers and a clay vase"><h3>Shelf</h3><p>Between the books and the vase.</p></div>
