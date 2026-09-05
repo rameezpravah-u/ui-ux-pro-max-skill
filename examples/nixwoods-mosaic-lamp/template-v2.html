@@ -645,9 +645,9 @@
     bubble:[{src:"{{IMG:bubble}}", cap:"Bubble glass on a marble bedside", alt:"Bubble glass lamp on a marble bedside table"},{src:"{{IMG:four}}", cap:"All four looks, one lamp", alt:"Four lamps in amber, warm, green and crimson"},{src:"{{IMG:ocean_front}}", cap:"Ripple, for comparison", alt:"Ocean glass lamp front view"},{src:"{{IMG:base_nx}}", cap:"The base, up close", alt:"Macro of the sheesham base"}]
   };
   var FIN = [
-    {id:"candy", short:"Candy Glass", sub:"The faceted grid. The one people recognise.", desc:"Sharp grid, photographs strongest", price:2999, img:"{{IMG:console}}"},
-    {id:"ocean", short:"Ocean Glass", sub:"A smooth ripple. Most people's pick in person.", desc:"Soft ripple, moodiest glow", price:3299, img:"{{IMG:ocean_front}}"},
-    {id:"bubble", short:"Bubble Glass", sub:"Waves and bubbles. The most decorative of the three.", desc:"Waves and bubbles", price:3199, img:"{{IMG:bubble}}", left:12}
+    {id:"candy", short:"Candy Glass", sub:"The faceted grid. The one people recognise.", desc:"Sharp grid, photographs strongest", price:2999, img:"{{IMG:console}}", shots:{off:{src:"{{IMG:console}}", alt:"Candy glass lamp switched off on a wooden console in daylight", txt:"<b>Off, in daylight.</b> A sculpture on the console.", lbl:"Off, daylight"}, on:{src:"{{IMG:flowers}}", alt:"Candy glass lamp on at night, the only light in the room", txt:"<b>On, at night.</b> The only light in the room. This is how bright it is.", lbl:"On, at night"}}},
+    {id:"ocean", short:"Ocean Glass", sub:"A smooth ripple. Most people's pick in person.", desc:"Soft ripple, moodiest glow", price:3299, img:"{{IMG:ocean_front}}", shots:{off:{src:"{{IMG:ocean_front}}", alt:"Ocean glass lamp in daylight, front view on a sheesham base", txt:"<b>In daylight.</b> The ripple reads like water even switched on low.", lbl:"Daylight"}, on:{src:"{{IMG:amber}}", alt:"Ocean glass lamp at night glowing amber beside bunny-tail grass", txt:"<b>At night.</b> The only light in the room. This is how bright it is.", lbl:"At night"}}},
+    {id:"bubble", short:"Bubble Glass", sub:"Waves and bubbles. The most decorative of the three.", desc:"Waves and bubbles", price:3199, img:"{{IMG:bubble}}", left:12, shots:{on:{src:"{{IMG:bubble}}", alt:"Bubble glass lamp on a marble bedside table at night", txt:"<b>At night, bedside.</b> Daylight photo of Bubble is being shot.", lbl:"At night"}}}
   ];
   var PAIR2 = 2499, cur = FIN[0], qty = 1, cart = 0, gi = 0;
 
@@ -664,7 +664,7 @@
     $("pName").textContent = cur.short; $("pSub").textContent = cur.sub; $("pPrice").textContent = inr(cur.price); $("pEmi").textContent = inr(Math.ceil(cur.price/3));
     $("pairPrice").textContent = inr(cur.price + PAIR2);
     $("mbName").textContent = cur.short; document.querySelector(".nav-buy").textContent = "Buy · " + inr(cur.price);
-    renderTotals();
+    renderTotals(); renderOnOff();
   }
   function renderGallery_unused(){
     var g = $("gallery"); g.innerHTML = "";
@@ -716,8 +716,14 @@
   try{ var q = new URLSearchParams(location.search).get("face"); if(q && MOODS.indexOf(q)>-1){ setMood(q); } }catch(e){}
 
   // on / off
-  var ON = {off:"<b>Off, in daylight.</b> A sculpture on the console.", on:"<b>On, at night.</b> The only light in the room. This is how bright it is."};
-  document.querySelectorAll(".seg button").forEach(function(b){ b.addEventListener("click", function(){ var s = b.dataset.state; document.querySelectorAll(".seg button").forEach(function(x){ x.setAttribute("aria-pressed", x===b ? "true":"false"); }); document.querySelectorAll(".onoff-stage img").forEach(function(im){ im.classList.toggle("on", im.dataset.state===s); }); $("onoffTxt").innerHTML = ON[s]; }); });
+  var onState = "off";
+  function renderOnOff(){
+    var sh = cur.shots, st = sh[onState] ? onState : (sh.off ? "off" : "on"); onState = st;
+    document.querySelectorAll(".onoff-stage img").forEach(function(im){ var d = sh[im.dataset.state]; if(d){ im.src = d.src; im.alt = d.alt; } im.classList.toggle("on", im.dataset.state===st && !!d); });
+    document.querySelectorAll(".seg button").forEach(function(x){ var d = sh[x.dataset.state]; x.hidden = !d; if(d){ x.textContent = d.lbl; } x.setAttribute("aria-pressed", x.dataset.state===st ? "true":"false"); });
+    $("onoffTxt").innerHTML = sh[st].txt;
+  }
+  document.querySelectorAll(".seg button").forEach(function(b){ b.addEventListener("click", function(){ onState = b.dataset.state; renderOnOff(); }); });
 
   // exit capture: no discount, just the video and a date
   var exitShown = store.get("exit", false);
