@@ -6,7 +6,11 @@ The brand file `brand/nixwoods/DESIGN.md` always loads first for anything NixWoo
 
 ## 1. The rule in one paragraph
 
-Pick one lead from the core-rules group. Add at most one visual-style skill, and only with a stated reason. Add building-block skills when the output is code or tokens. Add asset skills when the output is an image, a deck or a board. End every page task with `playwright-cli`. Use the fewest skills that cover the task, usually one to three. Reject anything whose stack assumption does not match Shopify Liquid and plain HTML.
+Pick one lead. For anything that is an interface (page, section, component, email, audit) the lead comes from the core-rules group. For an ad, a print piece, a deck, a mood board, a reference look, a 3D build or a QA check, the lead is the skill the ready-made table names for that row. Add at most one visual-style skill, and only with a stated reason. Add building-block skills when the output is code or tokens. Add asset skills when the output is an image, a deck or a board. End every page task with `playwright-cli`; other tasks end with the rendered check their row names. Use the fewest skills that cover the task, usually one to three. The "Never" column of the ready-made table overrides any score. Reject anything whose stack assumption does not match Shopify Liquid and plain HTML.
+
+Two words that need defining:
+- **Redesign** where the layout is replaced means impeccable leads (craft, then polish). Redesign where the layout is kept and the look is upgraded inside it means redesign-existing-projects leads.
+- **Rebuild** always means impeccable.
 
 ## 2. Groups
 
@@ -100,7 +104,8 @@ Format: best at / avoid when / needs / produces / cost / pairs with / clashes wi
 
 **design-system** (this repo)
 - Best at: three-layer tokens (primitive, semantic, component), CSS variables, spacing and type scales, component specs.
-- Avoid when: tokens.css already covers the need. Use it to extend tokens for email or print, or to write component specs.
+- On a product or collection page, where tokens.css already exists: it writes the component spec (states, sizes, spacing) for any new component such as a finish-following gallery or a sticky buy bar, and extends tokens.css only where a token is missing. It does not restate the palette or type.
+- Avoid when: the task adds no new component. Use it to extend tokens for email or print.
 - Pairs with: impeccable extract, ui-styling.
 
 **ui-styling** (this repo)
@@ -117,11 +122,12 @@ Format: best at / avoid when / needs / produces / cost / pairs with / clashes wi
 ### Group D: assets and visuals
 
 **banner-design** (this repo)
-- Best at: social, ad, hero and print banners with several art directions and AI-generated visuals. Platform sizes built in.
-- Needs: an image-generation tool in the session (Canva, ElevenLabs, Higgsfield or Figma connectors). Brand file for colours and type.
+- Best at: social, ad, hero and print banners with several art directions. Platform sizes, Meta safe zones and the text-area rule are built in. Static images only; it does not produce video.
+- Needs: brand file for colours and type. Its own workflow calls four helper skills (ai-artist, ai-multimodal with Gemini, frontend-design, chrome-devtools) that are not installed here. Substitute: compose on a real product photograph from the repo or Drive, build the frame as HTML with tokens.css, and render it with a playwright-cli screenshot at the target size. Generated backdrops only through the Canva, Higgsfield or ElevenLabs connectors, and only if Rameez asks for them.
 - Produces: banner files and art-direction options.
 - Pairs with: brand, DESIGN.md.
 - Clashes with: brandkit (overlapping purpose; pick by output: banner-design for a finished ad, brandkit for an identity board).
+- Video reels are out of its scope. A reel is a Descript or Higgsfield connector job with the Type Spec overlay rules from DESIGN.md, not a skill task.
 
 **brand** (this repo)
 - Best at: brand voice, messaging frameworks, asset management, consistency checks.
@@ -166,9 +172,9 @@ Format: best at / avoid when / needs / produces / cost / pairs with / clashes wi
 ### Group F: 3D
 
 **img2threejs**
-- Best at: rebuilding an object from photos as a procedural Three.js model, animation-ready.
-- Needs: three or more clear reference photos, Python 3.10 or newer, and time. It is a multi-stage pipeline.
-- Avoid when: a photo or video answers the need. Use for the cube lamp interactive viewer experiment only.
+- Best at: rebuilding an object from a reference photo as a procedural Three.js model, animation-ready.
+- Needs: one clear reference image per run (its documented input is a single `--reference`; it warns that one image cannot show hidden sides, so pick the most complete view and expect to hand-correct the back), Python 3.10 or newer (check with `python3 --version`; this environment has 3.11 to 3.13), and time. It is a multi-stage pipeline with its own gates.
+- Avoid when: a photo or video answers the need. Use for the cube lamp interactive viewer experiment only, with Rameez aware it is the one high-cost item the guide allows.
 - Cost: high.
 
 ### Group G: QA
@@ -176,12 +182,13 @@ Format: best at / avoid when / needs / produces / cost / pairs with / clashes wi
 **playwright-cli**
 - Best at: opening pages, mobile emulation, screenshots, clicking through a flow, reading console errors, measuring timing.
 - Rule: every page task ends with a mobile screenshot at 360 to 390px width and a check of the console. Buy-flow checks stop before checkout.
+- Ready scripts: `qa/shots.sh <label>` screenshots the eight pages that matter and records HTML weight; `qa/buy-flow.sh [handle] [variant]` runs the add-to-cart check and compares against the variant id from the product JSON. Use them before writing a new Playwright sequence.
 - Needs: the Chromium path set (see tools/install-design-skills.sh).
 - Cost: low.
 
 ## 4. Scoring sheet
 
-Score each candidate 0 to 3 on five criteria. Total out of 15. Lead is the top-scoring group A skill. Supporters need 9 or more. Below 6 is rejected.
+Score each candidate 0 to 3 on five criteria. Total out of 15. The lead is the top-scoring skill from the group the row names (group A for interfaces). A supporter needs a total of 9 or more **and** Task fit of 2 or more; a cheap, independent skill with nothing to contribute does not get in on cost alone. Below 6 is rejected. The ready-made row's "Never" column and a "nothing" in its support column override the score.
 
 | Criterion | 0 | 1 | 2 | 3 |
 |---|---|---|---|---|
@@ -214,13 +221,13 @@ Worked example, "rebuild the Aurora wall light product page":
 | Single section or component | impeccable (craft or polish) | design-system | playwright-cli | anything else |
 | Shopify Page build (long form) | impeccable | full-output-enforcement | playwright-cli | design-taste-frontend |
 | Audit or critique | impeccable (audit, then critique) | ui-ux-pro-max ux domain | playwright-cli | style skills |
-| Meta or Instagram ad creative | banner-design | brand (copy check), DESIGN.md type spec section | a rendered preview | imagegen-frontend-web |
+| Meta or Instagram ad creative (static) | banner-design | brand (copy check) | a playwright-cli render of the HTML frame at 1080 by 1920 | imagegen-frontend-web; video is a connector job, not a skill task |
 | Email template | impeccable (typeset, layout) | design-system for email tokens, brand | a rendered HTML preview at 360px | design-taste-frontend |
 | Packaging insert or print | design (repo, CIP mockups) | brand, design-system print tokens | a PDF proof | banner-design |
 | Mood board or direction | imagegen-frontend-web | awesome-design-md reference | nothing | image-to-code |
 | "Make it feel like brand X" | awesome-design-md | impeccable adapt | playwright-cli | copying that brand's tokens |
-| Mobile QA or buy-flow check | playwright-cli | impeccable detect | nothing | everything else |
-| 3D product viewer | img2threejs | nothing | playwright-cli embed check | style skills |
+| Mobile QA or buy-flow check | playwright-cli (`qa/shots.sh`, `qa/buy-flow.sh`) | none | the lead is the close | everything else, including impeccable detect, which reads design tells and cannot judge cart state |
+| 3D product viewer (object build plus page embed) | img2threejs | none for the build; impeccable only if the viewer later becomes a page section | playwright-cli embed check | style skills |
 | B2B deck (hotels, offices) | slides | brand | a rendered deck | nothing |
 | Brand file maintenance | stitch-design-taste only if regenerating | design-system | nothing | style skills |
 
@@ -244,7 +251,8 @@ LEAD: <skill> — <why in one line>
 SUPPORT:
   1. <skill> — <role>
   2. <skill> — <role>
-CLOSE: playwright-cli — <what to check>
+  (or the single line: none)
+CLOSE: <playwright-cli, or the rendered check the row names> — <what to check>
 REJECTED:
   - <skill> — <reason>
 STYLE REASON: <only if a group B skill is included>
