@@ -1,0 +1,558 @@
+<title>Aurora Teak Wall Light</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Archivo:wght@400;500;600&display=swap">
+<style>
+/* Layout: one column on a phone, a 55/45 gallery-to-buy-box split from 1024px. Bone ground, espresso story sections, amber only on the action. Tokens from brand/nixwoods/DESIGN.md. */
+:root{
+  --espresso:#1A1614;--walnut:#3B2C22;--amber:#E8A24A;--bone:#F3EDE3;--sand:#D8C7B0;--ink:#2A2320;--ink-muted:#6F6259;--hairline:#E6DCCF;--hairline-dark:#2E2622;--on-espresso:#F3EDE3;--bone-muted:#D7D0C5;--on-amber:#2A2320;--error:#A33E2E;
+  --bg:var(--bone);--bg-2:#EAE2D6;--fg:var(--ink);--fg-muted:var(--ink-muted);--line:var(--hairline);--chip-bg:transparent;--chip-fg:var(--ink);--chip-line:#B9AB98;--card:#F8F4EC;
+  --display:"Fraunces",Georgia,serif;--body:"Archivo","Inter",system-ui,sans-serif;
+  --gutter:16px;--container:1200px;--section:48px;
+  --r-xs:4px;--r-sm:8px;--r-md:12px;--r-pill:9999px;
+  --ease:cubic-bezier(.2,.7,.2,1);--dur:240ms;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:var(--espresso);--bg-2:#221C19;--fg:var(--on-espresso);--fg-muted:var(--bone-muted);--line:var(--hairline-dark);--chip-fg:var(--on-espresso);--chip-line:#5A4B41;--card:#221C19;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:var(--espresso);--bg-2:#221C19;--fg:var(--on-espresso);--fg-muted:var(--bone-muted);--line:var(--hairline-dark);--chip-fg:var(--on-espresso);--chip-line:#5A4B41;--card:#221C19;color-scheme:dark}
+@media (min-width:768px){:root{--gutter:32px;--section:96px}}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 16px/1.6 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+@media (min-width:768px){body{font-size:17px}}
+img{max-width:100%;display:block;height:auto}
+a{color:inherit}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:600;text-wrap:balance;letter-spacing:-.005em}
+h1{font-size:32px;line-height:1.12}
+h2{font-size:28px;line-height:1.15}
+h3{font-size:22px;line-height:1.2}
+@media (min-width:768px){h1{font-size:40px}h2{font-size:36px}h3{font-size:26px}}
+p{margin:0}
+.wrap{max-width:var(--container);margin:0 auto;padding-inline:var(--gutter)}
+.sec{padding-block:var(--section)}
+.sec+.sec{padding-top:0}
+.lead{font-size:18px;line-height:1.5}
+@media (min-width:768px){.lead{font-size:20px}}
+.muted{color:var(--fg-muted)}
+.sm{font-size:14px;line-height:1.5}
+.cap{font-size:13px;line-height:1.45;color:var(--fg-muted)}
+.label{font:500 12px/1.2 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted)}
+.num{font-variant-numeric:tabular-nums}
+.stack{display:flex;flex-direction:column;gap:12px}
+.rule{width:32px;height:2px;background:var(--amber);border:0;margin:12px 0 0}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+::selection{background:var(--amber);color:var(--on-amber)}
+
+/* announcement + header */
+.bar{background:var(--espresso);color:var(--on-espresso);text-align:center;padding:10px var(--gutter);font-size:14px}
+.hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.hdr .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:56px}
+.hdr .nx{justify-self:center;width:40px;height:40px;display:grid;place-items:center}
+.hdr .nx img{width:34px;height:34px;filter:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hdr .nx img{filter:invert(.92) sepia(.2)}}
+:root[data-theme="dark"] .hdr .nx img{filter:invert(.92) sepia(.2)}
+.hdr .ic{display:flex;gap:18px;justify-self:end}
+.hdr svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.crumb{padding:12px 0 0;font-size:13px;color:var(--fg-muted)}
+
+/* product grid */
+.pdp{display:grid;gap:24px;padding-block:8px 48px}
+@media (min-width:1024px){.pdp{grid-template-columns:55fr 45fr;gap:48px;align-items:start;padding-top:24px}.buy{position:sticky;top:72px}}
+
+/* gallery */
+.gal{position:relative;min-width:0}
+.gal .strip{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:0;scrollbar-width:none;border-radius:0}
+.gal .strip::-webkit-scrollbar{display:none}
+.gal figure{margin:0;flex:0 0 100%;scroll-snap-align:start;position:relative}
+.gal figure img{width:100%;aspect-ratio:1/1;object-fit:cover;background:var(--bg-2)}
+.gal figcaption{position:absolute;left:12px;bottom:12px;background:rgba(26,22,20,.72);color:var(--on-espresso);font-size:12px;letter-spacing:.04em;padding:6px 10px;border-radius:var(--r-xs)}
+.dots{display:flex;justify-content:center;gap:8px;padding:12px 0 0}
+.dots button{width:8px;height:8px;border-radius:50%;border:0;background:var(--chip-line);padding:0;cursor:pointer}
+.dots button[aria-current="true"]{background:var(--amber);width:20px;border-radius:var(--r-pill)}
+.thumbs{display:none}
+@media (min-width:768px){.gal .strip{border-radius:var(--r-sm)}.thumbs{display:flex;gap:8px;margin-top:8px}.thumbs button{border:1px solid var(--line);background:none;padding:0;width:72px;border-radius:var(--r-xs);overflow:hidden;cursor:pointer}.thumbs button[aria-current="true"]{border-color:var(--amber);box-shadow:inset 0 0 0 1px var(--amber)}.thumbs img{aspect-ratio:1/1;object-fit:cover}.dots{display:none}}
+
+/* buy box */
+.buy{display:flex;flex-direction:column;gap:20px;min-width:0}
+.title .sub{margin-top:6px;font-size:16px;color:var(--fg-muted)}
+.stars{display:inline-flex;gap:2px;vertical-align:-2px}
+.stars svg{width:15px;height:15px;fill:var(--amber)}
+.stars svg.half{fill:url(#half)}
+.stars svg.off{fill:var(--chip-line)}
+.rating{font-size:14px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}
+.rating a{color:var(--fg)}
+.price{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.price .now{font:500 26px/1.1 var(--body)}
+.price .was{font-size:14px;color:var(--fg-muted)}
+fieldset{border:0;padding:0;margin:0;min-width:0}
+legend{padding:0;margin:0 0 10px;font-size:14px;font-weight:500}
+legend span{color:var(--fg-muted);font-weight:400}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.chip label{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid var(--chip-line);border-radius:var(--r-pill);background:var(--chip-bg);color:var(--chip-fg);font:500 15px/1 var(--body);cursor:pointer;transition:background var(--dur) var(--ease),color var(--dur) var(--ease),border-color var(--dur) var(--ease)}
+.chip input:checked+label{background:var(--amber);color:var(--on-amber);border-color:var(--amber)}
+.chip input:focus-visible+label{outline:2px solid var(--amber);outline-offset:3px}
+.chip input:disabled+label{color:var(--fg-muted);border-style:dashed;cursor:not-allowed}
+.chip .sw{width:16px;height:16px;border-radius:50%;border:1px solid rgba(0,0,0,.2)}
+.chip label small{font-weight:400;color:inherit;opacity:.75}
+.dir{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dir .chip label{flex-direction:column;align-items:stretch;padding:0;border-radius:var(--r-sm);min-height:0;overflow:hidden;text-align:left}
+.dir .chip img{aspect-ratio:4/3;object-fit:cover;width:100%}
+.dir .chip .t{padding:10px 12px 12px;display:flex;flex-direction:column;gap:2px}
+.dir .chip .t small{font-size:12px;line-height:1.3}
+.dir .chip input:checked+label{background:transparent;color:var(--chip-fg);border-color:var(--amber);box-shadow:inset 0 0 0 1px var(--amber)}
+.dir .chip input:checked+label .t{background:var(--amber);color:var(--on-amber)}
+.note{font-size:13px;color:var(--fg-muted);margin-top:8px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;border-radius:var(--r-sm);font:500 15px/1 var(--body);letter-spacing:.02em;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform var(--dur) var(--ease),background var(--dur) var(--ease)}
+.btn.primary{background:var(--amber);color:var(--on-amber);border-color:var(--amber)}
+.btn.primary:hover{background:#DD9640}
+.btn.primary:active{transform:translateY(1px)}
+.btn.secondary{background:transparent;color:var(--fg);border-color:var(--fg)}
+.btn.secondary:hover{background:var(--bg-2)}
+.ctas{display:grid;gap:10px}
+.deliv{display:flex;gap:10px;align-items:flex-start;font-size:14px;padding:12px 14px;border:1px solid var(--line);border-radius:var(--r-sm)}
+.deliv svg{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin-top:2px}
+.trust{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px;padding-top:4px}
+.trust div{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.4}
+.trust svg{width:18px;height:18px;flex:none;stroke:var(--amber);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-top:2px}
+.trust b{font-weight:600;display:block}
+
+/* story */
+.hook{display:grid;gap:24px}
+@media (min-width:768px){.hook{grid-template-columns:1fr 1fr;align-items:center;gap:48px}}
+.two{display:grid;gap:16px}
+@media (min-width:640px){.two{grid-template-columns:1fr 1fr}}
+.two figure{margin:0;display:flex;flex-direction:column;gap:10px}
+.two img{aspect-ratio:1/1;object-fit:cover;border-radius:var(--r-sm)}
+.two figcaption b{display:block;font-weight:600}
+.dark{background:var(--espresso);color:var(--on-espresso);--fg:var(--on-espresso);--fg-muted:var(--bone-muted);--line:var(--hairline-dark);--bg-2:var(--walnut);--card:#221C19}
+
+/* scale */
+.scale{display:grid;gap:24px}
+@media (min-width:768px){.scale{grid-template-columns:1.2fr 1fr;align-items:center;gap:48px}}
+.scale svg{width:100%;height:auto;display:block}
+.scale table{width:100%;border-collapse:collapse;font-size:15px}
+.scale th,.scale td{text-align:left;padding:10px 0;border-bottom:1px solid var(--line)}
+.scale th{font-weight:500;color:var(--fg-muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.scale tr.on td{color:var(--amber);font-weight:500}
+
+/* specs */
+.specs{width:100%;border-collapse:collapse;font-size:15px}
+.specs th,.specs td{text-align:left;vertical-align:top;padding:12px 0;border-bottom:1px solid var(--line)}
+.specs th{width:38%;font:500 12px/1.4 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);padding-right:16px}
+.specs td{line-height:1.5}
+
+/* compare */
+.cmp{overflow-x:auto}
+.cmp table{width:100%;min-width:520px;border-collapse:collapse;font-size:15px}
+.cmp th,.cmp td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.cmp thead th{font:500 12px/1.3 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted)}
+.cmp tbody th{font-weight:500}
+.cmp td.us{color:var(--fg);font-weight:500}
+.cmp td.us::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--amber);margin-right:8px;vertical-align:1px}
+
+/* rooms + steps */
+.rooms{display:flex;flex-wrap:wrap;gap:8px 24px;padding:0;margin:0;list-style:none;font-size:17px}
+.rooms li{padding-left:18px;position:relative}
+.rooms li::before{content:"";position:absolute;left:0;top:.7em;width:8px;height:1px;background:var(--amber)}
+.steps{display:grid;gap:16px;counter-reset:s}
+@media (min-width:768px){.steps{grid-template-columns:repeat(3,1fr);gap:24px}}
+.steps div{counter-increment:s;padding-top:12px;border-top:1px solid var(--line)}
+.steps div::before{content:counter(s);font-family:var(--display);font-size:24px;display:block;margin-bottom:6px;color:var(--amber)}
+.steps b{display:block;font-weight:600;margin-bottom:4px}
+
+/* reviews + confidence */
+.rev{display:grid;gap:20px}
+@media (min-width:768px){.rev{grid-template-columns:1fr 1fr;gap:48px;align-items:start}}
+.big{font-family:var(--display);font-size:56px;line-height:1;font-weight:600}
+.conf{display:grid;gap:14px}
+@media (min-width:640px){.conf{grid-template-columns:1fr 1fr}}
+.conf div{display:flex;gap:12px;align-items:flex-start;padding:16px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--card)}
+.conf svg{width:22px;height:22px;flex:none;stroke:var(--amber);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-top:2px}
+.conf b{display:block;font-weight:600;margin-bottom:2px}
+.conf p{font-size:14px;line-height:1.5;color:var(--fg-muted)}
+
+/* faq */
+.faq details{border-top:1px solid var(--line)}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:16px 36px 16px 0;font:600 17px/1.3 var(--body);position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:4px;top:50%;width:10px;height:10px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:translateY(-70%) rotate(45deg);transition:transform var(--dur) var(--ease)}
+.faq details[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+.faq .a{padding:0 0 18px;max-width:65ch;color:var(--fg)}
+.faq .a p+p{margin-top:8px}
+
+/* whatsapp */
+.wa{display:grid;gap:16px;padding:24px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--card)}
+@media (min-width:768px){.wa{grid-template-columns:1fr auto;align-items:center}}
+.wa .numline{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.wa code{font:500 17px/1 var(--body);letter-spacing:.02em;padding:10px 12px;border:1px solid var(--line);border-radius:var(--r-xs);background:var(--bg)}
+.wa button{min-height:40px;padding:0 14px;border-radius:var(--r-sm);border:1px solid var(--fg);background:transparent;color:var(--fg);font:500 14px/1 var(--body);cursor:pointer}
+
+/* footer */
+.ft{background:var(--espresso);color:var(--on-espresso);padding-block:40px;font-size:14px}
+.ft .wrap{display:grid;gap:12px}
+.ft p{max-width:60ch;color:var(--bone-muted)}
+.ft b{font-weight:600;color:var(--on-espresso)}
+
+/* sticky bar */
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--bg);border-top:1px solid var(--line);padding:10px var(--gutter) calc(10px + env(safe-area-inset-bottom,0px));display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;transform:translateY(110%);transition:transform var(--dur) var(--ease)}
+.sticky.on{transform:none}
+.sticky .p{font:500 18px/1.1 var(--body)}
+.sticky .v{font-size:12px;color:var(--fg-muted);margin-top:2px}
+.sticky .btn{min-height:44px;padding:0 18px}
+@media (min-width:1024px){.sticky{display:none}}
+.toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);background:var(--espresso);color:var(--on-espresso);padding:12px 16px;border-radius:var(--r-sm);font-size:14px;opacity:0;pointer-events:none;transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease);z-index:40;max-width:calc(100% - 32px)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="half"><stop offset="50%" stop-color="#E8A24A"/><stop offset="50%" stop-color="#B9AB98"/></linearGradient></defs></svg>
+
+<div class="bar">Free shipping across India on prepaid orders. ₹100 off prepaid with code FLY100.</div>
+
+<header class="hdr"><div class="wrap">
+  <button aria-label="Menu" style="background:none;border:0;color:inherit;padding:0;justify-self:start;cursor:pointer"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <a class="nx" href="https://nixwoods.com" aria-label="NixWoods home"><img src="img/nx.png" alt="NixWoods"></a>
+  <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></div>
+</div></header>
+
+<main>
+<div class="wrap crumb">Wall lights · Aurora</div>
+
+<section class="wrap pdp">
+  <div class="gal" id="gal">
+    <div class="strip" id="strip" aria-label="Product photos"></div>
+    <div class="dots" id="dots" role="tablist" aria-label="Choose photo"></div>
+    <div class="thumbs" id="thumbs"></div>
+  </div>
+
+  <div class="buy">
+    <div class="title">
+      <h1>Aurora, Teak Linear Wall Light</h1>
+      <p class="sub">Solid teak. Warm 3000K LED built in. Three lengths, two finishes.</p>
+    </div>
+
+    <div class="rating">
+      <span class="stars" aria-hidden="true" id="starsAurora"></span>
+      <a href="https://nixwoods.com/products/nixwoods-aurora-linear-wall-light#judgeme_product_reviews"><b>4.3</b> · 4 reviews on this piece</a>
+      <span class="muted">·</span>
+      <span class="muted"><b style="color:var(--fg);font-weight:500">4.8</b> across 59 reviews on all NixWoods pieces</span>
+    </div>
+
+    <div class="price num">
+      <span class="now" id="price">₹1,999</span>
+      <span class="was" id="was">List price ₹2,749. You save ₹750.</span>
+    </div>
+
+    <fieldset>
+      <legend>Finish <span id="finishName">Natural teak</span></legend>
+      <div class="chips">
+        <span class="chip"><input type="radio" name="finish" id="f-teak" value="teak" checked><label for="f-teak"><span class="sw" style="background:#B07B45"></span>Natural teak</label></span>
+        <span class="chip"><input type="radio" name="finish" id="f-brown" value="brown"><label for="f-brown"><span class="sw" style="background:#3B2C22"></span>Dark brown</label></span>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Length <span id="sizeName">36 inch, 91 cm</span></legend>
+      <div class="chips">
+        <span class="chip"><input type="radio" name="size" id="s-36" value="36" checked><label for="s-36">36"<small>91 cm</small></label></span>
+        <span class="chip"><input type="radio" name="size" id="s-40" value="40"><label for="s-40">40"<small>102 cm</small></label></span>
+        <span class="chip"><input type="radio" name="size" id="s-48" value="48"><label for="s-48">48"<small>122 cm</small></label></span>
+      </div>
+      <p class="note">36" suits a bedside or a compact wall. 48" suits a corridor or a large feature wall.</p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Light direction</legend>
+      <div class="dir">
+        <span class="chip"><input type="radio" name="dir" id="d-down" value="down" checked><label for="d-down"><img src="img/dir-down.jpg" alt="Light facing down only: a warm pool below the bar"><span class="t">Down only<small>A warm pool on the wall below. The ceiling stays dark.</small></span></label></span>
+        <span class="chip"><input type="radio" name="dir" id="d-updown" value="updown"><label for="d-updown"><img src="img/dir-updown.jpg" alt="Light facing up and down: the wall washed from ceiling to floor"><span class="t">Up and down<small>Washes the wall from ceiling to floor. Not made in 40".</small></span></label></span>
+      </div>
+      <p class="note" id="dirNote" hidden>Up and down is made in 36" and 48" only. Length set to 36".</p>
+    </fieldset>
+
+    <div class="ctas">
+      <a class="btn primary" id="addBtn" href="https://nixwoods.com/cart/add?id=45272350097543&quantity=1" target="_blank" rel="noopener">Add to cart · <span class="num" id="btnPrice">₹1,999</span></a>
+      <a class="btn secondary" id="buyBtn" href="https://nixwoods.com/cart/45272350097543:1" target="_blank" rel="noopener">Buy now</a>
+    </div>
+
+    <div class="deliv"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg><div>Dispatched in about 3 working days, delivered in roughly 5 to 7 more. Free shipping on prepaid orders. Pay 10% online and the rest on delivery if you prefer.</div></div>
+
+    <div class="trust">
+      <div><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3z"/><path d="m9 12 2 2 4-4"/></svg><span><b>3-year wood warranty</b>1 year on the LED and electricals. Nothing to register.</span></div>
+      <div><svg viewBox="0 0 24 24"><path d="M4 7l8-4 8 4v10l-8 4-8-4z"/><path d="M4 7l8 4 8-4M12 11v10"/></svg><span><b>Arrives damaged? Replaced free.</b>Send a photo on WhatsApp within 48 hours.</span></div>
+      <div><svg viewBox="0 0 24 24"><path d="M3 20h18M5 20V9l7-5 7 5v11"/><path d="M10 20v-6h4v6"/></svg><span><b>Handcrafted in Khatauli, UP</b>Solid teak. No MDF, no veneer.</span></div>
+      <div><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-13.4 7.8L3 21l1.2-4.6A9 9 0 1 1 21 12z"/></svg><span><b>A person answers</b>WhatsApp +91 92860 01060, within 24 hours.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap hook">
+    <div class="stack">
+      <h2>Light that grazes the wall, not your eyes.</h2>
+      <p class="lead">A clean line of solid teak with the LED hidden inside. Switched on, it throws a warm wash down the wall and leaves the room soft. Switched off, it is a length of real grain on the wall.</p>
+      <p>No ceiling point needed, no shade, no bulbs to buy. The fixing is hidden, so the bar floats.</p>
+    </div>
+    <img src="img/teak-console.jpg" alt="Aurora in natural teak above a console, lit, warm light falling onto the wall and the objects below" style="border-radius:var(--r-sm);aspect-ratio:1/1;object-fit:cover">
+  </div>
+</section>
+
+<section class="sec dark" style="padding-block:var(--section)">
+  <div class="wrap stack" style="gap:24px">
+    <div class="stack">
+      <h2>Two finishes, one piece of teak.</h2>
+      <p class="lead" style="max-width:60ch">Both are the same solid teak bar with the same warm LED. The stain is the only difference, so choose by the wall it will sit on.</p>
+    </div>
+    <div class="two">
+      <figure><img src="img/teak-bed.jpg" alt="Natural teak Aurora above a bed"><figcaption><b>Natural teak</b><span class="muted">Unstained. The grain reads warm and open. Lightest against a pale wall.</span></figcaption></figure>
+      <figure><img src="img/brown-bed.jpg" alt="Dark brown Aurora above a bed"><figcaption><b>Dark brown</b><span class="muted">A deep stain. The bar reads as a dark line and the light reads brighter against it.</span></figcaption></figure>
+    </div>
+    <p class="cap">Every bar is cut from a different board, so the grain on yours will not match the photo exactly. That is the point.</p>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:var(--section)">
+  <div class="wrap scale">
+    <div>
+      <h2>Will it fit the wall?</h2>
+      <hr class="rule">
+      <p style="margin-top:12px;max-width:55ch">Shown against a 152 cm queen headboard. Most people hang the 36" above a bedside or a console, and the 48" in a corridor or above a sofa. Pick a length, and the bar updates.</p>
+      <svg viewBox="0 0 340 150" role="img" aria-labelledby="scaleTitle" id="scaleSvg">
+        <title id="scaleTitle">Aurora lengths compared with a 152 cm queen headboard</title>
+        <rect x="18" y="80" width="304" height="52" rx="6" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="1.2"/>
+        <rect x="18" y="126" width="304" height="6" fill="currentColor" fill-opacity=".12"/>
+        <text x="170" y="112" text-anchor="middle" font-family="Archivo, sans-serif" font-size="11" fill="currentColor" fill-opacity=".6">Queen headboard · 152 cm</text>
+        <g id="bars"></g>
+      </svg>
+    </div>
+    <table class="num" id="sizeTable">
+      <thead><tr><th>Length</th><th>In cm</th><th>Light</th><th>Price, down only</th></tr></thead>
+      <tbody>
+        <tr data-size="36" class="on"><td>36"</td><td>91</td><td>1,600 lm · 16 W</td><td>₹1,999</td></tr>
+        <tr data-size="40"><td>40"</td><td>102</td><td>1,850 lm · 18 W</td><td>₹2,499</td></tr>
+        <tr data-size="48"><td>48"</td><td>122</td><td>2,200 lm · 21 W</td><td>₹2,999</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap" style="max-width:760px">
+    <h2>Specs</h2>
+    <hr class="rule">
+    <table class="specs num" style="margin-top:16px">
+      <tr><th>Material</th><td>Solid teak. No MDF, no veneer. Grain runs the full length.</td></tr>
+      <tr><th>Light</th><td>Integrated warm-white LED, 3000K. Two strip lines; on up and down, half the light goes up.</td></tr>
+      <tr><th>Output</th><td>About 1,600 lm / 16 W at 36", 1,850 lm / 18 W at 40", 2,200 lm / 21 W at 48".</td></tr>
+      <tr><th>Direction</th><td>Down only in every length. Up and down in 36" and 48".</td></tr>
+      <tr><th>Size</th><td>36", 40" or 48" long · 1.75" wide · 1.25" deep (91, 102 or 122 cm · 4.4 cm · 3.2 cm).</td></tr>
+      <tr><th>Finish</th><td>Natural teak, or dark brown stain. Oiled.</td></tr>
+      <tr><th>Mounting</th><td>Hidden fixing. Two screws into the wall, one wire to your existing point.</td></tr>
+      <tr><th>Use</th><td>Indoor, dry walls only. Not for bathrooms or outdoors.</td></tr>
+      <tr><th>Warranty</th><td>3 years on the wood, joinery and finish. 1 year on the LED and electricals. Both run from delivery.</td></tr>
+      <tr><th>Made in</th><td>Khatauli, Uttar Pradesh, in the NixWoods workshop.</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap stack" style="gap:16px">
+    <h2>Solid teak against the alternatives</h2>
+    <div class="cmp"><table>
+      <thead><tr><th></th><th>Aurora, solid teak</th><th>Metal wall light</th><th>Plastic or composite</th></tr></thead>
+      <tbody>
+        <tr><th>Material</th><td class="us">Solid teak, full-length grain</td><td>Painted or anodised metal</td><td>Moulded plastic or composite</td></tr>
+        <tr><th>How it ages</th><td class="us">Warms and mellows</td><td>Dents, finish flakes</td><td>Yellows, cracks</td></tr>
+        <tr><th>Each piece</th><td class="us">Its own grain, no two alike</td><td>Identical units</td><td>Identical units</td></tr>
+        <tr><th>Switched off</th><td class="us">A crafted feature on the wall</td><td>A fixture</td><td>A fitting</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap stack" style="gap:16px">
+    <h2>Where it works</h2>
+    <ul class="rooms">
+      <li>Above the bed, one each side or one centred</li>
+      <li>Hallway and corridor walls</li>
+      <li>Living-room feature wall</li>
+      <li>Above a console or sideboard</li>
+      <li>Home office</li>
+      <li>Staircase and landing walls</li>
+    </ul>
+    <p class="muted" style="max-width:60ch">The Aurora is designed to repeat. Two along one corridor wall, or one on each side of the bed, read as a single line.</p>
+  </div>
+</section>
+
+<section class="sec dark" style="padding-block:var(--section)">
+  <div class="wrap stack" style="gap:24px">
+    <div class="stack">
+      <h2>Fitting it takes one visit.</h2>
+      <p class="lead" style="max-width:60ch">It is hardwired, so we advise an electrician unless you know basic connections. The job itself is small.</p>
+    </div>
+    <div class="steps">
+      <div><b>Switch the power off at the mains</b><span class="muted">Then mark the two screw points against the wall at the height you want.</span></div>
+      <div><b>Two screws hold it</b><span class="muted">The fixing is hidden behind the bar, so nothing shows once it is up.</span></div>
+      <div><b>One wire connects it</b><span class="muted">To your existing wall point. The LED is built in, so there are no bulbs to buy.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:var(--section)">
+  <div class="wrap rev">
+    <div class="stack">
+      <h2>What buyers say</h2>
+      <div style="display:flex;gap:16px;align-items:baseline;flex-wrap:wrap">
+        <span class="big num">4.3</span>
+        <div><span class="stars" aria-hidden="true" id="starsAurora2"></span><div class="sm">4 verified reviews on the Aurora</div></div>
+      </div>
+      <p class="muted" style="max-width:50ch">The Aurora is new to the shop, so its own count is small. Across every NixWoods piece, buyers rate us 4.8 from 59 verified reviews.</p>
+      <a class="btn secondary" style="width:max-content" href="https://nixwoods.com/products/nixwoods-aurora-linear-wall-light#judgeme_product_reviews" target="_blank" rel="noopener">Read the reviews</a>
+    </div>
+    <div class="stack">
+      <h3>Buy with confidence</h3>
+      <div class="conf">
+        <div><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3z"/></svg><div><b>3 years on the wood</b><p>Joints, body and finish. 1 year on the LED and electricals. Your order is your proof; there is no form.</p></div></div>
+        <div><svg viewBox="0 0 24 24"><path d="M4 7l8-4 8 4v10l-8 4-8-4z"/><path d="M4 7l8 4 8-4M12 11v10"/></svg><div><b>Damage in transit, replaced free</b><p>WhatsApp a photo within 48 hours of delivery. No forms.</p></div></div>
+        <div><svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg><div><b>Free shipping, prepaid</b><p>Across India. Dispatched in about 3 working days. Partial COD: 10% now, the rest on delivery.</p></div></div>
+        <div><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-13.4 7.8L3 21l1.2-4.6A9 9 0 1 1 21 12z"/></svg><div><b>A person, not a bot</b><p>WhatsApp us with your order ID. We reply within 24 hours; most things are solved on the chat.</p></div></div>
+      </div>
+      <p class="cap">We do not take returns for a change of mind. Replacement or refund is for a damaged or incorrect piece only.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap" style="max-width:760px">
+    <h2 style="margin-bottom:16px">Questions people ask</h2>
+    <div class="faq">
+      <details><summary>Which length should I choose?</summary><div class="a"><p>36", 40" or 48", all 1.75" wide and 1.25" deep. Match the length to the wall: 36" for a bedside or a compact wall, 48" for a corridor or a large feature wall. The scale drawing above shows each against a queen headboard.</p></div></details>
+      <details><summary>Which finish should I pick?</summary><div class="a"><p>Dark brown is a deep stain that reads as a dark line. Natural teak is unstained and shows the open grain. Both have the same warm 3000K LED.</p></div></details>
+      <details><summary>Can I choose which way the light shines?</summary><div class="a"><p>Yes. Every length comes with the light facing down only. The 36" and 48" also come facing up and down, which washes the whole wall.</p></div></details>
+      <details><summary>Is it really solid wood?</summary><div class="a"><p>Yes. Solid teak with the grain running the full length. Not MDF, not veneer, so no two pieces are exactly alike.</p></div></details>
+      <details><summary>Do I need an electrician?</summary><div class="a"><p>We advise one unless you know basic electrical connections. Two screws hold it to the wall and one wire connects to your existing point. Switch the power off at the mains first. The LED is built in, so there are no bulbs to buy.</p></div></details>
+      <details><summary>Is it for indoor use only?</summary><div class="a"><p>Yes. Bedrooms, hallways, living rooms and similar dry rooms. Not for bathrooms, balconies or outdoors.</p></div></details>
+      <details><summary>How long is the warranty?</summary><div class="a"><p>Three years on the solid teak, joinery and finish, and one year on the LED and electricals, both from the day it is delivered. Natural movement in the grain is not a defect; it is proof the wood is real.</p></div></details>
+      <details><summary>How long does delivery take?</summary><div class="a"><p>Dispatched in about 3 working days, then roughly 5 to 7 working days to reach you. You get the courier and tracking details by email once it ships. Shipping is free on prepaid orders.</p></div></details>
+      <details><summary>Do you take cash on delivery?</summary><div class="a"><p>Partly. Pay 10% online to confirm the order and the balance on delivery. Prepaid orders get free shipping and ₹100 off with code FLY100.</p></div></details>
+      <details><summary>Can I return it if I change my mind?</summary><div class="a"><p>No. We make each piece to order and do not take returns for a change of mind. If it arrives damaged or is the wrong item, WhatsApp us a photo within 48 hours and we replace it free.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap wa">
+    <div class="stack" style="gap:6px">
+      <h3>Not sure about the length or the wiring?</h3>
+      <p class="muted">Send us a photo of the wall. A person replies, usually within the hour during the day.</p>
+    </div>
+    <div class="numline"><code id="waNum">+91 92860 01060</code><button type="button" id="copyBtn">Copy number</button><a class="btn secondary" href="https://wa.me/919286001060" target="_blank" rel="noopener">Open WhatsApp</a></div>
+  </div>
+</section>
+</main>
+
+<footer class="ft"><div class="wrap">
+  <b>NixWoods</b>
+  <p>Handcrafted solid-wood lighting, made by our own artisans in Khatauli, Uttar Pradesh. No veneer, no two alike.</p>
+  <p>nixwoods.com · WhatsApp +91 92860 01060 · nixwoodsx@gmail.com</p>
+</div></footer>
+
+<div class="sticky" id="sticky" aria-hidden="true">
+  <div><div class="p num" id="stickyPrice">₹1,999</div><div class="v" id="stickyVar">Natural teak · 36" · Down only</div></div>
+  <a class="btn primary" id="stickyBtn" href="https://nixwoods.com/cart/add?id=45272350097543&quantity=1" target="_blank" rel="noopener">Add to cart</a>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+  var V={
+    "36|teak|down":{id:45272350097543,p:1999,l:2749},"36|teak|updown":{id:45676169691271,p:2499,l:3249},
+    "36|brown|down":{id:44802766110855,p:1999,l:2749},"36|brown|updown":{id:45676169658503,p:2499,l:3249},
+    "40|teak|down":{id:45272350130311,p:2499,l:3499},"40|brown|down":{id:44802766143623,p:2499,l:3499},
+    "48|teak|down":{id:45272350163079,p:2999,l:4899},"48|teak|updown":{id:45676169855111,p:3499,l:5399},
+    "48|brown|down":{id:44809996599431,p:2999,l:4899},"48|brown|updown":{id:45676169822343,p:3499,l:5399}
+  };
+  var IMG={
+    teak:[{s:"img/teak-console.jpg",a:"Natural teak Aurora above a console, lit",c:"Natural teak · console"},
+          {s:"img/teak-bed.jpg",a:"Natural teak Aurora above a bed, lit",c:"Natural teak · bedside"},
+          {s:"img/teak-compare.jpg",a:"Natural teak Aurora shown with light down only and with light up and down",c:"Down only · up and down"}],
+    brown:[{s:"img/brown-bed.jpg",a:"Dark brown Aurora above a bed, lit",c:"Dark brown · bedside"},
+           {s:"img/brown-detail.jpg",a:"Close view of the dark brown Aurora bar and its light line",c:"Dark brown · detail"}]
+  };
+  var NAMES={teak:"Natural teak",brown:"Dark brown",down:"Down only",updown:"Up and down"};
+  var CM={36:91,40:102,48:122};
+  var $=function(s){return document.querySelector(s)};
+  var inr=function(n){return "₹"+n.toLocaleString("en-IN")};
+  var strip=$("#strip"),dots=$("#dots"),thumbs=$("#thumbs");
+  var curFinish="teak",idx=0;
+
+  function stars(el,v){var h="";for(var i=1;i<=5;i++){var c=v>=i?"":(v>=i-.5?"half":"off");h+='<svg viewBox="0 0 24 24" class="'+c+'"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z"/></svg>';}el.innerHTML=h;}
+  stars($("#starsAurora"),4.25);stars($("#starsAurora2"),4.25);
+
+  function buildGallery(f){
+    curFinish=f;idx=0;
+    strip.innerHTML=IMG[f].map(function(o){return '<figure><img src="'+o.s+'" alt="'+o.a+'"><figcaption>'+o.c+'</figcaption></figure>'}).join("");
+    dots.innerHTML=IMG[f].map(function(o,i){return '<button type="button" role="tab" aria-label="Photo '+(i+1)+'" aria-current="'+(i===0)+'"></button>'}).join("");
+    thumbs.innerHTML=IMG[f].map(function(o,i){return '<button type="button" aria-label="Photo '+(i+1)+'" aria-current="'+(i===0)+'"><img src="'+o.s+'" alt=""></button>'}).join("");
+    strip.scrollLeft=0;
+    [].forEach.call(dots.children,function(b,i){b.onclick=function(){go(i)}});
+    [].forEach.call(thumbs.children,function(b,i){b.onclick=function(){go(i)}});
+  }
+  function go(i){idx=i;strip.scrollTo({left:strip.clientWidth*i,behavior:"smooth"});mark();}
+  function mark(){[].forEach.call(dots.children,function(b,i){b.setAttribute("aria-current",i===idx)});[].forEach.call(thumbs.children,function(b,i){b.setAttribute("aria-current",i===idx)});}
+  strip.addEventListener("scroll",function(){var i=Math.round(strip.scrollLeft/strip.clientWidth);if(i!==idx){idx=i;mark();}},{passive:true});
+
+  function sel(name){var r=document.querySelector('input[name="'+name+'"]:checked');return r?r.value:null}
+  function update(src){
+    var f=sel("finish"),s=sel("size"),d=sel("dir");
+    var note=$("#dirNote");note.hidden=true;
+    // 40" has no up-and-down
+    var up40=$("#s-40");
+    if(d==="updown"){up40.disabled=true;if(s==="40"){$("#s-36").checked=true;s="36";note.hidden=false;}}else{up40.disabled=false;}
+    var v=V[s+"|"+f+"|"+d];
+    $("#price").textContent=inr(v.p);
+    $("#was").textContent="List price "+inr(v.l)+". You save "+inr(v.l-v.p)+".";
+    $("#btnPrice").textContent=inr(v.p);
+    $("#stickyPrice").textContent=inr(v.p);
+    $("#stickyVar").textContent=NAMES[f]+" · "+s+'" · '+NAMES[d];
+    $("#finishName").textContent=NAMES[f];
+    $("#sizeName").textContent=s+" inch, "+CM[s]+" cm";
+    var add="https://nixwoods.com/cart/add?id="+v.id+"&quantity=1";
+    $("#addBtn").href=add;$("#stickyBtn").href=add;$("#buyBtn").href="https://nixwoods.com/cart/"+v.id+":1";
+    if(f!==curFinish)buildGallery(f);
+    drawScale(s);
+    [].forEach.call(document.querySelectorAll("#sizeTable tr[data-size]"),function(tr){tr.classList.toggle("on",tr.dataset.size===s)});
+  }
+  [].forEach.call(document.querySelectorAll('input[name="finish"],input[name="size"],input[name="dir"]'),function(i){i.addEventListener("change",update)});
+
+  function drawScale(s){
+    var g=$("#bars");var y={36:18,40:40,48:62};var h="";
+    [36,40,48].forEach(function(n){
+      var w=CM[n]*2,on=String(n)===String(s),yy=y[n];
+      h+='<rect x="18" y="'+yy+'" width="'+w+'" height="9" rx="2" fill="'+(on?"#E8A24A":"currentColor")+'" fill-opacity="'+(on?1:.22)+'"/>';
+      h+='<text x="'+(18+w+6)+'" y="'+(yy+8)+'" font-family="Archivo, sans-serif" font-size="11" fill="currentColor" fill-opacity="'+(on?1:.6)+'" font-weight="'+(on?600:400)+'">'+n+'" · '+CM[n]+' cm</text>';
+    });
+    g.innerHTML=h;
+  }
+
+  buildGallery("teak");update();
+
+  // sticky bar when the real button leaves the viewport
+  var sticky=$("#sticky"),target=$("#addBtn");
+  if("IntersectionObserver" in window){
+    var seen=false;
+    new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)seen=true;var on=seen&&!e.isIntersecting&&e.boundingClientRect.top<0;sticky.classList.toggle("on",on);sticky.setAttribute("aria-hidden",!on);})},{threshold:0}).observe(target);
+  }
+
+  // copy number
+  var t=$("#toast");function toast(m){t.textContent=m;t.classList.add("on");clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove("on")},2200)}
+  $("#copyBtn").addEventListener("click",function(){
+    var n="+91 92860 01060";
+    function fb(){var r=document.createRange();r.selectNodeContents($("#waNum"));var sl=getSelection();sl.removeAllRanges();sl.addRange(r);toast("Number selected. Press copy.");}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(n).then(function(){toast("Number copied")},fb)}else fb();
+  });
+})();
+</script>
