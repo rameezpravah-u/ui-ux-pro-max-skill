@@ -200,6 +200,8 @@ legend span{color:var(--fg-muted);font-weight:400}
 .v3d-ui .btn:hover{background:var(--bone)}
 .v3d .hint{position:absolute;right:12px;top:12px;background:rgba(26,22,20,.72);color:var(--on-espresso);font-size:12px;letter-spacing:.04em;padding:6px 10px;border-radius:var(--r-xs);pointer-events:none;transition:opacity var(--dur) var(--ease)}
 .v3d .hint.gone{opacity:0}
+.v3d::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 42%,transparent 52%,rgba(20,16,14,.42) 100%)}
+.v3d-ui,.v3d .hint{z-index:2}
 
 /* footer */
 .ft{background:var(--espresso);color:var(--on-espresso);padding-block:40px;font-size:14px}
@@ -313,8 +315,8 @@ legend span{color:var(--fg-muted);font-weight:400}
 
 <section class="sec" id="viewer3d">
   <div class="wrap stack" style="gap:16px">
-    <h2>Turn it, on your wall.</h2>
-    <p class="muted" style="max-width:60ch">Drag to look around. It follows the finish, length and light direction you chose above. Switch it off to see the bar on its own.</p>
+    <h2>See it on a wall, at dusk.</h2>
+    <p class="muted" style="max-width:60ch">Drag to look around. It follows the finish, length and light direction you chose above. Switch it off to see the bar as a piece of wood.</p>
     <div class="v3d" id="v3d">
       <canvas id="v3dCanvas" aria-label="Three-dimensional view of the Aurora mounted on a wall"></canvas>
       <img class="poster" id="v3dPoster" src="img/teak-compare.jpg" alt="Aurora shown with light down only and with light up and down" hidden>
@@ -324,7 +326,7 @@ legend span{color:var(--fg-muted);font-weight:400}
         <button type="button" class="btn secondary" id="v3dReset">Reset view</button>
       </div>
     </div>
-    <p class="cap" id="v3dNote">Built in code from the product dimensions. The grain on your piece will be its own.</p>
+    <p class="cap" id="v3dNote">A rendering from the product dimensions, not a photograph. The grain on your piece will be its own.</p>
   </div>
 </section>
 
@@ -586,93 +588,4 @@ legend span{color:var(--fg-muted);font-weight:400}
 })();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.152.2/three.min.js"></script>
-<script>
-(function(){
-  var box=document.getElementById("v3d"),canvas=document.getElementById("v3dCanvas"),poster=document.getElementById("v3dPoster"),ui=document.getElementById("v3dUi"),note=document.getElementById("v3dNote"),hint=document.getElementById("v3dHint");
-  function hasGL(){try{var c=document.createElement("canvas");return !!(window.WebGLRenderingContext&&(c.getContext("webgl")||c.getContext("experimental-webgl")))}catch(e){return false}}
-  if(!window.THREE||!hasGL()){poster.hidden=false;canvas.hidden=true;ui.hidden=true;hint.hidden=true;note.textContent="This browser cannot show the 3D view, so the photo is shown instead.";return;}
-  var reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var CM={36:91,40:102,48:122};
-  var renderer,scene,camera,bar,barMat,stripDown,stripUp,spotDown,spotUp,fill,glow,glowUp,state={on:true,len:9.1,finish:"teak",dir:"down"},yaw=-.5,pitch=.08,target=new THREE.Vector3(0,-.9,0),dirty=true,started=false;
-
-  function rng(seed){return function(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646}}
-  function wood(f){
-    var c=document.createElement("canvas");c.width=1024;c.height=128;var g=c.getContext("2d");
-    var base=f==="teak"?[176,124,72]:[58,43,33],dark=f==="teak"?[96,58,26]:[22,14,10],r=rng(f==="teak"?7:11);
-    g.fillStyle="rgb("+base.join(",")+")";g.fillRect(0,0,1024,128);
-    for(var i=0;i<170;i++){var y=r()*128,a=.05+r()*.2,w=.4+r()*1.8;g.strokeStyle="rgba("+dark.join(",")+","+a+")";g.lineWidth=w;g.beginPath();g.moveTo(0,y);for(var x=0;x<=1024;x+=48){y+=(r()-.5)*2.6;g.lineTo(x,y);}g.stroke();}
-    var id=g.getImageData(0,0,1024,128),d=id.data;for(var p=0;p<d.length;p+=4){var n=(r()-.5)*12;d[p]+=n;d[p+1]+=n;d[p+2]+=n;}g.putImageData(id,0,0);
-    var t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.anisotropy=4;return t;
-  }
-  function glowTex(){var c=document.createElement("canvas");c.width=512;c.height=256;var g=c.getContext("2d");var r=g.createRadialGradient(256,14,2,256,14,236);r.addColorStop(0,"rgba(255,222,176,.9)");r.addColorStop(.22,"rgba(255,195,128,.42)");r.addColorStop(.55,"rgba(255,175,105,.1)");r.addColorStop(.92,"rgba(255,160,90,0)");r.addColorStop(1,"rgba(255,160,90,0)");g.fillStyle=r;g.fillRect(0,0,512,256);var t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;}
-  function build(){
-    if(bar){scene.remove(bar);bar.geometry.dispose();}
-    var L=state.len,H=.44,D=.32;
-    bar=new THREE.Mesh(new THREE.BoxGeometry(L,H,D),barMat);bar.position.set(0,0,D/2+.02);bar.castShadow=true;bar.receiveShadow=true;scene.add(bar);
-    stripDown.geometry.dispose();stripDown.geometry=new THREE.BoxGeometry(L-.3,.03,.26);stripDown.position.set(0,-H/2-.01,D/2+.02);
-    stripUp.geometry.dispose();stripUp.geometry=new THREE.BoxGeometry(L-.3,.03,.26);stripUp.position.set(0,H/2+.01,D/2+.02);
-    stripUp.visible=state.dir==="updown";spotUp.visible=state.dir==="updown";
-    spotDown.position.set(0,-H/2-.05,D/2+.2);spotDown.target.position.set(0,-14,D/2+1.2);
-    spotUp.position.set(0,H/2+.05,D/2+.2);spotUp.target.position.set(0,14,D/2+1.2);
-    glow.scale.set(L*1.5,2.4,1);glowUp.scale.set(L*1.5,2.2,1);glowUp.visible=state.dir==="updown";
-    dirty=true;
-  }
-  function placeCamera(){
-    var r=state.len*1.12+2.4;
-    camera.position.set(target.x+r*Math.sin(yaw)*Math.cos(pitch),target.y+r*Math.sin(pitch),target.z+r*Math.cos(yaw)*Math.cos(pitch));
-    camera.lookAt(target);dirty=true;
-  }
-  function size(){
-    var w=box.clientWidth,h=box.clientHeight;if(!w||!h)return;
-    renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();dirty=true;
-  }
-  function setPower(on,instant){
-    state.on=on;document.getElementById("v3dPower").textContent=on?"Switch off":"Switch on";
-    var from=spotDown.intensity,to=on?3.4:0,t0=performance.now(),dur=(instant||reduced)?0:320;
-    function step(now){var k=dur?Math.min(1,(now-t0)/dur):1;k=1-Math.pow(1-k,3);var v=from+(to-from)*k;
-      spotDown.intensity=v;spotUp.intensity=v;fill.intensity=v*.2;var e=v/3.4;
-      stripDown.material.color.setRGB(.35+.65*e,.3+.55*e,.22+.45*e);glow.material.opacity=.85*e;glowUp.material.opacity=.85*e;
-      dirty=true;if(k<1)requestAnimationFrame(step);}
-    requestAnimationFrame(step);
-  }
-  function start(){
-    if(started)return;started=true;
-    renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,powerPreference:"low-power"});
-    renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
-    renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
-    scene=new THREE.Scene();scene.background=new THREE.Color(0x2A2320);
-    camera=new THREE.PerspectiveCamera(36,4/3,.1,200);
-    var wall=new THREE.Mesh(new THREE.PlaneGeometry(90,60),new THREE.MeshStandardMaterial({color:0xD8CCBC,roughness:.96}));wall.receiveShadow=true;scene.add(wall);
-    var floor=new THREE.Mesh(new THREE.PlaneGeometry(90,50),new THREE.MeshStandardMaterial({color:0x9E8B74,roughness:.92}));floor.rotation.x=-Math.PI/2;floor.position.set(0,-13,20);floor.receiveShadow=true;scene.add(floor);
-    scene.add(new THREE.HemisphereLight(0xE9DCCB,0x4A3A2E,.5));
-    var key=new THREE.DirectionalLight(0xEADFCF,.6);key.position.set(-8,10,18);scene.add(key);
-    barMat=new THREE.MeshStandardMaterial({map:wood(state.finish),roughness:.58,metalness:0});
-    stripDown=new THREE.Mesh(new THREE.BoxGeometry(1,.02,.18),new THREE.MeshBasicMaterial({color:0xFFD6A0}));scene.add(stripDown);
-    stripUp=new THREE.Mesh(new THREE.BoxGeometry(1,.02,.18),stripDown.material);scene.add(stripUp);
-    spotDown=new THREE.SpotLight(0xFFB270,3.4,30,.8,.95,1);spotDown.castShadow=true;spotDown.shadow.mapSize.set(1024,1024);spotDown.shadow.bias=-.0008;spotDown.shadow.radius=4;scene.add(spotDown);scene.add(spotDown.target);
-    spotUp=new THREE.SpotLight(0xFFB270,3.4,30,.8,.95,1);scene.add(spotUp);scene.add(spotUp.target);
-    fill=new THREE.PointLight(0xFFC890,.7,6,1);fill.position.set(0,-.6,1.4);scene.add(fill);
-    var gm=new THREE.MeshBasicMaterial({map:glowTex(),color:0xFFC37A,transparent:true,opacity:.85,depthWrite:false,blending:THREE.AdditiveBlending});glow=new THREE.Mesh(new THREE.PlaneGeometry(1,1),gm);glow.position.set(0,-1.42,.03);scene.add(glow);glowUp=new THREE.Mesh(new THREE.PlaneGeometry(1,1),gm.clone());glowUp.position.set(0,1.32,.03);glowUp.rotation.z=Math.PI;scene.add(glowUp);
-    build();placeCamera();size();
-    new ResizeObserver(size).observe(box);
-    (function loop(){requestAnimationFrame(loop);if(dirty){dirty=false;renderer.render(scene,camera);}})();
-    // drag to orbit
-    var drag=null;
-    canvas.addEventListener("pointerdown",function(e){drag={x:e.clientX,y:e.clientY,yaw:yaw,pitch:pitch};canvas.setPointerCapture(e.pointerId);hint.classList.add("gone");});
-    canvas.addEventListener("pointermove",function(e){if(!drag)return;yaw=Math.max(-1.25,Math.min(1.25,drag.yaw-(e.clientX-drag.x)*.006));pitch=Math.max(-.2,Math.min(.6,drag.pitch+(e.clientY-drag.y)*.004));placeCamera();});
-    canvas.addEventListener("pointerup",function(){drag=null});canvas.addEventListener("pointercancel",function(){drag=null});
-    document.getElementById("v3dReset").addEventListener("click",function(){yaw=-.5;pitch=.08;placeCamera();});
-    document.getElementById("v3dPower").addEventListener("click",function(){setPower(!state.on)});
-  }
-  function sync(){
-    var f=document.querySelector('input[name="finish"]:checked').value,s=document.querySelector('input[name="size"]:checked').value,d=document.querySelector('input[name="dir"]:checked').value;
-    var changed=f!==state.finish;state.finish=f;state.len=CM[s]/10;state.dir=d;
-    if(!started)return;
-    if(changed){var old=barMat.map;barMat.map=wood(f);barMat.needsUpdate=true;old.dispose();}
-    build();placeCamera();
-  }
-  [].forEach.call(document.querySelectorAll('input[name="finish"],input[name="size"],input[name="dir"]'),function(i){i.addEventListener("change",sync)});
-  sync();
-  if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){start();sync();io.disconnect();}})},{rootMargin:"200px"});io.observe(box);}else{start();}
-})();
-</script>
+<script src="viewer.js"></script>
