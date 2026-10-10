@@ -108,6 +108,29 @@ Python 3.x (no external dependencies required)
 
 **Note:** On Windows, use `python` instead of `python3` to run the scripts.
 
+## NixWoods design workspace
+
+This fork doubles as the design workspace for nixwoods.com. Rules for any NixWoods task:
+
+1. **Session start:** run `tools/install-design-skills.sh` once. It installs the reviewed
+   third-party skills (Impeccable, Taste, Playwright CLI, img2threejs, Awesome Design)
+   pinned to reviewed commits, and points Playwright at the preinstalled Chromium.
+2. **Brand file first:** `brand/nixwoods/DESIGN.md` and `brand/nixwoods/tokens.css` are the
+   source of truth for colour, type, spacing, components, voice and photography. Load
+   DESIGN.md before any NixWoods design work. It wins over any skill's defaults.
+3. **Route before designing:** for any page, component, ad, email, print, mood or 3D task,
+   run the `skill-router` agent (`.claude/agents/skill-router.md`, guide in
+   `brand/nixwoods/SKILL-ROUTING.md`) and load only the skills on its decision card.
+   Small edits (a price, a link, a typo, one CSS value) skip the router.
+4. **Close with a phone:** every page task ends with `qa/shots.sh <label>` or
+   `qa/buy-flow.sh`. Baseline screenshots live in `qa/baseline/`.
+5. **Never invent:** no review counts, ratings, warranty terms, shipping claims or sales
+   figures that are not verifiable in Shopify, Judge.me or a policy page.
+6. **Gates:** customer-facing publishing needs Rameez's explicit yes, every time. Prepare
+   on a duplicate theme, show before and after, publish on the yes, verify live.
+7. **Keep business data out of this repo.** Revenue, customer names, phone numbers and
+   order details stay in Drive. This repo holds design files, tooling and QA output only.
+
 ## Git Workflow
 
 Never push directly to `main`. Always:
