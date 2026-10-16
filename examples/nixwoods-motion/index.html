@@ -1,0 +1,286 @@
+<title>NixWoods Motion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Archivo:wght@400;500;600&display=swap">
+<style>
+/* Layout: a single column of five demos, each a bone card with the moment on the left and its rules on the right from 768px. Tokens from brand/nixwoods/DESIGN.md. */
+:root{
+  --espresso:#1A1614;--walnut:#3B2C22;--amber:#E8A24A;--bone:#F3EDE3;--sand:#D8C7B0;--ink:#2A2320;--ink-muted:#6F6259;--hairline:#E6DCCF;--hairline-dark:#2E2622;--on-espresso:#F3EDE3;--bone-muted:#D7D0C5;--on-amber:#2A2320;
+  --bg:var(--bone);--bg-2:#EAE2D6;--fg:var(--ink);--fg-muted:var(--ink-muted);--line:var(--hairline);--card:#F8F4EC;--code:#2A2320;--code-fg:#F3EDE3;--chip-line:#B9AB98;
+  --display:"Fraunces",Georgia,serif;--body:"Archivo","Inter",system-ui,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  --gutter:16px;--r-sm:8px;--r-md:12px;--r-pill:9999px;--ease:cubic-bezier(.2,.7,.2,1);--dur:240ms;color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:var(--espresso);--bg-2:#221C19;--fg:var(--on-espresso);--fg-muted:var(--bone-muted);--line:var(--hairline-dark);--card:#221C19;--code:#0F0C0B;--chip-line:#5A4B41;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:var(--espresso);--bg-2:#221C19;--fg:var(--on-espresso);--fg-muted:var(--bone-muted);--line:var(--hairline-dark);--card:#221C19;--code:#0F0C0B;--chip-line:#5A4B41;color-scheme:dark}
+@media (min-width:768px){:root{--gutter:32px}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 16px/1.6 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block;height:auto}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:600;text-wrap:balance;letter-spacing:-.005em}
+h1{font-size:34px;line-height:1.1}h2{font-size:24px;line-height:1.2}h3{font-size:18px;font-family:var(--body);font-weight:600;line-height:1.3}
+@media (min-width:768px){h1{font-size:48px}h2{font-size:28px}}
+p{margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:var(--gutter)}
+.muted{color:var(--fg-muted)}
+.sm{font-size:14px;line-height:1.5}
+.cap{font-size:13px;line-height:1.45;color:var(--fg-muted)}
+.label{font:500 12px/1.2 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+::selection{background:var(--amber);color:var(--on-amber)}
+.hdr{padding-block:40px 24px}
+.hdr .lead{font-size:18px;max-width:60ch;margin-top:12px}
+.rules{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:20px;font-size:14px}
+.rules span::before{content:"";display:inline-block;width:8px;height:1px;background:var(--amber);vertical-align:4px;margin-right:8px}
+.demo{border-top:1px solid var(--line);padding-block:40px}
+.demo .grid{display:grid;gap:20px}
+@media (min-width:768px){.demo .grid{grid-template-columns:1.1fr .9fr;gap:40px;align-items:start}}
+.stage{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.stage img{width:100%;aspect-ratio:1/1;object-fit:cover}
+.stage .over{position:absolute;inset:0}
+.stage .tag{position:absolute;left:12px;bottom:12px;background:rgba(26,22,20,.72);color:var(--on-espresso);font-size:12px;letter-spacing:.04em;padding:6px 10px;border-radius:4px}
+.demo .grid>*{min-width:0}
+.meta{display:flex;flex-direction:column;gap:14px;min-width:0}
+.meta .num{font-family:var(--display);font-size:40px;line-height:1;color:var(--amber)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:14px}
+.kv dt{color:var(--fg-muted)}.kv dd{margin:0}
+pre{margin:0;background:var(--code);color:var(--code-fg);font:12.5px/1.5 var(--mono);padding:14px 16px;border-radius:var(--r-sm);overflow-x:auto;white-space:pre}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:var(--r-sm);font:500 15px/1 var(--body);letter-spacing:.02em;text-decoration:none;border:1px solid transparent;cursor:pointer;background:transparent;color:var(--fg);border-color:var(--fg)}
+.btn.primary{background:var(--amber);color:var(--on-amber);border-color:var(--amber)}
+.btn.sm{min-height:36px;padding:0 12px;font-size:13px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chips{display:flex;gap:8px;flex-wrap:wrap;padding:12px}
+.chip{position:relative}
+.chip input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.chip label{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;border:1px solid var(--chip-line);border-radius:var(--r-pill);font:500 14px/1 var(--body);cursor:pointer;color:var(--fg);transition:background var(--dur) var(--ease),color var(--dur) var(--ease),border-color var(--dur) var(--ease)}
+.chip input:checked+label{background:var(--amber);color:var(--on-amber);border-color:var(--amber)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden}
+.card .im{position:relative}
+.card .im img{aspect-ratio:4/5}
+.card .im .on{position:absolute;inset:0;opacity:0}
+.card .t{padding:10px 12px 12px;font-size:13px;line-height:1.35}
+.card .t b{display:block;font-weight:600;margin-bottom:2px}
+.card .t .pr{font-variant-numeric:tabular-nums}
+.faq details{border-top:1px solid var(--line)}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:14px 36px 14px 16px;font:600 15px/1.3 var(--body);position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:18px;top:50%;width:9px;height:9px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:translateY(-70%) rotate(45deg);transition:transform var(--dur) var(--ease)}
+.faq details[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+.faq .a{padding:0 16px 16px;font-size:15px;overflow:hidden}
+.buybox{padding:16px;display:grid;gap:12px}
+.price{font:500 24px/1.1 var(--body);font-variant-numeric:tabular-nums}
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--bg);border-top:1px solid var(--line);padding:10px var(--gutter) calc(10px + env(safe-area-inset-bottom,0px));display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;transform:translateY(110%)}
+.sticky .p{font:500 18px/1.1 var(--body);font-variant-numeric:tabular-nums}
+.sticky .v{font-size:12px;color:var(--fg-muted);margin-top:2px}
+.never{border-top:1px solid var(--line);padding-block:40px 64px}
+.never ul{columns:2;gap:24px;padding-left:18px;margin:12px 0 0;font-size:15px}
+@media (max-width:480px){.never ul{columns:1}.cards{grid-template-columns:1fr 1fr}.card:nth-child(3){display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header class="wrap hdr">
+  <p class="label">Proposed motion spec, for review</p>
+  <h1 style="margin-top:8px">How a NixWoods page moves.</h1>
+  <p class="lead muted">Five moments, and nothing else. Each one is below, live, with its timing and the code that makes it. Press replay as often as you like. If these feel right, this becomes the motion section of the brand file and every page uses the same five.</p>
+  <div class="rules">
+    <span>One authored moment per page</span><span>Everything else 200 to 400 ms</span><span>Ease out, never bounce</span><span>Nothing moves while you read</span><span>Reduced motion: instant states</span>
+  </div>
+</header>
+
+<main>
+
+<section class="wrap demo" id="m1">
+  <div class="grid">
+    <div class="stage" id="s1">
+      <img src="img/console_w.jpg" alt="Cube lamp on a console, switched off, in daylight">
+      <img class="over" id="s1on" src="img/gold_w.jpg" alt="The same lamp switched on, warm gold glow" style="opacity:0">
+      <span class="tag" id="s1tag">Off</span>
+    </div>
+    <div class="meta">
+      <span class="num">1</span>
+      <h2>The switch-on reveal</h2>
+      <p>The one big moment a page gets. The piece is seen off, then the light comes up the way a real LED driver settles: dark amber first, then warm white. Used once per page, on the hero or the first product image, when it scrolls into view.</p>
+      <dl class="kv"><dt>Duration</dt><dd>900 ms, after a 450 ms hold</dd><dt>Easing</dt><dd>power2.out</dd><dt>Trigger</dt><dd>Scrolls into view, once. Replay on tap.</dd><dt>Where</dt><dd>Hero, first gallery image, the 3D viewer</dd></dl>
+<pre>gsap.timeline({ scrollTrigger: { trigger: el, start: "top 75%", once: true } })
+  .to(onImg, { opacity: 1, duration: 0.9, ease: "power2.out" }, 0.45)
+  .fromTo(onImg, { filter: "brightness(.55) saturate(1.4)" },
+                 { filter: "brightness(1) saturate(1)", duration: 0.9, ease: "power2.out" }, 0.45);</pre>
+      <div class="row"><button class="btn sm" id="r1">Replay</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap demo" id="m2">
+  <div class="grid">
+    <div class="stage">
+      <div style="position:relative"><img id="g2a" src="img/ocean_front_w.jpg" alt="Ocean glass finish"><img class="over" id="g2b" src="img/amber_w.jpg" alt="" style="opacity:0"></div>
+      <div class="chips" role="radiogroup" aria-label="Finish">
+        <span class="chip"><input type="radio" name="fin" id="c-ocean" value="img/ocean_front_w.jpg" checked><label for="c-ocean">Ocean glass</label></span>
+        <span class="chip"><input type="radio" name="fin" id="c-candy" value="img/amber_w.jpg"><label for="c-candy">Candy glass</label></span>
+        <span class="chip"><input type="radio" name="fin" id="c-bubble" value="img/bubble_w.jpg"><label for="c-bubble">Bubble glass</label></span>
+      </div>
+    </div>
+    <div class="meta">
+      <span class="num">2</span>
+      <h2>The chip changes the picture</h2>
+      <p>Choosing a finish, a length or a direction swaps the gallery with a short crossfade. No slide, no zoom. Fast enough to feel like the chip did it, slow enough that the eye follows.</p>
+      <dl class="kv"><dt>Duration</dt><dd>240 ms</dd><dt>Easing</dt><dd>power1.out</dd><dt>Trigger</dt><dd>Chip selected</dd><dt>Where</dt><dd>Product gallery, 3D viewer, colour swatches</dd></dl>
+<pre>gsap.to(nextImg, { opacity: 1, duration: 0.24, ease: "power1.out",
+  onComplete: () => { currentImg.src = nextImg.src; gsap.set(nextImg, { opacity: 0 }); } });</pre>
+      <div class="row"><button class="btn sm" id="r2">Replay</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap demo" id="m3">
+  <div class="grid">
+    <div class="stage">
+      <div class="cards" id="cards3">
+        <div class="card"><div class="im"><img src="img/teak-console.jpg" alt=""></div><div class="t"><b>Aurora, Teak Wall Light</b><span class="pr">from ₹1,999</span></div></div>
+        <div class="card"><div class="im"><img src="img/ocean_front_w.jpg" alt=""></div><div class="t"><b>Mosaic, Sheesham Table Lamp</b><span class="pr">from ₹2,999</span></div></div>
+        <div class="card"><div class="im"><img src="img/teak-bed.jpg" alt=""></div><div class="t"><b>Aurora, Teak Wall Light</b><span class="pr">from ₹1,999</span></div></div>
+      </div>
+    </div>
+    <div class="meta">
+      <span class="num">3</span>
+      <h2>Sections arrive, quietly</h2>
+      <p>As you scroll, a section's content rises 8 px and fades in, once. It reads as a fade, not a slide. Cards stagger by 60 ms so a row feels placed, not dropped. Everything is visible without scrolling if scripts fail.</p>
+      <dl class="kv"><dt>Duration</dt><dd>350 ms, stagger 60 ms</dd><dt>Easing</dt><dd>power1.out</dd><dt>Trigger</dt><dd>Section top reaches 88% of the viewport, once</dd><dt>Where</dt><dd>Every section below the fold. Never the hero.</dd></dl>
+<pre>gsap.from(section.children, { opacity: 0, y: 8, duration: 0.35, stagger: 0.06,
+  ease: "power1.out", scrollTrigger: { trigger: section, start: "top 88%", once: true } });</pre>
+      <div class="row"><button class="btn sm" id="r3">Replay</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap demo" id="m4">
+  <div class="grid">
+    <div class="stage">
+      <div class="cards" style="grid-template-columns:1fr 1fr;max-width:460px">
+        <div class="card" id="card4"><div class="im"><img src="img/console_w.jpg" alt="Cube lamp, off"><img class="on" src="img/amber_w.jpg" alt="Cube lamp, on"></div><div class="t"><b>Mosaic, Sheesham Table Lamp</b><span class="pr">from ₹2,999</span><br><span class="cap">Hover, or tap on a phone</span></div></div>
+        <div class="card" id="card4b"><div class="im"><img src="img/flowers_w.jpg" alt="Cube lamp beside dried flowers, off"><img class="on" src="img/gold_w.jpg" alt="Cube lamp, on"></div><div class="t"><b>Mosaic, Sheesham Table Lamp</b><span class="pr">from ₹2,999</span><br><span class="cap">Hover, or tap on a phone</span></div></div>
+      </div>
+    </div>
+    <div class="meta">
+      <span class="num">4</span>
+      <h2>Cards switch on under your hand</h2>
+      <p>Every product card carries the piece off and on. Hover on a desktop, or tap on a phone, and the light comes up. The card itself does not lift, tilt or grow. The product moves; the chrome stays still.</p>
+      <dl class="kv"><dt>Duration</dt><dd>240 ms in, 320 ms out</dd><dt>Easing</dt><dd>power1.out</dd><dt>Trigger</dt><dd>Hover, focus, or tap</dd><dt>Where</dt><dd>Product cards on home, collections, related items</dd></dl>
+<pre>card.addEventListener("pointerenter", () => gsap.to(onImg, { opacity: 1, duration: 0.24, ease: "power1.out" }));
+card.addEventListener("pointerleave", () => gsap.to(onImg, { opacity: 0, duration: 0.32, ease: "power1.out" }));</pre>
+      <div class="row"><button class="btn sm" id="r4">Replay</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap demo" id="m5">
+  <div class="grid">
+    <div class="stage">
+      <div class="buybox">
+        <div><div class="label">Aurora, Teak Wall Light</div><div class="price" style="margin-top:6px">₹1,999</div></div>
+        <button class="btn primary" id="buy5" type="button">Add to cart</button>
+        <p class="cap">Scroll this button off the screen and the bar below appears. Scroll back and it leaves.</p>
+      </div>
+      <div class="faq" id="faq5">
+        <details><summary>Do I need an electrician?</summary><div class="a">We advise one unless you know basic connections. Two screws hold it to the wall and one wire connects to your existing point.</div></details>
+        <details><summary>Is it really solid wood?</summary><div class="a">Yes. Solid teak with the grain running the full length. Not MDF, not veneer, so no two pieces are exactly alike.</div></details>
+        <details><summary>How long is the warranty?</summary><div class="a">Three years on the wood, joinery and finish. One year on the LED and electricals. Both run from delivery.</div></details>
+      </div>
+    </div>
+    <div class="meta">
+      <span class="num">5</span>
+      <h2>Controls respond, then stop</h2>
+      <p>The sticky buy bar slides up once the real button has scrolled away, and slides back down when it returns. An answer in the FAQ opens by growing, not by popping. Both are state changes made visible, and both are done in under a quarter of a second.</p>
+      <dl class="kv"><dt>Duration</dt><dd>240 ms</dd><dt>Easing</dt><dd>power2.out</dd><dt>Trigger</dt><dd>Button leaves the viewport; question tapped</dd><dt>Where</dt><dd>Sticky bar, FAQ, cart drawer, toasts</dd></dl>
+<pre>// sticky bar
+new IntersectionObserver(([e]) => gsap.to(bar, { yPercent: e.isIntersecting ? 110 : 0,
+  duration: 0.24, ease: "power2.out" })).observe(buyButton);
+// accordion
+gsap.from(answer, { height: 0, opacity: 0, duration: 0.24, ease: "power2.out", clearProps: "height" });</pre>
+      <div class="row"><button class="btn sm" id="r5">Replay the bar</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap never">
+  <h2>What a NixWoods page never does</h2>
+  <p class="muted" style="margin-top:8px;max-width:60ch">These are common on other stores and in the reel you sent. Each one moves while someone is trying to read or decide, or makes the page feel like it is selling harder than the product needs.</p>
+  <ul>
+    <li>Parallax and scroll-jacking (Lenis-style smooth scroll)</li>
+    <li>Marquees and auto-playing text carousels</li>
+    <li>Countdown timers and "selling fast" pulses</li>
+    <li>Cards that lift, tilt or grow on hover</li>
+    <li>Bounce, spring or elastic easing</li>
+    <li>Pinned sections that scrub with the scrollbar</li>
+    <li>Confetti, sparkles, cursor trails</li>
+    <li>Text that types itself or splits by letter</li>
+    <li>Anything that autoplays with sound</li>
+    <li>Entrance animations on the hero</li>
+  </ul>
+</section>
+</main>
+
+<div class="sticky" id="bar5" aria-hidden="true">
+  <div><div class="p">₹1,999</div><div class="v">Natural teak · 36" · Down only</div></div>
+  <button class="btn primary" type="button" style="min-height:44px">Add to cart</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  if(!window.gsap){return;}
+  gsap.registerPlugin(ScrollTrigger);
+  var reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduced){gsap.globalTimeline.timeScale(1000);} // instant states
+  var $=function(s){return document.querySelector(s)};
+
+  // 1. switch-on reveal
+  var on1=$("#s1on"),tag1=$("#s1tag");
+  function reveal1(){
+    gsap.killTweensOf(on1);gsap.set(on1,{opacity:0,filter:"brightness(.55) saturate(1.4)"});tag1.textContent="Off";
+    gsap.timeline()
+      .to(on1,{opacity:1,duration:.9,ease:"power2.out"},.45)
+      .to(on1,{filter:"brightness(1) saturate(1)",duration:.9,ease:"power2.out"},.45)
+      .call(function(){tag1.textContent="On · 3000K"},null,.9);
+  }
+  ScrollTrigger.create({trigger:"#s1",start:"top 75%",once:true,onEnter:reveal1});
+  $("#r1").addEventListener("click",reveal1);
+
+  // 2. chip -> picture
+  var a2=$("#g2a"),b2=$("#g2b");
+  function swap2(src){
+    if(a2.getAttribute("src")===src)return;
+    b2.src=src;gsap.killTweensOf(b2);
+    gsap.to(b2,{opacity:1,duration:.24,ease:"power1.out",onComplete:function(){a2.src=src;gsap.set(b2,{opacity:0});}});
+  }
+  [].forEach.call(document.querySelectorAll('input[name="fin"]'),function(i){i.addEventListener("change",function(){swap2(i.value)})});
+  $("#r2").addEventListener("click",function(){var ins=document.querySelectorAll('input[name="fin"]');var cur=[].findIndex.call(ins,function(i){return i.checked});var nx=ins[(cur+1)%ins.length];nx.checked=true;swap2(nx.value);});
+
+  // 3. scroll fade-in
+  var cards3=$("#cards3");
+  function arrive3(){gsap.killTweensOf(cards3.children);gsap.from(cards3.children,{opacity:0,y:8,duration:.35,stagger:.06,ease:"power1.out",clearProps:"all"});}
+  ScrollTrigger.create({trigger:cards3,start:"top 88%",once:true,onEnter:arrive3});
+  $("#r3").addEventListener("click",arrive3);
+
+  // 4. card on/off
+  function wire4(card){
+    var on=card.querySelector(".on"),lit=false;
+    function set(v){lit=v;gsap.killTweensOf(on);gsap.to(on,{opacity:v?1:0,duration:v?.24:.32,ease:"power1.out"});}
+    card.addEventListener("pointerenter",function(e){if(e.pointerType!=="touch")set(true)});
+    card.addEventListener("pointerleave",function(e){if(e.pointerType!=="touch")set(false)});
+    card.addEventListener("click",function(){set(!lit)});
+    return set;
+  }
+  var set4a=wire4($("#card4")),set4b=wire4($("#card4b"));
+  $("#r4").addEventListener("click",function(){set4a(true);set4b(true);setTimeout(function(){set4a(false);set4b(false)},1200);});
+
+  // 5. sticky bar + accordion
+  var bar=$("#bar5"),buy=$("#buy5"),seen=false;
+  new IntersectionObserver(function(es){var e=es[0];if(e.isIntersecting)seen=true;var show=seen&&!e.isIntersecting&&e.boundingClientRect.top<0;gsap.to(bar,{yPercent:show?0:110,duration:.24,ease:"power2.out"});bar.setAttribute("aria-hidden",!show);}).observe(buy);
+  $("#r5").addEventListener("click",function(){gsap.timeline().to(bar,{yPercent:0,duration:.24,ease:"power2.out"}).to(bar,{yPercent:110,duration:.24,ease:"power2.out"},"+=1.2");});
+  [].forEach.call(document.querySelectorAll("#faq5 details"),function(d){
+    d.addEventListener("toggle",function(){if(d.open){var a=d.querySelector(".a");gsap.from(a,{height:0,opacity:0,duration:.24,ease:"power2.out",clearProps:"height"});}});
+  });
+})();
+</script>
