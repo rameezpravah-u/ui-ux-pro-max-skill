@@ -11,9 +11,9 @@
   if (!window.THREE || !hasGL()) { poster.hidden = false; canvas.hidden = true; ui.hidden = true; hint.hidden = true; note.textContent = "This browser cannot show the 3D view, so the photo is shown instead."; return; }
 
   var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var CM = { 36: 0.91, 40: 1.02, 48: 1.22 };
-  var BAR_Y = 1.62, BAR_H = 0.044, BAR_D = 0.032;
-  var state = { on: false, len: 0.91, finish: "teak", dir: "down" };
+  var CM = { 30: 0.76, 48: 1.22 };
+  var BAR_Y = 1.62, BAR_H = 0.044, BAR_D = 0.038;
+  var state = { on: false, len: 0.76, finish: "teak", dir: "down" };
   var renderer, scene, camera, pmrem, bar, barMat, diffDown, diffUp, spotsDown = [], spotsUp = [], washDown, washUp;
   var target = new THREE.Vector3(0, 1.46, 0.05), yaw = 0.38, pitch = 0.0, radius = 1.9, vyaw = 0, vpitch = 0;
   var dirty = true, started = false, interacted = false, power = 0, powerTarget = 0, powerFrom = 0, powerT0 = 0, t0 = performance.now();

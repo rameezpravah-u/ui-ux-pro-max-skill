@@ -65,6 +65,9 @@ p{margin:0}
 .gal figure{margin:0;flex:0 0 100%;scroll-snap-align:start;position:relative}
 .gal figure img{width:100%;aspect-ratio:1/1;object-fit:cover;background:var(--bg-2)}
 .gal figcaption{position:absolute;left:12px;bottom:12px;background:rgba(26,22,20,.72);color:var(--on-espresso);font-size:12px;letter-spacing:.04em;padding:6px 10px;border-radius:var(--r-xs)}
+.gal .badge{position:absolute;left:12px;top:12px;display:inline-flex;align-items:center;gap:8px;background:rgba(26,22,20,.78);color:var(--on-espresso);font-size:12px;letter-spacing:.04em;padding:6px 10px;border-radius:var(--r-xs)}
+.gal .badge b{font-weight:600}
+.gal .badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--amber)}
 .dots{display:flex;justify-content:center;gap:8px;padding:12px 0 0}
 .dots button{width:8px;height:8px;border-radius:50%;border:0;background:var(--chip-line);padding:0;cursor:pointer}
 .dots button[aria-current="true"]{background:var(--amber);width:20px;border-radius:var(--r-pill)}
@@ -102,6 +105,12 @@ legend span{color:var(--fg-muted);font-weight:400}
 .dir .chip .t small{font-size:12px;line-height:1.3}
 .dir .chip input:checked+label{background:transparent;color:var(--chip-fg);border-color:var(--amber);box-shadow:inset 0 0 0 1px var(--amber)}
 .dir .chip input:checked+label .t{background:var(--amber);color:var(--on-amber)}
+.qty .chip .pic{display:block;padding:14px 14px 10px;color:var(--fg-muted)}
+.qty .chip .pic svg{display:block;width:100%;height:38px}
+.qty .chip input:checked+label .pic{color:var(--fg)}
+.qty .chip .t .amt{font-variant-numeric:tabular-nums;font-weight:500}
+.pairnote{font-size:13px;color:var(--fg-muted);margin-top:8px;font-variant-numeric:tabular-nums}
+.pairnote b{color:var(--fg);font-weight:500}
 .note{font-size:13px;color:var(--fg-muted);margin-top:8px}
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;border-radius:var(--r-sm);font:500 15px/1 var(--body);letter-spacing:.02em;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform var(--dur) var(--ease),background var(--dur) var(--ease)}
 .btn.primary{background:var(--amber);color:var(--on-amber);border-color:var(--amber)}
@@ -244,7 +253,7 @@ legend span{color:var(--fg-muted);font-weight:400}
   <div class="buy">
     <div class="title">
       <h1>Aurora, Teak Linear Wall Light</h1>
-      <p class="sub">Solid teak. Warm 3000K LED built in. Three lengths, two finishes.</p>
+      <p class="sub">Solid teak. Warm 3000K LED built in. Two lengths, natural teak.</p>
     </div>
 
     <div class="rating">
@@ -260,34 +269,40 @@ legend span{color:var(--fg-muted);font-weight:400}
     </div>
 
     <fieldset>
-      <legend>Finish <span id="finishName">Natural teak</span></legend>
+      <legend>Finish <span id="finishName">Natural teak</span> <span>· the one finish we make it in</span></legend>
       <div class="chips">
         <span class="chip"><input type="radio" name="finish" id="f-teak" value="teak" checked><label for="f-teak"><span class="sw" style="background:#B07B45"></span>Natural teak</label></span>
-        <span class="chip"><input type="radio" name="finish" id="f-brown" value="brown"><label for="f-brown"><span class="sw" style="background:#3B2C22"></span>Dark brown</label></span>
       </div>
     </fieldset>
 
     <fieldset>
-      <legend>Length <span id="sizeName">36 inch, 91 cm</span></legend>
+      <legend>Length <span id="sizeName">30 inch, 76 cm</span></legend>
       <div class="chips">
-        <span class="chip"><input type="radio" name="size" id="s-36" value="36" checked><label for="s-36">36"<small>91 cm</small></label></span>
-        <span class="chip"><input type="radio" name="size" id="s-40" value="40"><label for="s-40">40"<small>102 cm</small></label></span>
+        <span class="chip"><input type="radio" name="size" id="s-30" value="30" checked><label for="s-30">30"<small>76 cm</small></label></span>
         <span class="chip"><input type="radio" name="size" id="s-48" value="48"><label for="s-48">48"<small>122 cm</small></label></span>
       </div>
-      <p class="note">36" suits a bedside or a compact wall. 48" suits a corridor or a large feature wall.</p>
+      <p class="note">30" suits a bedside or a compact wall. 48" suits a corridor or a large feature wall.</p>
     </fieldset>
 
     <fieldset>
       <legend>Light direction</legend>
       <div class="dir">
         <span class="chip"><input type="radio" name="dir" id="d-down" value="down" checked><label for="d-down"><img src="img/dir-down.jpg" alt="Light facing down only: a warm pool below the bar"><span class="t">Down only<small>A warm pool on the wall below. The ceiling stays dark.</small></span></label></span>
-        <span class="chip"><input type="radio" name="dir" id="d-updown" value="updown"><label for="d-updown"><img src="img/dir-updown.jpg" alt="Light facing up and down: the wall washed from ceiling to floor"><span class="t">Up and down<small>Washes the wall from ceiling to floor. Not made in 40".</small></span></label></span>
+        <span class="chip"><input type="radio" name="dir" id="d-updown" value="updown"><label for="d-updown"><img src="img/dir-updown.jpg" alt="Light facing up and down: the wall washed from ceiling to floor"><span class="t">Up and down<small>Washes the wall from ceiling to floor. Both lengths.</small></span></label></span>
       </div>
-      <p class="note" id="dirNote" hidden>Up and down is made in 36" and 48" only. Length set to 36".</p>
+    </fieldset>
+
+    <fieldset id="pairPick">
+      <legend>How many</legend>
+      <div class="dir qty">
+        <span class="chip"><input type="radio" name="qty" id="q-1" value="1" checked><label for="q-1"><span class="pic" aria-hidden="true"><svg viewBox="0 0 120 38" preserveAspectRatio="none"><rect x="20" y="16" width="80" height="6" rx="1.5" fill="currentColor"/></svg></span><span class="t">One light<small class="amt" id="amt1">₹1,999</small></span></label></span>
+        <span class="chip"><input type="radio" name="qty" id="q-2" value="2"><label for="q-2"><span class="pic" aria-hidden="true"><svg viewBox="0 0 120 38" preserveAspectRatio="none"><rect x="4" y="16" width="52" height="6" rx="1.5" fill="currentColor"/><rect x="64" y="16" width="52" height="6" rx="1.5" fill="currentColor"/></svg></span><span class="t">A matching pair<small class="amt" id="amt2">₹3,998</small></span></label></span>
+      </div>
+      <p class="pairnote" id="pairNote">Two lights in the same finish and length, one tap. Code <b>buy2</b> takes 5% off a pair, <span id="pairSave">₹200</span>.</p>
     </fieldset>
 
     <div class="ctas">
-      <a class="btn primary" id="addBtn" href="https://nixwoods.com/cart/add?id=45272350097543&quantity=1" target="_blank" rel="noopener">Add to cart · <span class="num" id="btnPrice">₹1,999</span></a>
+      <a class="btn primary" id="addBtn" href="https://nixwoods.com/cart/add?id=45272350097543&quantity=1" target="_blank" rel="noopener"><span id="addLabel">Add to cart</span> · <span class="num" id="btnPrice">₹1,999</span></a>
       <a class="btn secondary" id="buyBtn" href="https://nixwoods.com/cart/45272350097543:1" target="_blank" rel="noopener">Buy now</a>
     </div>
 
@@ -333,12 +348,12 @@ legend span{color:var(--fg-muted);font-weight:400}
 <section class="sec dark" style="padding-block:var(--section)">
   <div class="wrap stack" style="gap:24px">
     <div class="stack">
-      <h2>Two finishes, one piece of teak.</h2>
-      <p class="lead" style="max-width:60ch">Both are the same solid teak bar with the same warm LED. The stain is the only difference, so choose by the wall it will sit on.</p>
+      <h2>One finish: the teak itself.</h2>
+      <p class="lead" style="max-width:60ch">No stain, no lacquer colour. The bar is natural teak, oiled, so the grain reads warm and open and deepens over the years.</p>
     </div>
     <div class="two">
-      <figure><img src="img/teak-bed.jpg" alt="Natural teak Aurora above a bed"><figcaption><b>Natural teak</b><span class="muted">Unstained. The grain reads warm and open. Lightest against a pale wall.</span></figcaption></figure>
-      <figure><img src="img/brown-bed.jpg" alt="Dark brown Aurora above a bed"><figcaption><b>Dark brown</b><span class="muted">A deep stain. The bar reads as a dark line and the light reads brighter against it.</span></figcaption></figure>
+      <figure><img src="img/teak-bed.jpg" alt="Natural teak Aurora above a bed, lit"><figcaption><b>Above a bed</b><span class="muted">Warm against a pale wall, and still a piece of wood when it is off.</span></figcaption></figure>
+      <figure><img src="img/teak-console.jpg" alt="Natural teak Aurora above a console, lit"><figcaption><b>Above a console</b><span class="muted">The light falls onto whatever sits below it.</span></figcaption></figure>
     </div>
     <p class="cap">Every bar is cut from a different board, so the grain on yours will not match the photo exactly. That is the point.</p>
   </div>
@@ -349,7 +364,7 @@ legend span{color:var(--fg-muted);font-weight:400}
     <div>
       <h2>Will it fit the wall?</h2>
       <hr class="rule">
-      <p style="margin-top:12px;max-width:55ch">Shown against a 152 cm queen headboard. Most people hang the 36" above a bedside or a console, and the 48" in a corridor or above a sofa. Pick a length, and the bar updates.</p>
+      <p style="margin-top:12px;max-width:55ch">Shown against a 152 cm queen headboard. Most people hang the 30" above a bedside or a console, and the 48" in a corridor or above a sofa. Pick a length, and the bar updates.</p>
       <svg viewBox="0 0 340 150" role="img" aria-labelledby="scaleTitle" id="scaleSvg">
         <title id="scaleTitle">Aurora lengths compared with a 152 cm queen headboard</title>
         <rect x="18" y="80" width="304" height="52" rx="6" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="1.2"/>
@@ -359,11 +374,10 @@ legend span{color:var(--fg-muted);font-weight:400}
       </svg>
     </div>
     <table class="num" id="sizeTable">
-      <thead><tr><th>Length</th><th>In cm</th><th>Light</th><th>Price, down only</th></tr></thead>
+      <thead><tr><th>Length</th><th>In cm</th><th>Down only</th><th>Up and down</th></tr></thead>
       <tbody>
-        <tr data-size="36" class="on"><td>36"</td><td>91</td><td>1,600 lm · 16 W</td><td>₹1,999</td></tr>
-        <tr data-size="40"><td>40"</td><td>102</td><td>1,850 lm · 18 W</td><td>₹2,499</td></tr>
-        <tr data-size="48"><td>48"</td><td>122</td><td>2,200 lm · 21 W</td><td>₹2,999</td></tr>
+        <tr data-size="30" class="on"><td>30"</td><td>76</td><td>₹1,999</td><td>₹2,499</td></tr>
+        <tr data-size="48"><td>48"</td><td>122</td><td>₹2,999</td><td>₹3,499</td></tr>
       </tbody>
     </table>
   </div>
@@ -376,10 +390,10 @@ legend span{color:var(--fg-muted);font-weight:400}
     <table class="specs num" style="margin-top:16px">
       <tr><th>Material</th><td>Solid teak. No MDF, no veneer. Grain runs the full length.</td></tr>
       <tr><th>Light</th><td>Integrated warm-white LED, 3000K. Two strip lines; on up and down, half the light goes up.</td></tr>
-      <tr><th>Output</th><td>About 1,600 lm / 16 W at 36", 1,850 lm / 18 W at 40", 2,200 lm / 21 W at 48".</td></tr>
-      <tr><th>Direction</th><td>Down only in every length. Up and down in 36" and 48".</td></tr>
-      <tr><th>Size</th><td>36", 40" or 48" long · 1.75" wide · 1.25" deep (91, 102 or 122 cm · 4.4 cm · 3.2 cm).</td></tr>
-      <tr><th>Finish</th><td>Natural teak, or dark brown stain. Oiled.</td></tr>
+      <tr><th>Power</th><td>20 W integrated LED.</td></tr>
+      <tr><th>Direction</th><td>Down only, or up and down, in both lengths.</td></tr>
+      <tr><th>Size</th><td>30" or 48" long · 1.5" wide · 1.75" high (76 or 122 cm · 3.8 cm · 4.4 cm).</td></tr>
+      <tr><th>Finish</th><td>Natural teak, oiled.</td></tr>
       <tr><th>Mounting</th><td>Hidden fixing. Two screws into the wall, one wire to your existing point.</td></tr>
       <tr><th>Use</th><td>Indoor, dry walls only. Not for bathrooms or outdoors.</td></tr>
       <tr><th>Warranty</th><td>3 years on the wood, joinery and finish. 1 year on the LED and electricals. Both run from delivery.</td></tr>
@@ -414,7 +428,7 @@ legend span{color:var(--fg-muted);font-weight:400}
       <li>Home office</li>
       <li>Staircase and landing walls</li>
     </ul>
-    <p class="muted" style="max-width:60ch">The Aurora is designed to repeat. Two along one corridor wall, or one on each side of the bed, read as a single line.</p>
+    <p class="muted" style="max-width:60ch">The Aurora is designed to repeat. Two along one corridor wall, or one on each side of the bed, read as a single line. <a href="#pairPick" id="pairLink" style="color:var(--fg)">Choose a matching pair</a></p>
   </div>
 </section>
 
@@ -460,9 +474,9 @@ legend span{color:var(--fg-muted);font-weight:400}
   <div class="wrap" style="max-width:760px">
     <h2 style="margin-bottom:16px">Questions people ask</h2>
     <div class="faq">
-      <details><summary>Which length should I choose?</summary><div class="a"><p>36", 40" or 48", all 1.75" wide and 1.25" deep. Match the length to the wall: 36" for a bedside or a compact wall, 48" for a corridor or a large feature wall. The scale drawing above shows each against a queen headboard.</p></div></details>
-      <details><summary>Which finish should I pick?</summary><div class="a"><p>Dark brown is a deep stain that reads as a dark line. Natural teak is unstained and shows the open grain. Both have the same warm 3000K LED.</p></div></details>
-      <details><summary>Can I choose which way the light shines?</summary><div class="a"><p>Yes. Every length comes with the light facing down only. The 36" and 48" also come facing up and down, which washes the whole wall.</p></div></details>
+      <details><summary>Which length should I choose?</summary><div class="a"><p>30" or 48", both 1.5" wide and 1.75" high. Match the length to the wall: 30" for a bedside or a compact wall, 48" for a corridor or a large feature wall. The scale drawing above shows each against a queen headboard.</p></div></details>
+      <details><summary>Which finish does it come in?</summary><div class="a"><p>Natural teak only: the unstained grain of solid teak, oiled. Both lengths have the same warm 3000K LED.</p></div></details>
+      <details><summary>Can I choose which way the light shines?</summary><div class="a"><p>Yes. Both the 30" and the 48" come with the light facing down only, or facing up and down, which washes the whole wall.</p></div></details>
       <details><summary>Is it really solid wood?</summary><div class="a"><p>Yes. Solid teak with the grain running the full length. Not MDF, not veneer, so no two pieces are exactly alike.</p></div></details>
       <details><summary>Do I need an electrician?</summary><div class="a"><p>We advise one unless you know basic electrical connections. Two screws hold it to the wall and one wire connects to your existing point. Switch the power off at the mains first. The LED is built in, so there are no bulbs to buy.</p></div></details>
       <details><summary>Is it for indoor use only?</summary><div class="a"><p>Yes. Bedrooms, hallways, living rooms and similar dry rooms. Not for bathrooms, balconies or outdoors.</p></div></details>
@@ -492,7 +506,7 @@ legend span{color:var(--fg-muted);font-weight:400}
 </div></footer>
 
 <div class="sticky" id="sticky" aria-hidden="true">
-  <div><div class="p num" id="stickyPrice">₹1,999</div><div class="v" id="stickyVar">Natural teak · 36" · Down only</div></div>
+  <div><div class="p num" id="stickyPrice">₹1,999</div><div class="v" id="stickyVar">Natural teak · 30" · Down only</div></div>
   <a class="btn primary" id="stickyBtn" href="https://nixwoods.com/cart/add?id=45272350097543&quantity=1" target="_blank" rel="noopener">Add to cart</a>
 </div>
 <div class="toast" id="toast" role="status"></div>
@@ -500,21 +514,16 @@ legend span{color:var(--fg-muted);font-weight:400}
 <script>
 (function(){
   var V={
-    "36|teak|down":{id:45272350097543,p:1999,l:2749},"36|teak|updown":{id:45676169691271,p:2499,l:3249},
-    "36|brown|down":{id:44802766110855,p:1999,l:2749},"36|brown|updown":{id:45676169658503,p:2499,l:3249},
-    "40|teak|down":{id:45272350130311,p:2499,l:3499},"40|brown|down":{id:44802766143623,p:2499,l:3499},
-    "48|teak|down":{id:45272350163079,p:2999,l:4899},"48|teak|updown":{id:45676169855111,p:3499,l:5399},
-    "48|brown|down":{id:44809996599431,p:2999,l:4899},"48|brown|updown":{id:45676169822343,p:3499,l:5399}
+    "30|teak|down":{id:45272350097543,p:1999,l:2749},"30|teak|updown":{id:45676169691271,p:2499,l:3249},
+    "48|teak|down":{id:45272350163079,p:2999,l:4899},"48|teak|updown":{id:45676169855111,p:3499,l:5399}
   };
   var IMG={
     teak:[{s:"img/teak-console.jpg",a:"Natural teak Aurora above a console, lit",c:"Natural teak · console"},
           {s:"img/teak-bed.jpg",a:"Natural teak Aurora above a bed, lit",c:"Natural teak · bedside"},
-          {s:"img/teak-compare.jpg",a:"Natural teak Aurora shown with light down only and with light up and down",c:"Down only · up and down"}],
-    brown:[{s:"img/brown-bed.jpg",a:"Dark brown Aurora above a bed, lit",c:"Dark brown · bedside"},
-           {s:"img/brown-detail.jpg",a:"Close view of the dark brown Aurora bar and its light line",c:"Dark brown · detail"}]
+          {s:"img/teak-compare.jpg",a:"Natural teak Aurora shown with light down only and with light up and down",c:"Down only · up and down"}]
   };
-  var NAMES={teak:"Natural teak",brown:"Dark brown",down:"Down only",updown:"Up and down"};
-  var CM={36:91,40:102,48:122};
+  var NAMES={teak:"Natural teak",down:"Down only",updown:"Up and down"};
+  var CM={30:76,48:122};
   var $=function(s){return document.querySelector(s)};
   var inr=function(n){return "₹"+n.toLocaleString("en-IN")};
   var strip=$("#strip"),dots=$("#dots"),thumbs=$("#thumbs");
@@ -525,7 +534,7 @@ legend span{color:var(--fg-muted);font-weight:400}
 
   function buildGallery(f){
     curFinish=f;idx=0;
-    strip.innerHTML=IMG[f].map(function(o){return '<figure><img src="'+o.s+'" alt="'+o.a+'"><figcaption>'+o.c+'</figcaption></figure>'}).join("");
+    strip.innerHTML=IMG[f].map(function(o,i){return '<figure><img src="'+o.s+'" alt="'+o.a+'">'+(i===0?'<span class="badge"><b>Best seller</b> · our most-ordered light</span>':'')+'<figcaption>'+o.c+'</figcaption></figure>'}).join("");
     dots.innerHTML=IMG[f].map(function(o,i){return '<button type="button" role="tab" aria-label="Photo '+(i+1)+'" aria-current="'+(i===0)+'"></button>'}).join("");
     thumbs.innerHTML=IMG[f].map(function(o,i){return '<button type="button" aria-label="Photo '+(i+1)+'" aria-current="'+(i===0)+'"><img src="'+o.s+'" alt=""></button>'}).join("");
     strip.scrollLeft=0;
@@ -539,29 +548,32 @@ legend span{color:var(--fg-muted);font-weight:400}
   function sel(name){var r=document.querySelector('input[name="'+name+'"]:checked');return r?r.value:null}
   function update(src){
     var f=sel("finish"),s=sel("size"),d=sel("dir");
-    var note=$("#dirNote");note.hidden=true;
-    // 40" has no up-and-down
-    var up40=$("#s-40");
-    if(d==="updown"){up40.disabled=true;if(s==="40"){$("#s-36").checked=true;s="36";note.hidden=false;}}else{up40.disabled=false;}
     var v=V[s+"|"+f+"|"+d];
-    $("#price").textContent=inr(v.p);
-    $("#was").textContent="List price "+inr(v.l)+". You save "+inr(v.l-v.p)+".";
-    $("#btnPrice").textContent=inr(v.p);
-    $("#stickyPrice").textContent=inr(v.p);
-    $("#stickyVar").textContent=NAMES[f]+" · "+s+'" · '+NAMES[d];
+    var q=sel("qty")==="2"?2:1,tot=v.p*q,list=v.l*q;
+    $("#price").textContent=inr(tot);
+    $("#was").textContent="List price "+inr(list)+(q===2?" for two":"")+". You save "+inr(list-tot)+".";
+    $("#btnPrice").textContent=inr(tot);
+    $("#addLabel").textContent=q===2?"Add pair to cart":"Add to cart";
+    $("#stickyBtn").textContent=q===2?"Add pair":"Add to cart";
+    $("#amt1").textContent=inr(v.p);
+    $("#amt2").textContent=inr(v.p*2);
+    $("#pairSave").textContent=inr(Math.round(v.p*2*0.05));
+    $("#stickyPrice").textContent=inr(tot);
+    $("#stickyVar").textContent=NAMES[f]+" · "+s+'" · '+NAMES[d]+(q===2?" · Pair":"");
     $("#finishName").textContent=NAMES[f];
     $("#sizeName").textContent=s+" inch, "+CM[s]+" cm";
-    var add="https://nixwoods.com/cart/add?id="+v.id+"&quantity=1";
-    $("#addBtn").href=add;$("#stickyBtn").href=add;$("#buyBtn").href="https://nixwoods.com/cart/"+v.id+":1";
+    var add="https://nixwoods.com/cart/add?id="+v.id+"&quantity="+q;
+    $("#addBtn").href=add;$("#stickyBtn").href=add;$("#buyBtn").href="https://nixwoods.com/cart/"+v.id+":"+q+(q===2?"?discount=buy2":"");
     if(f!==curFinish)buildGallery(f);
     drawScale(s);
     [].forEach.call(document.querySelectorAll("#sizeTable tr[data-size]"),function(tr){tr.classList.toggle("on",tr.dataset.size===s)});
   }
-  [].forEach.call(document.querySelectorAll('input[name="finish"],input[name="size"],input[name="dir"]'),function(i){i.addEventListener("change",update)});
+  [].forEach.call(document.querySelectorAll('input[name="finish"],input[name="size"],input[name="dir"],input[name="qty"]'),function(i){i.addEventListener("change",update)});
+  $("#pairLink").addEventListener("click",function(e){e.preventDefault();$("#q-2").checked=true;update();$("#pairPick").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"center"});});
 
   function drawScale(s){
-    var g=$("#bars");var y={36:18,40:40,48:62};var h="";
-    [36,40,48].forEach(function(n){
+    var g=$("#bars");var y={30:26,48:52};var h="";
+    [30,48].forEach(function(n){
       var w=CM[n]*2,on=String(n)===String(s),yy=y[n];
       h+='<rect x="18" y="'+yy+'" width="'+w+'" height="9" rx="2" fill="'+(on?"#E8A24A":"currentColor")+'" fill-opacity="'+(on?1:.22)+'"/>';
       h+='<text x="'+(18+w+6)+'" y="'+(yy+8)+'" font-family="Archivo, sans-serif" font-size="11" fill="currentColor" fill-opacity="'+(on?1:.6)+'" font-weight="'+(on?600:400)+'">'+n+'" · '+CM[n]+' cm</text>';

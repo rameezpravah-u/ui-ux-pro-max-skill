@@ -291,11 +291,13 @@ Three or four items, icon plus two words plus one line of body-sm. Only claims v
 
 ### Product card
 
-Image in 4:5, no rounding, second image on hover (desktop) or on tap (mobile) showing the piece switched on. Below: subheading name in the naming system (Line name, wood, type), one line of body-sm for the key variant, price in price style, then the Judge.me star and count in caption. A single "from" prefix only where variants differ in price. Badges are reserved for "New" and "Last few"; never a percentage.
+Image in 4:5, no rounding, second image on hover (desktop) or on tap (mobile) showing the piece switched on. Below: subheading name in the naming system (Line name, wood, type), one line of body-sm for the key variant, price in price style, then the Judge.me star and count in caption. A single "from" prefix only where variants differ in price. Badges are reserved for "New", "Last few" and "Best seller"; never a percentage. "Best seller" means the top product by orders over the last 90 days in Shopify analytics, re-checked before every publish; on a product page it sits on the corner of the first gallery photo, never as an eyebrow above the name.
 
 ### Buy box
 
-Order: name (display), rating line, price, variant chooser, delivery line, primary button, secondary button, trust row. On mobile a sticky bar (md radius, bone ground, hairline top) carries price and the primary button once the real button scrolls off screen.
+Order: name (display), rating line, price, variant chooser, quantity chooser where it applies, delivery line, primary button, secondary button, trust row. On mobile a sticky bar (md radius, bone ground, hairline top) carries price and the primary button once the real button scrolls off screen.
+
+Quantity chooser: for pieces designed to repeat (linear wall lights, pendants), two cards after the variant chooser, "One light" and "A matching pair", each showing its total. The pair adds two of the selected variant in one tap. Price, button label and sticky bar follow the choice. A pair code may be mentioned as a one-line bonus under the cards, never as the headline price, because it does not combine with welcome codes.
 
 ### Finish and size chooser
 
